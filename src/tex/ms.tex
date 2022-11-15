@@ -2,6 +2,12 @@
 \documentclass[twocolumn]{aastex631}
 \usepackage{showyourwork}
 
+\received{}
+\revised{}
+\accepted{}
+
+\submitjournal{AAS Journals}
+
 % Begin!
 \begin{document}
 
@@ -28,6 +34,26 @@ We build a hierarchical Bayesian framework to constrain exoplanets' true stellar
 % Main body with filler text
 \section{Introduction}
 \label{sec:intro}
+
+Stellar obliquity $\psi$ is described as the angle between a planet's orbital axis $\hat{i}_{\rm orb}$ and its host star's spin axis $\hat{i}_{\star}$. If both $\hat{i}_{\rm orb}$ and $\hat{i}_{\star}$ are random unit vectors with uniform distribution on a three-dimensional sphere, $\cos{\psi}$ will be uniformly distributed between $-1$ and 1.
+
+\begin{figure}[ht!]
+    \script{hbm_istar.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/hbm_istar.pdf}
+        \caption{Plot showing a bunch of random numbers.}
+        \label{fig:hbm_istar}
+    \end{centering}
+\end{figure}
+
+\begin{figure}
+    \script{hbm_all.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/hbm_all.pdf}
+        \caption{Plot showing a bunch of random numbers.}
+        \label{fig:hbm_all}
+    \end{centering}
+\end{figure}
 
 \bibliography{bib}
 
