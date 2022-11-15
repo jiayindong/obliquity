@@ -12,7 +12,7 @@ from matplotlib import rc
 rc('font', **{'family':'sans-serif'})
 rc('text', usetex=True)
 
-pgm = daft.PGM(observed_style="inner")
+pgm = daft.PGM(observed_style="outer", dpi=150, node_unit=1.1, node_ec='k')
 
 # Hierarchical parameters.
 pgm.add_node("w", r"$w$", 1.5, 2.7)
@@ -27,8 +27,8 @@ pgm.add_node("coslam", r"$\cos{\lambda}$", 4, 3.2)
 pgm.add_node("errlam", r"$\sigma_\lambda$", 2.2, 3.2, fixed=True)
 
 
-pgm.add_node("cosi", r"$\cos{i}$", 5, 4)
-pgm.add_node("sini", r"$\sin{i}$", 5, 3.2)
+pgm.add_node("cosi", r"$\cos{i_{\star}}$", 5, 4)
+pgm.add_node("sini", r"$\sin{i_{\star}}$", 5, 3.2)
 
 pgm.add_node("Rstar", r"$R_{\star}$", 5.8, 4)
 pgm.add_node("Prot", r"$P_{\rm rot}$", 6.6, 4)
@@ -37,9 +37,9 @@ pgm.add_node("v", r"$v$", 6.2, 3.2)
 
 pgm.add_node("cospsi", r"$\cos{\psi}$", 4.5, 1.9)
 
-pgm.add_node("vsini", r"$v\sin{i}$", 6.2, 2.4)
-pgm.add_node("obsvsini", r"$v\sin{i}$", 6.2, 1.6, observed=True)
-pgm.add_node("errvsini", r"$\sigma_{v\sin{i}}$", 7, 1.6, fixed=True)
+pgm.add_node("vsini", r"$v\sin{i_{\star}}$", 6.2, 2.4)
+pgm.add_node("obsvsini", r"$v\sin{i_{\star}}$", 6.2, 1.6, observed=True)
+pgm.add_node("errvsini", r"$\sigma_{v\sin{i_{\star}}}$", 7, 1.6, fixed=True)
 
 # Add in the edges.
 pgm.add_edge("lam", "coslam")
@@ -87,18 +87,18 @@ pgm.add_edge("lam_", "obslam_")
 pgm.add_edge("errlam_", "obslam_")
 
 
-pgm.add_node("sini_", r"$\sin{i}$", -2, 3.2)
+pgm.add_node("sini_", r"$\sin{i_{\star}}$", -2, 3.2)
 
 pgm.add_edge("sini_", "cospsi_")
 pgm.add_edge("coslam_", "cospsi_")
 
-pgm.add_node("i_", r"$i$", -3, 4)
-pgm.add_node("obsi_", r"$i$", -3, 3.2, observed=True)
+pgm.add_node("i_", r"$i_{\star}$", -3, 4)
+pgm.add_node("obsi_", r"$i_{\star}$", -3, 3.2, observed=True)
 
 pgm.add_edge("i_", "obsi_")
 pgm.add_edge("i_", "sini_")
 
-pgm.add_node("erri_", r"$\sigma_i$", -3.8, 3.2, fixed=True)
+pgm.add_node("erri_", r"$\sigma_{i_{\star}}$", -3.8, 3.2, fixed=True)
 
 pgm.add_edge("erri_", "obsi_")
 
@@ -106,7 +106,7 @@ pgm.add_edge("erri_", "obsi_")
 # And a plate.
 pgm.add_plate([2, 1, 5.4, 3.4], label=r"$n = 1, \cdots, N$")
 
-pgm.add_plate([5.4, 1.1, 1.85, 3.2], label=r"$l = 1, \ldots, L$")
+pgm.add_plate([5.4, 1.05, 1.88, 3.3], label=r"$l = 1, \ldots, L$")
 
 pgm.add_plate([1.1, 1., 0.8, 2.], label=r"$j = 1,2$")
 
