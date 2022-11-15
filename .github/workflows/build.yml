@@ -14,6 +14,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install TinyTex for matplotlib LaTeX rendering
+        id: tinytex
+        shell: bash -l {0}
+        run: |
+          wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
+          sudo ~/bin/tlmgr install type1cm cm-super
+
       - name: Build the article PDF
         id: build
         uses: showyourwork/showyourwork-action@v1
