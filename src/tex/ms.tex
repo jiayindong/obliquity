@@ -6,7 +6,7 @@
 \revised{}
 \accepted{}
 
-\submitjournal{AAS Journals}
+\submitjournal{the AAS Journals}
 
 % Begin!
 \begin{document}
@@ -28,32 +28,109 @@
 
 % Abstract with filler text
 \begin{abstract}
-We build a hierarchical Bayesian framework to constrain exoplanets' true stellar obliquity ($\psi$) distribution. Using the sky-projected stellar obliquities ($\lambda$)  of a sample of 162 exoplanets, we infer their $\cos{\psi}$ distribution using a four-parameter Beta mixture model with the assumption of a uniform cosine of stellar inclination ($\cos{i_\star}$) distribution for each planet. We find a significant pile-up of $\cos{\psi}$ near 1, suggesting that the majority of exoplanetary systems are well aligned. For misaligned systems, we find $\cos{\psi}$ is uniformly distributed between $-0.75$ to $0.5$ with no significant pipe-up near $\cos{\psi} = 0$.
+We build a hierarchical Bayesian framework to constrain true stellar obliquity ($\psi$) distribution in exoplanetary systems. Using the sky-projected stellar obliquities ($\lambda$) of a sample of 162 exoplanets, we infer their $\cos{\psi}$ distribution using a four-parameter Beta mixture model with the assumption of a uniform cosine of stellar inclination ($i_\star$) distribution for each planet. We find $\cos{\psi}$ has a significant pile-up near 1, suggesting the majority of exoplanetary systems are well aligned. For misaligned systems, $\cos{\psi}$ is nearly uniformly distributed between $-0.75$ to $0.75$ with no significant pipe-up near $\cos{\psi} = 0$, suggesting the stellar spin axis is randomly distributed around the planet's orbital axis.
+Our Bayesian framework could reproduce the excess of perpendicular planets observed in systems with constrained $i_\star$. However, we find the sample of misaligned systems is limited by small number statistics and likely biased because misaligned systems are often found in hot-star systems, whereas the gravity-darkening method, a technique commonly used to constrain the inclinations of hot stars ($T_{\rm eff} > 7000$K), is only sensitive to detect perpendicular planets. 
 \end{abstract}
 
 % Main body with filler text
 \section{Introduction}
 \label{sec:intro}
 
-Stellar obliquity $\psi$ is described as the angle between a planet's orbital axis $\hat{i}_{\rm orb}$ and its host star's spin axis $\hat{i}_{\star}$. If both $\hat{i}_{\rm orb}$ and $\hat{i}_{\star}$ are random unit vectors with uniform distribution on a three-dimensional sphere, $\cos{\psi}$ will be uniformly distributed between $-1$ and 1.
+Stellar obliquity $\psi$ is described as the angle between a planet's orbital axis $\hat{i}_{\rm orb}$ and its host star's spin axis $\hat{i}_{\star}$.
+If both $\hat{i}_{\rm orb}$ and $\hat{i}_{\star}$ are independent, random unit vectors with uniform distribution on a three-dimensional sphere, $\cos{\psi}$ will be uniformly distributed between $-1$ and $1$.
+In reality, the sky-projected stellar obliquity $\lambda$ can only be measured in transiting exoplanet systems, limiting $\hat{i}_{\rm orb}$ close to $\sim 90\degr$.
+
+Stellar obliquity $\psi$ can be calculated from $\hat{i}_{\rm orb}$ and $\hat{i}_{\star}$ as the following:
+\begin{equation}
+    \cos{\psi} = \sin{i_\star}\sin{i_{\rm orb}}\cos{\lambda} + \cos{i_\star}\cos{i_{\rm orb}},
+\end{equation}
+where $i_{\rm orb}$ and $i_\star$ are the projections of $\hat{i}_{\rm orb}$ and $\hat{i}_{\star}$ along the observer's line of sight, and $\lambda$ is the sky-projected stellar obliquity. When $i_{\rm orb} = 90\degr$, $\cos{\psi} = \sin{i_\star}\cos{\lambda}$.
+
+In most exoplanetary systems, only the sky-projected obliquity $\lambda$ is constrained. We could then infer $\psi$ given the measured $\lambda$ and assuming a randomly distributed $i_\star$ (uniformly distributed in $\cos{i_\star}$).
+In some systems, $i_\star$ can be constrained via photometric rotational modulation, gravitational darkening or asteroseismology. In such cases, an informative $i_\star$ prior can be used. See Figure\ref{hbm} as an illustration. 
+
+Using a sample of stars with $i_\star$, Albrecht+21 found the majority of planets are aligned. For misaligned planets, their stellar obliquities are preferentially distributed between 80--125$\degr$. Furthermore, they found the $\cos{\psi}$ distribution of misaligned systems is not uniformly distributed but clustered near 0.
+
+In this work, we build a Bayesian framework to evaluate the distribution of $\cos{\psi}$ and extend the analysis to the full sample exoplanets that have sky-projected stellar obliquity measurements.
+
+\section{Stellar Obliquity Distribution} \label{sec:hbm}
+We model the whole population stellar obliquity distribution and also the sub-population with $i_\star$ constrained. See Figure\ref{hbm} as an illustration. 
 
 \begin{figure}[ht!]
-    \script{hbm_istar.py}
+    \script{hbm.py}
     \begin{centering}
-        \includegraphics[width=\linewidth]{figures/hbm_istar.pdf}
-        \caption{Hierarchical Bayesian model to infer \emph{true} stellar obliquity for planets with $\hat{i}_{\star}$ inferred from their rotation periods.}
-        \label{fig:hbm_istar}
+        \includegraphics[width=\linewidth]{figures/hbm.pdf}
+        \caption{Hierarchical Bayesian model to infer \emph{true} stellar obliquity for planets with $i_{\star}$ inferred from their rotation periods.}
+        \label{fig:hbm}
     \end{centering}
 \end{figure}
 
-\begin{figure*}
-    \script{hbm_all.py}
+We use a four-parameter Beta distribution. The framework is shown in Figure~\ref{fig:hbm}.
+
+\begin{itemize}
+    \item Uniform $\cos{i}$
+    \item Uniform $\lambda$
+    \item Observed Normal $\lambda$
+    \item Observed Normal $R_\star$
+    \item Observed Normal $P_{\rm rot}$
+\end{itemize}
+
+We find the $i_\star$ sample, there is a pile-up of planets near $-0.25$ whereas, for all planet sample, the distribution is mostly flat. See Figure 2.
+
+What makes the difference?
+
+\begin{figure*}[ht!]
+    \script{dist.py}
     \begin{centering}
-        \includegraphics[width=\linewidth]{figures/hbm_all.pdf}
-        \caption{Hierarchical Bayesian model to infer \emph{true} stellar obliquity for all planets with sky-projected stellar obliquities measured.}
-        \label{fig:hbm_all}
+        \includegraphics[width=\linewidth]{figures/dist.pdf}
+        \caption{$\cos{\psi}$ distributions for the sample with $i_\star$ measured and all planets.}
+        \label{fig:dist}
     \end{centering}
 \end{figure*}
+
+\section{Hypothesis} \label{sec:tests}
+
+\subsection{Stellar Teff $>$ 7000K?}
+All planets with host star effective temperatures greater than 7000 K are near polar.
+Note that all these stars are expected to be fast rotators that limit the Rossiter-McLaughlin effect measurement. Doppler Tomography can be applied to these stars, but the majority of the measurements are conducted by gravitational darkening that is biased toward polar planets.
+
+We removed 7/21 planets with host star effective temperatures greater than 7000 K and redo the analysis. Interestingly, we find the results do not change. See Figure~\ref{fig:teteff_cutff}.
+
+\begin{figure*}[ht!]
+    \script{teff_cut.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/teff_cut.pdf}
+        \caption{$\cos{\psi}$ distributions for the $i_\star$ sample including/not including $>$7000 K stars.}
+        \label{fig:teff_cut}
+    \end{centering}
+\end{figure*}
+
+\subsection{Small vsini}
+Albrecht et al. 21 that underestimating $v\sin{i_\star}$, overestimating $R_\star$, or underestimating $P_{\rm rot}$ could all lead to biased estimation on $\cos{\psi}$. We performed another test to evaluate the sample with random $i_\star$ prior (i.e., uniform on $\cos{i}$). Interestingly, we find a very similar distribution to the $\cos{\psi}$ distributions inferred with informative $i_\star$ priors. See Figure~\ref{fig:rand_inc}.
+
+\begin{figure*}[ht!]
+    \script{rand_inc.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/rand_inc.pdf}
+        \caption{$\cos{\psi}$ distributions for the $i_\star$ sample with/without informative $i_\star$ priors.}
+        \label{fig:rand_inc}
+    \end{centering}
+\end{figure*}
+
+\subsection{Statistical fluke}
+Could it just be a statistical fluke? We perform the test by randomly drawing 20 planets out of the 40 misaligned systems. We find in half of the time, we could not reproduce the distribution but result in a pile-up of $\cos{\psi}$. See Figure~\ref{fig:bootstrap}.
+
+\begin{figure*}[ht!]
+    \script{bootstrap.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/bootstrap.pdf}
+        \caption{$\cos{\psi}$ distributions for the $i_\star$ sample with/without informative $i_\star$ priors.}
+        \label{fig:bootstrap}
+    \end{centering}
+\end{figure*}
+
+\section{Discussion}
+No strong clustering?
 
 \bibliography{bib}
 
