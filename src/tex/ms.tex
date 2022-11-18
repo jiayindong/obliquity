@@ -79,14 +79,14 @@ We find the $i_\star$ sample, there is a pile-up of planets near $-0.25$ whereas
 
 What makes the difference?
 
-\begin{figure*}[ht!]
-    \script{dist.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/dist.pdf}
-        \caption{$\cos{\psi}$ distributions for the sample with $i_\star$ measured and all planets.}
-        \label{fig:dist}
-    \end{centering}
-\end{figure*}
+% \begin{figure*}[ht!]
+%     \script{dist.py}
+%     \begin{centering}
+%         \includegraphics[width=\linewidth]{figures/dist.pdf}
+%         \caption{$\cos{\psi}$ distributions for the sample with $i_\star$ measured and all planets.}
+%         \label{fig:dist}
+%     \end{centering}
+% \end{figure*}
 
 \section{Hypothesis} \label{sec:tests}
 
@@ -96,38 +96,38 @@ Note that all these stars are expected to be fast rotators that limit the Rossit
 
 We removed 7/21 planets with host star effective temperatures greater than 7000 K and redo the analysis. Interestingly, we find the results do not change. See Figure~\ref{fig:teteff_cutff}.
 
-\begin{figure*}[ht!]
-    \script{teff_cut.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/teff_cut.pdf}
-        \caption{$\cos{\psi}$ distributions for the $i_\star$ sample including/not including $>$7000 K stars.}
-        \label{fig:teff_cut}
-    \end{centering}
-\end{figure*}
+% \begin{figure*}[ht!]
+%     \script{teff_cut.py}
+%     \begin{centering}
+%         \includegraphics[width=\linewidth]{figures/teff_cut.pdf}
+%         \caption{$\cos{\psi}$ distributions for the $i_\star$ sample including/not including $>$7000 K stars.}
+%         \label{fig:teff_cut}
+%     \end{centering}
+% \end{figure*}
 
 \subsection{Small vsini}
 Albrecht et al. 21 that underestimating $v\sin{i_\star}$, overestimating $R_\star$, or underestimating $P_{\rm rot}$ could all lead to biased estimation on $\cos{\psi}$. We performed another test to evaluate the sample with random $i_\star$ prior (i.e., uniform on $\cos{i}$). Interestingly, we find a very similar distribution to the $\cos{\psi}$ distributions inferred with informative $i_\star$ priors. See Figure~\ref{fig:rand_inc}.
 
-\begin{figure*}[ht!]
-    \script{rand_inc.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/rand_inc.pdf}
-        \caption{$\cos{\psi}$ distributions for the $i_\star$ sample with/without informative $i_\star$ priors.}
-        \label{fig:rand_inc}
-    \end{centering}
-\end{figure*}
+% \begin{figure*}[ht!]
+%     \script{rand_inc.py}
+%     \begin{centering}
+%         \includegraphics[width=\linewidth]{figures/rand_inc.pdf}
+%         \caption{$\cos{\psi}$ distributions for the $i_\star$ sample with/without informative $i_\star$ priors.}
+%         \label{fig:rand_inc}
+%     \end{centering}
+% \end{figure*}
 
 \subsection{Statistical fluke}
 Could it just be a statistical fluke? We perform the test by randomly drawing 20 planets out of the 40 misaligned systems. We find in half of the time, we could not reproduce the distribution but result in a pile-up of $\cos{\psi}$. See Figure~\ref{fig:bootstrap}.
 
-\begin{figure*}[ht!]
-    \script{bootstrap.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/bootstrap.pdf}
-        \caption{$\cos{\psi}$ distributions for the $i_\star$ sample with/without informative $i_\star$ priors.}
-        \label{fig:bootstrap}
-    \end{centering}
-\end{figure*}
+% \begin{figure*}[ht!]
+%     \script{bootstrap.py}
+%     \begin{centering}
+%         \includegraphics[width=\linewidth]{figures/bootstrap.pdf}
+%         \caption{$\cos{\psi}$ distributions for the $i_\star$ sample with/without informative $i_\star$ priors.}
+%         \label{fig:bootstrap}
+%     \end{centering}
+% \end{figure*}
 
 \section{Discussion}
 No strong clustering?
