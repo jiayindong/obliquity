@@ -58,13 +58,13 @@ In some systems, $i_\star$ can be constrained via photometric rotational modulat
 In this work, we build a hierarchical Bayesian framework to evaluate the distribution of $\cos{\psi}$ using the sample in \cite{Albrecht21} and extend the analysis to the full sample of exoplanetary systems that have sky-projected stellar obliquity measurements extracted from the review paper of \cite{Albrecht22}.
 
 \section{Stellar Obliquity Distribution} \label{sec:hbm}
-We model the whole population stellar obliquity distribution and also the sub-population with $i_\star$ constrained. See Figure\ref{fig:hbm} as an illustration. 
+We model the whole population stellar obliquity distribution and also the sub-population with $i_\star$ constrained. See Figure\ref{fig:graph} as an illustration. 
 
 \begin{figure}[ht!]
-    \script{hbm.py}
-    \includegraphics[width=\linewidth]{figures/hbm.pdf}
+    \script{graph.py}
+    \includegraphics[width=\linewidth]{figures/graph.pdf}
     \caption{Hierarchical Bayesian framework to infer stellar obliquity distribution described by hyperparameters $\theta$ from individual system's stellar obliquity $\psi_n$. $\psi_n$ is calculated by the system's sky-projected stellar obliquity $\lambda_n$ and stellar inclination $i_{\star, n}$.}
-    \label{fig:hbm}
+    \label{fig:graph}
 \end{figure}
 
 We use a four-parameter Beta distribution. The framework is shown in Figure~\ref{fig:hbm}.
