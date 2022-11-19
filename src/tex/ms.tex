@@ -1,6 +1,10 @@
 % Define document class
 \documentclass[twocolumn]{aastex631}
 \usepackage{showyourwork}
+\usepackage{xspace}
+
+\newcommand{\numistar}{65\xspace}
+\newcommand{\numall}{161\xspace}
 
 \received{}
 \revised{}
@@ -29,7 +33,7 @@
 % Abstract with filler text
 \begin{abstract}
 We build a hierarchical Bayesian framework to constrain true stellar obliquity ($\psi$) distribution in exoplanetary systems.
-Using the sky-projected stellar obliquities ($\lambda$) of a sample of 151 exoplanets, we infer their $\cos{\psi}$ distribution using a four-parameter Beta mixture model with the assumption of a uniform cosine of stellar inclination ($i_\star$) distribution for each planet. We find $\cos{\psi}$ has a significant pile-up near 1, suggesting the majority of exoplanetary systems are well aligned. For misaligned systems, $\cos{\psi}$ is nearly uniformly distributed between $-0.75$ to $0.75$ with no significant pipe-up near $\cos{\psi} = 0$, suggesting the stellar spin axis is randomly distributed around the planet's orbital axis.
+Using the sky-projected stellar obliquities ($\lambda$) of all measured systems, we infer their $\cos{\psi}$ distribution using a four-parameter Beta mixture model with the assumption of a uniform cosine of stellar inclination ($i_\star$) distribution for each planet. We find $\cos{\psi}$ has a significant pile-up near 1, suggesting the majority of exoplanetary systems are well aligned. For misaligned systems, $\cos{\psi}$ is nearly uniformly distributed between $-0.75$ to $0.75$ with no significant pipe-up near $\cos{\psi} = 0$, suggesting the stellar spin axis is randomly distributed around the planet's orbital axis.
 Our Bayesian framework could reproduce the excess of perpendicular planets observed in systems with constrained $i_\star$. However, we find the sample of misaligned systems could be biased because of the small sample size and that misaligned systems are often found around hot stars, whereas the gravity-darkening method, a technique commonly used to constrain the inclinations of hot stars ($T_{\rm eff} > 7000$K), is only sensitive to detect perpendicular planets. 
 \end{abstract}
 
@@ -46,7 +50,7 @@ Stellar obliquity $\psi$ can be calculated from $\bf{i}_{\rm orb}$ and $\bf{i}_{
     \cos{\psi} = \sin{i_\star}\sin{i_{\rm orb}}\cos{\lambda} + \cos{i_\star}\cos{i_{\rm orb}},
 \end{equation}
 where $i_{\rm orb}$ and $i_\star$ are the projections of $\bf{i}_{\rm orb}$ and $\bf{i}_{\star}$ along the observer's line of sight, and $\lambda$ is the sky-projected stellar obliquity. A full derivation can be found in, e.g., \cite{Fabrycky09} Equation (1)--(10).
-When setting $i_{\rm orb} = 90\degr$, $\cos{\psi} = \sin{i_\star}\cos{\lambda}$.
+For transiting planet systems, $i_{\rm orb} \approx 90\degr$, and thus $\cos{\psi} \approx \sin{i_\star}\cos{\lambda}$.
 
 In most exoplanetary systems, only the sky-projected obliquity $\lambda$ is constrained. We could still infer $\psi$ given the measured $\lambda$ and assuming a randomly distributed $i_\star$ that is uniformly distributed in $\cos{i_\star}$.
 In some systems, $i_\star$ can be constrained via photometric rotational modulation, gravity darkening, or asteroseismology. In such systems, an informative $i_\star$ prior can be used.
@@ -81,6 +85,8 @@ What makes the difference?
 
 \cite{Nagpal22} emphasize the importance of picking the right hyperpriors.
 
+Although the distribution of $\psi$ looks very similar for the $i_\star$ sample using constrained or random priors, the uncertainty on each $\psi$ is much tighter. 
+
 \begin{figure*}[ht!]
     \script{psi_dist.py}
     \begin{centering}
@@ -96,7 +102,7 @@ What makes the difference?
     \script{lam_dist.py}
     \begin{centering}
         \includegraphics{figures/lam_dist.pdf}
-        \caption{$\lambda$ distributions.}
+        \caption{Sky-projected stellar obliquity ($\lambda$) distributions of \numistar systems with constrained $i_\star$ and all \numall exoplanetary systems that have measured sky-projected stellar obliquities.}
         \label{fig:lam_dist}
     \end{centering}
 \end{figure*}
