@@ -30,9 +30,11 @@ plt.rcParams['ytick.minor.width'] =  1.0
 plt.rcParams['lines.markeredgewidth'] =  1.0
 
 # load MCMC draws
-all_randinc = az.from_netcdf('all_randinc.nc')
-istar_randinc = az.from_netcdf('istar_randinc.nc')
-istar = az.from_netcdf('istar.nc')
+all_randinc = az.from_netcdf('src/data/all_randinc.nc')
+istar_randinc = az.from_netcdf('src/data/istar_randinc.nc')
+istar = az.from_netcdf('src/data/istar.nc')
+
+x = np.linspace(1e-5,1-1e-5,1000)
 
 post = istar.posterior
 istar_draws = np.zeros(shape=(len(x),4000))

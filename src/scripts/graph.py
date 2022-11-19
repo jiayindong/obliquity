@@ -59,4 +59,4 @@ pgm.add_plate([0.5, 0.2, 3.6, 1.75], label=r"$n = 1, \ldots, N$", shift=-0.1, fo
 # Render and save.
 pgm.render()
 
-pgm.savefig(paths.figures / "hbm.pdf", bbox_inches="tight", dpi=600)
+pgm.savefig(paths.figures / "graph.pdf", bbox_inches="tight", dpi=600)
