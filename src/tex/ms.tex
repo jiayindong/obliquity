@@ -1,7 +1,10 @@
 % Define document class
-\documentclass[twocolumn]{aastex631}
+\documentclass[twocolumn,times]{aastex631}
 \usepackage{showyourwork}
 \usepackage{xspace}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
 
 \newcommand{\numistar}{65\xspace}
 \newcommand{\numall}{161\xspace}
@@ -16,7 +19,7 @@
 \begin{document}
 
 % Title
-\title{True Stellar Obliquity Distribution of Exoplanets}
+\title{3D Stellar Obliquity Distribution of Exoplanetary Systems}
 
 \correspondingauthor{Jiayin Dong}
 \email{jdong@flatironinstitute.org}
@@ -32,69 +35,96 @@
 
 % Abstract with filler text
 \begin{abstract}
-We build a hierarchical Bayesian framework to constrain true stellar obliquity ($\psi$) distribution in exoplanetary systems.
-Using the sky-projected stellar obliquities ($\lambda$) of all measured systems, we infer their $\cos{\psi}$ distribution using a four-parameter Beta mixture model with the assumption of a uniform cosine of stellar inclination ($i_\star$) distribution for each planet. We find $\cos{\psi}$ has a significant pile-up near 1, suggesting the majority of exoplanetary systems are well aligned. For misaligned systems, $\cos{\psi}$ is nearly uniformly distributed between $-0.75$ to $0.75$ with no significant pipe-up near $\cos{\psi} = 0$, suggesting the stellar spin axis is randomly distributed around the planet's orbital axis.
-Our Bayesian framework could reproduce the excess of perpendicular planets observed in systems with constrained $i_\star$. However, we find the sample of misaligned systems could be biased because of the small sample size and that misaligned systems are often found around hot stars, whereas the gravity-darkening method, a technique commonly used to constrain the inclinations of hot stars ($T_{\rm eff} > 7000$K), is only sensitive to detect perpendicular planets. 
+% We build a hierarchical Bayesian framework to constrain true stellar obliquity ($\psi$) distribution in exoplanetary systems.
+% Using the sky-projected stellar obliquities ($\lambda$) of all measured systems, we infer their $\cos{\psi}$ distribution using a four-parameter Beta mixture model with the assumption of a uniform cosine of stellar inclination ($i_\star$) distribution for each planet. We find $\cos{\psi}$ has a significant pile-up near 1, suggesting the majority of exoplanetary systems are well aligned. For misaligned systems, $\cos{\psi}$ is nearly uniformly distributed between $-0.75$ to $0.75$ with no significant pipe-up near $\cos{\psi} = 0$, suggesting the stellar spin axis is randomly distributed around the planet's orbital axis.
+% Our Bayesian framework could reproduce the excess of perpendicular planets observed in systems with constrained $i_\star$. However, we find the sample of misaligned systems could be biased because of the small sample size and that misaligned systems are often found around hot stars, whereas the gravity-darkening method, a technique commonly used to constrain the inclinations of hot stars ($T_{\rm eff} > 7000$K), is only sensitive to detect perpendicular planets.
+We build a hierarchical Bayesian framework to infer the 3D stellar obliquity $\psi$ distribution in exoplanetary systems. 
+First, we apply our framework to \numistar systems with sky-projected stellar obliquity $\lambda$ and stellar inclinations $i_\star$ measurements. The $\cos{\psi}$ distribution has a significant pile-up at 1, suggesting the majority of systems are well aligned, and has a second peak near $-0.15$ (i.e., $\psi \sim 100\degr$), consistent with the finding of a preponderance of perpendicular planets in previous work.
+Interestingly, if we just use isotropic priors on $i_\star$ and no additional information, a similar $\cos{\psi}$ distribution is inferred, suggesting the $cos\psi$ distribution depends mainly on the underlying $\lambda$ distribution. 
+We find the $\lambda$ distribution of misaligned systems in the measured-$i_\star$ sample clustered at $110 \degr$, whereas of all \numall systems with sky-projected obliquity measurements is nearly uniform. The measured-$i_\star$ sample may not fully represent the population. We discuss two possible reasons: (1) the measured-$i_\star$ sample only has a small number of misaligned systems, and (2) misaligned systems are often found around hot stars, and to measure the $i_\star$ of host stars ($T_{\rm eff} > 7000$K), the gravity-darkening method is commonly used but the method is biased towards detecting perpendicular planets.
+Finally, we apply our Bayesian framework to all \numall systems and assume uninformative $i_\star$ priors. The $\cos{\psi}$ piles up at 1 but is nearly uniformly distributed between $-0.75$ to $0.75$, corresponding to $\psi$ of $140\degr$ and $40\degr$. We conclude that in misaligned exoplanetary systems, the stellar spin axis is isotropically distributed around its planets' orbital axis but lacks $\psi > 140\degr$.
 \end{abstract}
 
 % Main body with filler text
 \section{Introduction}
 \label{sec:intro}
 
-Stellar obliquity $\psi$ is described as the angle between a planet's orbital axis $\bf{i}_{\rm orb}$ and its host star's spin axis $\bf{i}_{\star}$.
-If both $\bf{i}_{\rm orb}$ and $\bf{i}_{\star}$ are independent, random unit vectors with uniform distribution on a three-dimensional sphere, $\cos{\psi}$ will be uniformly distributed between $-1$ and $1$.
-In reality, the sky-projected stellar obliquity $\lambda$ can only be measured in transiting exoplanet systems, limiting $\bf{i}_{\rm orb}$ close to $\sim 90\degr$.
-
-Stellar obliquity $\psi$ can be calculated from $\bf{i}_{\rm orb}$ and $\bf{i}_{\star}$ as the following:
-\begin{equation}
+3D stellar obliquity $\psi$ is described as the angle between a planet's orbital axis $\bf{i}_{\rm orb}$ and its host star's spin axis $\bf{i}_{\star}$.
+For any given $\bf{i}_{\rm orb}$ axis, if $\bf{i}_{\star}$ is a random vector with uniform distribution on a three-dimensional sphere, the cosine of their separation angle $\cos{\psi}$ will be uniformly distributed between $-1$ and $1$.
+In reality, we could only measure the sky-projected stellar obliquity $\lambda$, the angle between the projections of $\bf{i}_{\rm orb}$ and $\bf{i}_{\star}$ onto the plane of the sky. Stellar obliquity $\psi$ can be calculated from $\bf{i}_{\rm orb}$ and $\bf{i}_{\star}$ as the following:
+\begin{equation}\label{eqn:psi}
     \cos{\psi} = \sin{i_\star}\sin{i_{\rm orb}}\cos{\lambda} + \cos{i_\star}\cos{i_{\rm orb}},
 \end{equation}
-where $i_{\rm orb}$ and $i_\star$ are the projections of $\bf{i}_{\rm orb}$ and $\bf{i}_{\star}$ along the observer's line of sight, and $\lambda$ is the sky-projected stellar obliquity. A full derivation can be found in, e.g., \cite{Fabrycky09} Equation (1)--(10).
-For transiting planet systems, $i_{\rm orb} \approx 90\degr$, and thus $\cos{\psi} \approx \sin{i_\star}\cos{\lambda}$.
+where $i_{\rm orb}$ is the angle between the vector $\bf{i}_{\rm orb}$ and the observer's line of sight, $i_\star$ is the angle between $\bf{i}_{\star}$ and the observer's line of sight, and $\lambda$ is the sky-projected stellar obliquity. A full derivation of Equation~(\ref{eqn:psi}) can be found in, e.g., \cite{Fabrycky09} Equation (1)--(10).
+Since the sky-projected stellar obliquity can only be measured in transiting exoplanet systems, $i_{\rm orb} \approx 90\degr$ and thus $\cos{\psi} \approx \sin{i_\star}\cos{\lambda}$.
 
-In most exoplanetary systems, only the sky-projected obliquity $\lambda$ is constrained. We could still infer $\psi$ given the measured $\lambda$ and assuming a randomly distributed $i_\star$ that is uniformly distributed in $\cos{i_\star}$.
-In some systems, $i_\star$ can be constrained via photometric rotational modulation, gravity darkening, or asteroseismology. In such systems, an informative $i_\star$ prior can be used.
+To constrain the 3D stellar obliquity $\psi$, both a measurement of the sky-projected obliquity $\lambda$ and the stellar inclination $i_\star$ are required. The stellar inclination can often be constrained on exoplanetary systems via, e.g., photometric and spectroscopic rotational modulation introduced by starspots, gravity darkening, or asteroseismology. For systems without measured $i_\star$, it is still possible to infer the 3D stellar obliquity $\psi$ from the sky-projected obliquity $\lambda$ \citep[e.g.,][]{Fabrycky09}. To do so, we assume the stellar inclination $i_\star$ is isotropic, and thus the probability density function of ${i_\star} \sim \sin{i_{\star}}$, or $\cos{i_\star} \sim \mathcal{U}[0,1]$.
 
-\cite{Albrecht21} inferred the true stellar obliquities of a sample of stars that have both stellar inclinations and sky-projected stellar obliquity constraints. They found while the majority of planets have a small $\psi$, misaligned planets have $\psi$ clustered between 80--125$\degr$. Furthermore, they found the $\cos{\psi}$ distribution of misaligned systems is not uniformly distributed but clustered near 0, suggesting the stellar spin axis is not randomly distributed around the planetary orbital axis.
+\cite{Albrecht21} inferred the 3D stellar obliquities of a sample of stars that have both stellar inclination and sky-projected stellar obliquity constraints. They found while the majority of planets have a small $\psi$, misaligned planets have $\psi$ clustered between 80--125$\degr$. Furthermore, they found the $\cos{\psi}$ distribution of misaligned systems is not uniformly distributed but clusters near 0, suggesting the stellar spin axis is not isotropically distributed around the planetary orbital axis.
 
-In this work, we build a hierarchical Bayesian framework to evaluate the distribution of $\cos{\psi}$ using the sample in \cite{Albrecht21} and extend the analysis to the full sample of exoplanetary systems that have sky-projected stellar obliquity measurements extracted from the review paper of \cite{Albrecht22}.
+In this work, we build a hierarchical Bayesian framework to evaluate the distribution of $\cos{\psi}$ using the sample in \cite{Albrecht21} and extend the analysis to the full sample of exoplanetary systems that have sky-projected stellar obliquity measurements extracted from the \cite{Albrecht22} review.
 
 \section{Stellar Obliquity Distribution} \label{sec:hbm}
-We model the whole population stellar obliquity distribution and also the sub-population with $i_\star$ constrained. See Figure\ref{fig:graph} as an illustration. 
+We build a hierarchical Bayesian framework to model the 3D stellar obliquity ($\psi$) distribution of exoplanetary systems.
 
-\begin{figure}[ht!]
+First, we apply the framework to the sample of \numistar systems that have both sky-projected stellar obliquity $\lambda$ and stellar inclination $i_\star$ constraints.
+In Figure~\ref{fig:graph}, we illustrate the probabilistic graphical model. We aim to constrain a set of hyperparameters $\bm{\beta}$ that describe the 3D stellar obliquity $\psi$ distribution. $\bm{\beta}$ is constrained by $N$ individual systems, where each system has $\psi_n$ that is calculated by the sky-projected stellar obliquity $\lambda_n$ and the stellar inclination $i_n$. For simplicity, we approximate $i_{\rm orb}$ to $90\degr$ in the model and use Equation~(\ref{eqn:psi}) to compute $\psi_n$. 
+The parameter $\theta_{\star, n}$ contains information on stellar rotation period and stellar radius, if available.
+If the rotational modulation method is used to constrain the stellar inclination \citep[e.g.,][]{Masuda20}, $i_{\star,n}$ and $\theta_{\star,n}$ are constrained by observed sky-projected stellar rotational line broadening $\hat{v}\sin{i_{\star,n}}$ and observed $\hat{\theta}_{\star,n}$. Lastly, the sky-projected stellar obliquity $\lambda_n$ is constrained by observed $\hat{\lambda}_n$.
+
+\begin{figure}
     \script{graph.py}
     \includegraphics[width=\linewidth]{figures/graph.pdf}
-    \caption{Hierarchical Bayesian framework to infer stellar obliquity distribution described by hyperparameters $\theta$ from individual system's stellar obliquity $\psi_n$. $\psi_n$ is calculated by the system's sky-projected stellar obliquity $\lambda_n$ and stellar inclination $i_{\star, n}$.}
+    \caption{Hierarchical Bayesian framework to infer the stellar obliquity distribution of exoplanetary systems. The stellar obliquity distribution is described by hyperparameters $\beta$ and constrained by $n_{\rm th}$ system's stellar obliquity $\psi_n$. Each $\psi_n$ is calculated by the system's sky-projected stellar obliquity $\lambda_n$ and stellar inclination $i_{\star, n}$. $\theta_{\star, n}$ contains other information of the star other than $i_{\star, n}$, such as the stellar radius and stellar rotation period.}
     \label{fig:graph}
 \end{figure}
 
-We use a four-parameter Beta distribution.
+For the stellar obliquity distribution, we adopt a two-component mixture Beta distribution with hyperparameters $\bm{\theta} = \{\bm{w},\bm{a},\bm{b}\}$, where each hyperparameter has a dimension of 2. The Beta distribution is flexible to describe both the spike of aligned systems with 3D stellar obliquities close to $0\degr$ and the clustered or broadly distributed systems with large obliquities.
+The probability distribution follows 
+\begin{align}
+    \cos{\psi} &\sim 2\times\Bigl( w_0 {\rm Beta}(a_0, b_0) + w_1 {\rm Beta}(a_1, b_1)\Bigr)-1.
+\end{align}
+Since a Beta distribution is defined on the interval $[0, 1]$, we extend its support to $[-1,1]$ using a linear transformation (i.e., $2\times Beta-1$).
 
-\begin{itemize}
-    \item Uniform $\cos{i}$
-    \item Uniform $\lambda$
-    \item Observed Normal $\lambda$
-    \item Observed Normal $R_\star$
-    \item Observed Normal $P_{\rm rot}$
-\end{itemize}
+The hyperparameter and parameter priors are the following:
+\begin{align}
+    w_{0,1} &\sim {\rm Dirichlet}(1,1) \nonumber\\
+    a_0 &\sim \mathcal{U}(0,50) \nonumber\\
+    b_0 &\sim \mathcal{U}(0,1) \nonumber\\
+    a_1 &\sim \mathcal{U}(0,10) \nonumber\\
+    b_1 &\sim \mathcal{U}(0,10) \nonumber\\
+    \cos{i}_{\star,n} &\sim \mathcal{U}(0,1) \nonumber\\
+    \lambda_{\star,n} &\sim \mathcal{U}(0,\pi).
+\end{align}
+We set the hyperpriors such that $a_0$ and $b_0$ will be used to infer the spike of $\cos{\psi}$ near 1, and $a_1$ and $b_1$ infer the distribution of the misaligned population. Doing so will also avoid label switching in our mixture model.
 
-We find the $i_\star$ sample, there is a pile-up of planets near $-0.25$ whereas, for the all-planet sample, the distribution is mostly flat. See Figure~\ref{fig:psi_dist}.
-
-What makes the difference?
-
-\cite{Nagpal22} emphasize the importance of picking the right hyperpriors.
-
-Although the distribution of $\psi$ looks very similar for the $i_\star$ sample using constrained or random priors, the uncertainty on each $\psi$ is much tighter. 
+The likelihood functions are the following:
+\begin{align}
+    L(\lambda) &\sim \prod_{i=1}^N\mathcal{N}(\hat{\lambda}_n, \sigma_{\hat{\lambda}_n}) \nonumber\\
+    L(i_\star, \theta_\star) &\sim \prod_{i=1}^N\mathcal{N}(\hat{v}\sin{i_{\star,n}}, \sigma_{\hat{v}\sin{i_{\star,n}}}) \nonumber\\
+    L(\theta) &\sim \prod_{i=1}^N\mathcal{N}(\hat{\theta}_n, \sigma_{\hat{\theta}_n}).
+\end{align}
 
 \begin{figure*}[ht!]
     \script{psi_dist.py}
     \begin{centering}
         \includegraphics{figures/psi_dist.pdf}
-        \caption{$\cos{\psi}$ distributions.}
+        \caption{The cosine of 3D stellar obliquity $\cos{\psi}$ distributions.}
         \label{fig:psi_dist}
     \end{centering}
 \end{figure*}
+
+We apply the model to \numistar systems with both constrained $\lambda$ and $i_\star$ summarized in \cite{Albrecht21}. The inferred $\cos{\psi}$ distribution is shown in the left panel of Figure~\ref{fig:psi_dist}. The distribution presents a pike at 1 as expected, suggesting the majority of exoplanetary systems are well-aligned systems. For misaligned systems, $\cos{\psi}$ presents a cluster near $\cos{\psi} = -0.2$, corresponding to $\psi$ of $100\degr$. The result is consistent with the findings of a preponderance of perpendicular planets in \cite{Albrecht21}.
+
+To test the dependence of $\cos{\psi}$ distribution on $i_\star$ measurements, we apply the model again to the sample of \numistar systems with both constrained $\lambda$ and $i_\star$. However, in this model, we do not use any additional information on $i_\star$ other than applying an isotropic inclination prior to each system. The corresponding probabilistic graphical model is Figure~\ref{fig:graph} but removing all the dashed edges. 
+The $\cos{\psi}$ distribution of the new model is shown in the middle panel of Figure~\ref{fig:psi_dist}. Interestingly, the overall $\cos{\psi}$ distributions of the two models are very similar, despite that the inferred $\psi$ uncertainty for each system is now greater.
+The similarity between the two distributions suggests that, at least for the measured-$i_\star$ sample, the $\cos{\psi}$ distribution mainly depends on the underlying sky-project stellar obliquity $\lambda$ distribution.
+
+Following the logic, we now apply our model to all \numall exoplanetary systems that have sky-projected stellar obliquity measurements summarized in \cite{Albrecht22}. The result is presented in the right panel of Figure~\ref{fig:psi_dist}. The $\cos{\psi}$ distribution still spikes at 1 but is nearly flat between $-0.75$ and $0.75$ with no significant clustering. The distribution corresponds to an isotropic distribution of $\psi$ from $40\degr$ to $140\degr$.
+
+We also test the robustness of $\cos{\psi}$ distribution on different hyperprior choices \citep[see a nice summary in][]{Nagpal22}. We find extending the support of hyperpriors from 0--10 to 0--100 or 0--1000 or changing hyperprior distributions from Uniform to log-Uniform or truncated-Normal all infer similar results to Figure~\ref{fig:psi_dist}.
+
+Although the distribution of $\psi$ looks very similar for the $i_\star$ sample using constrained or random priors, the uncertainty on each $\psi$ is much tighter. 
 
 \section{Hypothesis} \label{sec:tests}
 
