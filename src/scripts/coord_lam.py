@@ -13,6 +13,7 @@ rc('text', usetex=True)
 rc('text.latex', preamble=r'\usepackage{physics}')
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 fig = plt.figure(dpi=80)
 ax = fig.add_subplot(projection='3d')
