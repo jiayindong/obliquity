@@ -68,11 +68,13 @@ To constrain the 3D stellar obliquity $\psi$, the measurements of the sky-projec
 In this work, we build a hierarchical Bayesian framework to evaluate the distribution of $\cos{\psi}$ for the sample in \cite{Albrecht21} and extend the analysis to the full sample of exoplanetary systems that have sky-projected stellar obliquity measurements extracted from the \cite{Albrecht22} review.
 In Section~\ref{sec:hbm}, we describe our hierarchical Bayesian framework and the inferred 3D stellar obliquity distributions, and in Section~\ref{sec:interpretations}, we discuss the interpretations of these distributions. In Section~\ref{sec:hjs}, we apply the framework to Hot Jupiters and infer their 3D stellar obliquity distribution.
 
-\begin{figure}
+\begin{figure*}
     \script{coord_psi.py}
-    \includegraphics[width=\linewidth]{figures/coord_psi.pdf}
-    \label{fig:coord_psi}
-\end{figure}
+    \script{coord_lam.py}
+    \gridline{\fig{figures/coord_psi.pdf}{0.45\textwidth}{(a)psi}
+          \fig{figures/coord_lam.pdf}{0.45\textwidth}{(b)lam}}
+    \label{fig:coord}
+\end{figure*}
 
 \section{3D Stellar Obliquity Distributions} \label{sec:hbm}
 We build a hierarchical Bayesian framework to model the 3D stellar obliquity ($\psi$) distribution of exoplanetary systems. In Figure~\ref{fig:graph}, we illustrate the probabilistic graphical model. We aim to constrain a set of hyperparameters $\bm{\beta}$ that describe the 3D stellar obliquity $\psi$ distribution. $\bm{\beta}$ is constrained by $N$ individual systems, where each system has $\psi_n$ that is calculated by the sky-projected stellar obliquity $\lambda_n$ and the stellar inclination $i_n$. For simplicity, we approximate $i_{\rm orb}$ to $90\degr$ and use the simplified version of Equation~(\ref{eqn:psi}) to compute $\psi_n$.
