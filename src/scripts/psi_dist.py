@@ -58,7 +58,7 @@ for a in range(4):
                                           +post.w[a,b,1].values*beta.pdf(x, post.a1[a,b], post.b1[a,b]))
 
 # make the figure
-plt.figure(figsize=(7,2.5),dpi=110)
+plt.figure(figsize=(7,2.6),dpi=110)
 
 plt.subplot(1,3,1)
 q025, q16, q50, q84, q975 = np.percentile(istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)
@@ -72,7 +72,8 @@ plt.xlim([-1,1])
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
 plt.ylabel('Probablity density function')
 
-plt.title(r'65 systems -- informative $i_{\star}$')
+plt.title(r'\begin{center} 65 systems with observed $i_{\star}$ \\ \textbf{with} $i_{\star}$ likelihood \end{center}', 
+          fontsize=11, y=1.1)
 
 
 plt.subplot(1,3,2)
@@ -84,7 +85,8 @@ plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
 plt.ylim([0,2])
 plt.xlim([-1,1])
 
-plt.title(r'65 systems -- random $i_{\star}$')
+plt.title(r'\begin{center} 65 systems with observed $i_{\star}$ \\ \textbf{no} $i_{\star}$ likelihood \end{center}', 
+          fontsize=11, y=1.1)
 
 
 plt.subplot(1,3,3)
@@ -96,7 +98,9 @@ plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 plt.ylim([0,2])
 plt.xlim([-1,1])
 
-plt.title(r'161 systems -- random $i_{\star}$')
+plt.title(r'\begin{center} all 161 systems \\ \textbf{no} $i_{\star}$ likelihood \end{center}', 
+          fontsize=11, y=1.1)
 
 plt.tight_layout()
 plt.savefig(paths.figures / "psi_dist.pdf", bbox_inches="tight", dpi=600)
+plt.close()
