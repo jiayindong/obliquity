@@ -31,8 +31,13 @@ datasets:
 
 # Custom file dependencies
 dependencies:
-  # src/scripts/my_script.py:
-  #   - src/data/dataset_for_my_script.dat
+  src/scripts/psi_dist.py:
+    - src/data/all_randinc.nc
+    - src/data/istar.nc
+    - src/data/istar_randinc.nc
+  src/scripts/lam_dist.py:
+    - src/data/lam_all.nc
+    - src/data/lam_istar.nc
   # src/tex/ms.tex:
   #   - src/tex/stylesheet.tex
 
