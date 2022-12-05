@@ -29,6 +29,9 @@ plt.rcParams['ytick.major.width'] = 1.0
 plt.rcParams['ytick.minor.width'] =  1.0
 plt.rcParams['lines.markeredgewidth'] =  1.0
 
+numistar = 62
+numall = 161
+
 # load MCMC draws
 all_randinc = az.from_netcdf(paths.data / 'all_randinc.nc')
 istar_randinc = az.from_netcdf(paths.data / 'istar_randinc.nc')
@@ -72,7 +75,7 @@ plt.xlim([-1,1])
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
 plt.ylabel('Probablity density function')
 
-plt.title(r'\begin{center} 65 systems with observed $i_{\star}$ \\ \textbf{with} $i_{\star}$ likelihood \end{center}', 
+plt.title(r'\begin{center} %i systems with observed $i_{\star}$ \\ \textbf{with} $i_{\star}$ likelihood \end{center}'%numistar, 
           fontsize=11, y=1.1)
 
 
@@ -85,7 +88,7 @@ plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
 plt.ylim([0,2])
 plt.xlim([-1,1])
 
-plt.title(r'\begin{center} 65 systems with observed $i_{\star}$ \\ \textbf{no} $i_{\star}$ likelihood \end{center}', 
+plt.title(r'\begin{center} %i systems with observed $i_{\star}$ \\ \textbf{no} $i_{\star}$ likelihood \end{center}'%numistar, 
           fontsize=11, y=1.1)
 
 
@@ -98,7 +101,7 @@ plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 plt.ylim([0,2])
 plt.xlim([-1,1])
 
-plt.title(r'\begin{center} all 161 systems \\ \textbf{no} $i_{\star}$ likelihood \end{center}', 
+plt.title(r'\begin{center} all %i systems \\ \textbf{no} $i_{\star}$ likelihood \end{center}'%numall, 
           fontsize=11, y=1.1)
 
 plt.tight_layout()

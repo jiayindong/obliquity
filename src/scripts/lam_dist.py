@@ -29,6 +29,9 @@ plt.rcParams['ytick.major.width'] = 1.0
 plt.rcParams['ytick.minor.width'] =  1.0
 plt.rcParams['lines.markeredgewidth'] =  1.0
 
+numistar = 62
+numall = 161
+
 # load MCMC draws
 lam_all = az.from_netcdf(paths.data / 'lam_all.nc')
 lam_istar = az.from_netcdf(paths.data / 'lam_istar.nc')
@@ -67,7 +70,7 @@ plt.xticks(np.arange(0,185,30))
 plt.xlabel(r'$\lambda$ [$^\circ$]',fontsize=11)
 plt.ylabel('Probablity density function')
 
-plt.title(r'65 systems with observed $i_{\star}$',fontsize=11)
+plt.title(r'%i systems with observed $i_{\star}$'%numistar,fontsize=11)
 
 plt.subplot(1,2,2)
 q025, q16, q50, q84, q975 = np.percentile(lam_all_draws, [2.5, 16, 50, 84, 97.5], axis=1)
@@ -80,7 +83,7 @@ plt.xlim([0,180])
 
 plt.xticks(np.arange(0,185,30))
 
-plt.title(r'all 161 systems', fontsize=11)
+plt.title(r'all %i systems'%numall, fontsize=11)
 
 plt.tight_layout()
 plt.savefig(paths.figures / "lam_dist.pdf", bbox_inches="tight", dpi=600)
