@@ -76,7 +76,7 @@ The parameter $\theta_{\star, n}$ contains stellar parameters other than $i_\sta
 Obs$_{\star,n}$ describes observations that help to constrain $i_{\star,n}$, such as photometric or spectroscopic time series and the stellar spectra. If the rotational modulation method is used to constrain the stellar inclination, the $i_{\star,n}$ and $\theta_{\star,n}$ are constrained by rotational modulation in photometric or spectroscopic time series and observed sky-projected stellar rotational line broadening $\hat{v}\sin{i_{\star,n}}$ \citep[e.g.,][]{Masuda20}. If the gravity-darkening method is used, the $i_{\star,n}$ is constrained by the anomaly in transit light curves. If asteroseismology is used, the $i_{\star,n}$ is constrained from the periodic variation in the photometric time series.
 Lastly, the sky-projected stellar obliquity $\lambda_n$ is constrained by observed $\hat{\lambda}_n$.
 
-\begin{figure}
+\begin{figure}[ht!]
     \script{graph.py}
     \includegraphics[width=\linewidth]{figures/graph.pdf}
     \caption{Hierarchical Bayesian framework to infer the stellar obliquity distribution of exoplanetary systems. The stellar obliquity distribution is described by hyperparameters $\vb*{\beta}$ and constrained by $n_{\rm th}$ system's stellar obliquity $\psi_n$. Each $\psi_n$ is calculated by the system's sky-projected stellar obliquity $\lambda_n$ and stellar inclination $i_{\star, n}$. $\theta_{\star, n}$ contains other information of the star other than $i_{\star, n}$, such as the stellar radius and stellar rotation period. Obs$_{\star,n}$ contains observations of the star, such as the stellar spectral and photometric and/or spectroscopic time series, and $\hat{\lambda}_n$ has the measured sky-projected stellar obliquity.}
@@ -108,7 +108,7 @@ The likelihood functions are the following:
     L(i_\star, \theta_\star) &\sim \prod_{i=1}^N\mathcal{N}({\rm Obs}_{\star,n}, \sigma_{{\rm Obs}_{\star,n}}).
 \end{align}
 
-\begin{figure*}
+\begin{figure*}[ht!]
     \script{psi_dist.py}
     \begin{centering}
         \includegraphics{figures/psi_dist.pdf}
@@ -134,7 +134,7 @@ In this section, we aim to explain the similarity and disparity between the $\co
 
 There is no doubt that $i_\star$ measurement on an individual system improves the constraint on $\psi$. However, are $i_\star$ measurements required to constrain the population $\psi$ distribution? Particularly, the left and middle panels in Figure~\ref{fig:psi_dist} show that without $i_\star$ measurements, a similar level of constraint on the $\cos{\psi}$ distribution can be achieved. We perform some calculations and tests to evaluate the necessity of $i_\star$ constraints.
 
-\begin{figure*}
+\begin{figure*}[ht!]
     \script{coord_psi.py}
     \gridline{
         \fig{figures/coord_psi.pdf}{0.45\textwidth}{\vspace*{-1.8cm}(a) The $\{\psi, \theta\}$ coordinate system. The grey circle corresponds to a constant $\psi$ value.}
@@ -169,7 +169,7 @@ It was surprising that the inferred $\cos{\psi}$ distribution of the observed-$i
 
 We find the underlying $\lambda$ distributions of the observed-$i_\star$ sample and the full sample by building another hierarchical Bayesian model. We again use a two-component mixture Beta distribution to describe well-aligned and misaligned systems. We extend the Beta distribution support from $[0,1]$ to $[0,\pi]$ by multiplying the distribution by $\pi$ and use the observed $\lambda$ and uncertainties for the likelihoods. Figure~\ref{fig:lam_dist} shows the $\lambda$ distributions of two samples. It clearly shows that in the observed-$i_\star$ sample, misaligned systems are clustered at $\sim 110\degr$, whereas in the full sample, misaligned systems are nearly uniformly distributed. 
 
-\begin{figure*}
+\begin{figure*}[ht!]
     \script{lam_dist.py}
     \begin{centering}
         \includegraphics{figures/lam_dist.pdf}
