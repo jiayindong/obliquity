@@ -10,7 +10,7 @@ import sys
 subprocess.check_call([sys.executable, '-m', 'pip', 'install',
 'arviz'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install',
-'pymc=4.1.7'])
+'pymc==4.1.7'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install',
 'aesara'])
 
