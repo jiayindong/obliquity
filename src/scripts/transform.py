@@ -1,9 +1,6 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-
-import scipy.integrate as integrate
-from scipy import stats
+import os
+from pathlib import Path
+os.environ["PATH"] += os.pathsep + str(Path.home() / "bin")
 
 import subprocess
 import sys
@@ -18,6 +15,12 @@ import pymc as pm
 import arviz as az
 import aesara.tensor as at
 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+import scipy.integrate as integrate
+from scipy import stats
 
 from matplotlib import rc
 rc('font', **{'family':'sans-serif'})
@@ -426,7 +429,6 @@ if __name__ == '__main__':
     plt.legend(framealpha=0,handlelength=1,handletextpad=0.3,borderpad=0.1)
 
     plt.tight_layout()
-    plt.show()
 
     plt.savefig(paths.figures / "transform.pdf", bbox_inches="tight", dpi=600)
     plt.close()
