@@ -5,6 +5,7 @@ import pandas as pd
 import scipy.integrate as integrate
 from scipy import stats
 
+import subprocess
 subprocess.check_call([sys.executable, '-m', 'pip', 'install',
 'arviz'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install',
