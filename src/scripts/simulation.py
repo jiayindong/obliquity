@@ -131,6 +131,95 @@ def posteriors(this_model):
 
 if __name__ == '__main__':
 
+
+    with pm.Model() as model_uni:
+
+        cosψ = pm.Uniform('cosψ',lower=-1,upper=1)
+        
+        ψ = pm.Deterministic('ψ', at.arccos(cosψ))
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
+        
+        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        cosθ = pm.Deterministic('cosθ', at.cos(θ))
+        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+
+        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
+        λ = pm.Deterministic('λ', at.arccos(cosλ))
+        
+        sini = pm.Deterministic('sini', cosψ/cosλ)
+        i = pm.Deterministic('i', at.arcsin(sini))
+        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
+        
+        iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
+        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
+        
+
+    with pm.Model() as model_norm1:
+
+        cosψ = pm.Normal('cosψ', mu=0., sigma=0.2)
+        
+        ψ = pm.Deterministic('ψ', at.arccos(cosψ))
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
+        
+        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        cosθ = pm.Deterministic('cosθ', at.cos(θ))
+        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+
+        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
+        λ = pm.Deterministic('λ', at.arccos(cosλ))
+        
+        sini = pm.Deterministic('sini', cosψ/cosλ)
+        i = pm.Deterministic('i', at.arcsin(sini))
+        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
+        
+        iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
+        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
+        
+
+    with pm.Model() as model_norm2:
+
+        cosψ = pm.Normal('cosψ', mu=-0.4, sigma=0.2)
+        
+        ψ = pm.Deterministic('ψ', at.arccos(cosψ))
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
+        
+        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        cosθ = pm.Deterministic('cosθ', at.cos(θ))
+        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+
+        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
+        λ = pm.Deterministic('λ', at.arccos(cosλ))
+        
+        sini = pm.Deterministic('sini', cosψ/cosλ)
+        i = pm.Deterministic('i', at.arcsin(sini))
+        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
+        
+        iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
+        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)    
+        
+
+    with pm.Model() as model_norm3:
+
+        cosψ = pm.Normal('cosψ', mu=0.4, sigma=0.2)
+        
+        ψ = pm.Deterministic('ψ', at.arccos(cosψ))
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
+        
+        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        cosθ = pm.Deterministic('cosθ', at.cos(θ))
+        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+
+        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
+        λ = pm.Deterministic('λ', at.arccos(cosλ))
+        
+        sini = pm.Deterministic('sini', cosψ/cosλ)
+        i = pm.Deterministic('i', at.arcsin(sini))
+        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
+        
+        iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
+        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
+        
+
     uni_istar_draws, uni_noistar_draws = posteriors(model_uni)
     norm1_istar_draws, norm1_noistar_draws = posteriors(model_norm1)
     norm2_istar_draws, norm2_noistar_draws = posteriors(model_norm2)
