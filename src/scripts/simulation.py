@@ -40,6 +40,7 @@ plt.rcParams['lines.markeredgewidth'] =  1.0
 
 from scipy.stats import beta
 x = np.linspace(1e-5,1-1e-5,1000)
+σ = 0.2
 
 # return posteriors of HBM models with or without using measured istar
 def posteriors(this_model):
