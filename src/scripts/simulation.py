@@ -39,6 +39,7 @@ plt.rcParams['ytick.minor.width'] =  1.0
 plt.rcParams['lines.markeredgewidth'] =  1.0
 
 from scipy.stats import beta
+x = np.linspace(1e-5,1-1e-5,1000)
 
 # return posteriors of HBM models with or without using measured istar
 def posteriors(this_model):
@@ -46,8 +47,6 @@ def posteriors(this_model):
     nsample = 200
     err_istar = 10*np.pi/180
     err_lam = 8*np.pi/180
-
-    x = np.linspace(1e-5,1-1e-5,1000)
 
     with this_model:    
         idata = pm.sample(draws=50)
