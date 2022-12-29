@@ -39,10 +39,10 @@
 % Abstract with filler text
 \begin{abstract}
 
-Stellar obliquity $\psi$, the angle between a planet's orbital axis and its host star's spin axis, has important implications for the formation environment and evolution of a planetary system. In exoplanet observations, only sky-projected stellar obliquity $\lambda$ can be measured. To find the stellar obliquity, information on the stellar inclination $i_\star$ is required.
-Here we show that, while it is important to measure the stellar inclination to tightly constrain the stellar obliquity of an individual system, stellar inclination is not necessarily required to infer the population stellar obliquity distribution. The stellar obliquity distribution can be inferred purely from the projected stellar obliquities, or even from the stellar inclinations.
-We introduce a flexible, hierarchical Bayesian framework to infer stellar obliquity distribution of exoplanetary systems that can be applied to a sample with measured projected stellar obliquities, stellar inclinations, or both.
-We apply the framework to all systems with measured projected stellar obliquities, which are mostly hot Jupiters, and find that the stellar obliquity distribution is unimodal and peaked at zero degrees. Misaligned systems have nearly isotropic stellar obliquity distribution. When compared to hot Jupiter stellar obliquity predictions, the distribution is most consistent with the outcome of the scattering of multiple giant planets after their convergent disk migration.
+Stellar obliquity $\psi$, the angle between a planet's orbital axis and its host star's spin axis, traces the formation environment and dynamical evolution of a planetary system. In exoplanet observations, only sky-projected stellar obliquity $\lambda$ can be measured. To find the stellar obliquity from the projected obliquity, information on stellar inclination $i_\star$ is required.
+Here we show that, while it is important to know the stellar inclination to tightly constrain the stellar obliquity of an individual system, stellar inclination is not necessarily required for population stellar obliquity inference. The stellar obliquity distribution can be inferred purely from the projected stellar obliquities.
+We introduce a flexible hierarchical Bayesian framework to infer the stellar obliquity distribution of exoplanetary systems from projected stellar obliquities, stellar inclinations, or both.
+Applying the framework to all systems with projected stellar obliquity measurements, which are mostly Hot Jupiter systems, we find that the stellar obliquity distribution is unimodal and peaked at zero degrees. Misaligned systems have nearly isotropic stellar obliquity distribution, at odds with previous observations.
 
 \end{abstract}
 
@@ -50,20 +50,31 @@ We apply the framework to all systems with measured projected stellar obliquitie
 \section{Introduction}
 \label{sec:intro}
 
-Stellar obliquity $\psi$ describes the angle between a planet's orbital axis $\bf{n}_{\rm orb}$ and its host star's spin axis $\bf{n}_{\star}$. The angle has implications for the formation environment of a planetary system and its consequently dynamical evolution. Exoplanetary systems present a wide range of stellar obliquities. 
+Stellar obliquity $\psi$ describes the angle between a planet's orbital axis $\bf{n}_{\rm orb}$ and its host star's spin axis $\bf{n}_{\star}$. 
+The angle is an important trace of the formation environment and dynamical evolution of a planetary system. The stellar obliquity evolution can be summarized into three phases. First, the formation and evolution of a protoplanetary disk around its host star determine the primordial stellar obliquity. Second, dynamical evolution in the planetary system excites the mutual inclinations between planets or stellar companions and further sculpts the stellar obliquity. Lastly, tidal realignment of the host star's spin axis could reduce the stellar obliquity.
 
-In reality, we only measure the sky-projected stellar obliquity $\lambda$, the angle between the projections of $\bf{n}_{\rm orb}$ and $\bf{n}_{\star}$ onto the plane of the sky. Stellar obliquity $\psi$ can be computed from $\lambda$ as \citep[e.g.,][]{Fabrycky09}:
+Stellar obliquity is an important tracer to understanding the formation of close-in planetary systems, particularly of Hot Jupiters. Various proposed origin channels of Hot Jupiters make predictions on the stellar obliquity distribution of the Hot Jupiters, assuming that the primordial stellar obliquity is close to zero.
+
+In reality, only the sky-projected stellar obliquity $\lambda$, the angle between the projections of $\bf{n}_{\rm orb}$ and $\bf{n}_{\star}$ onto the plane of the sky, can be measured. Stellar obliquity $\psi$ can be computed from $\lambda$ as \citep[e.g.,][]{Fabrycky09}:
 \begin{equation}\label{eqn:psi}
     \cos{\psi} = \sin{i_\star}\sin{i_{\rm orb}}\cos{\lambda} + \cos{i_\star}\cos{i_{\rm orb}},
 \end{equation}
 where $i_{\rm orb}$ is the angle between the vector $\bf{n}_{\rm orb}$ and the observer's line of sight, and $i_\star$ is the angle between $\bf{n}_{\star}$ and the observer's line of sight.
-Since the sky-projected stellar obliquities can be measured only on transiting exoplanet systems, $i_{\rm orb} \approx 90\degr$ and $\cos{\psi} \approx \sin{i_\star}\cos{\lambda}$.
+Since the sky-projected stellar obliquities can be measured only on transiting exoplanet systems where $i_{\rm orb} \approx 90\degr$, $\cos{\psi} \approx \sin{i_\star}\cos{\lambda}$.
+To constrain the 3D stellar obliquity $\psi$, the measurements of the sky-projected obliquity $\lambda$ and stellar inclination $i_\star$ are required. The stellar inclination can often be constrained via, e.g., photometric and spectroscopic rotational modulation introduced by starspots, gravity darkening, and asteroseismology. Since the stellar inclination measurement is degenerate between $i_\star$ and $180\degr - i_\star$, $i_\star$ is usually assumed to be less than $90\degr$.
 
-To constrain the 3D stellar obliquity $\psi$, the measurements of the sky-projected obliquity $\lambda$ and stellar inclination $i_\star$ are required. The stellar inclination can often be constrained via, e.g., photometric and spectroscopic rotational modulation introduced by starspots, gravity darkening, and asteroseismology. Since the stellar inclination measurement is degenerate between $i_\star$ and $\pi - i_\star$, we assume $i_\star$ is less than $90\degr$.
+Hot Jupiter systems' projected stellar obliquities are distributed widely but with a concentration at zero.
 
-For systems without measured $i_\star$, it is still possible to infer the 3D stellar obliquity $\psi$ just from the sky-projected obliquity $\lambda$, assuming the stellar inclination $i_\star$ is isotropically distributed.
+For systems without measured $i_\star$, it is still possible to infer the stellar obliquity $\psi$ from the sky-projected obliquity $\lambda$ by assuming the stellar inclination $i_\star$ follows the isotropic distribution.
 
 In this work, we find an approach to infer $\psi$ distribution from $\lambda$ distribution.
+
+In this work, we build a hierarchical Bayesian framework to constrain the stellar obliquity distribution of exoplanetary systems, particularly of misaligned systems.
+In Section~\ref{sec:jacobian},
+In Section~\ref{sec:hbm}, we describe our hierarchical Bayesian framework. 
+In Section~\ref{sec:datq}, we apply our framework to observed exoplanetary systems.
+
+\section{Transformation between the $\psi$ and $\lambda$ distributions}\label{sec:jacobian}
 
 \begin{figure*}[ht!]
     \script{coord_psi.py}
@@ -75,13 +86,6 @@ In this work, we find an approach to infer $\psi$ distribution from $\lambda$ di
     \caption{Two coordinate systems to describe the stellar spin axis $\bf{n}_{\star}$ and the planet's orbital axis $\bf{n}_{\rm orb}$.}
     \label{fig:coord}
 \end{figure*}
-
-In this work, we build a hierarchical Bayesian framework to constrain the stellar obliquity distribution of exoplanetary systems, particularly of misaligned systems.
-In Section~\ref{sec:jacobian}
-In Section~\ref{sec:hbm}, we describe our hierarchical Bayesian framework and show inferred stellar obliquity distributions. 
-In Section~\ref{sec:application}, we apply our framework to observed exoplanetary systems.
-
-\section{Transformation between the $\psi$ and $\lambda$ distributions}\label{sec:jacobian}
 
 For any given $\bf{n}_{\rm orb}$ axis, if $\bf{n}_{\star}$ is a random vector with uniform distribution on a three-dimensional sphere, i.e., $\bf{n}_{\star}$ is isotropically distributed, the probability distribution of $\psi$ follows $p_{\psi} \sim \sin{\psi}$. Since $p_{\cos{\psi}} = p_{\psi} \abs{\dv*{\psi}{\cos{\psi}}}$, $p_{\cos{\psi}}$ is uniformly distributed between $-1$ and $1$. If the stellar obliquity instead has some preferred angles, the $\cos{\psi}$ distribution will present concentrations at certain values.
 
@@ -125,7 +129,7 @@ We note that we could not infer $\psi$ from $\lambda$ and $\theta$ since they ar
 \end{figure*}
 
 
-\section{Hierarchical Bayesian Framework} \label{sec:hbm}
+\section{Hierarchical Bayesian Framework}\label{sec:hbm}
 
 \begin{figure}[ht!]
     \script{graph.py}
@@ -245,9 +249,9 @@ The bias introduced by the sample is significant enough to produce the clusterin
 \subsection{Hyperpriors}
 We also test the robustness of $\cos{\psi}$ distribution on different hyperprior choices \citep[see a nice summary in][]{Nagpal22}. We use different hyperprior distributions, including uniform distributions, log uniform distributions, and truncated Normal distributions. In all hyperprior distributions, the clustering of perpendicular planets in the observed-$i_\star$ sample is found, and such clustering is much weakened in the full sample.
 
-\section{Discussion} \label{sec:discussion}
+\section{Application to Data \& Discussion}\label{sec:data}
 
-\cite{Albrecht21} inferred the 3D stellar obliquities of a sample of stars that have both sky-projected stellar obliquity and stellar inclination constraints. They found while the majority of planets have a small $\psi$, misaligned planets have $\psi$ clustered between 80--125$\degr$. Furthermore, the $\cos{\psi}$ distribution of misaligned systems is not uniformly distributed but clusters near 0, suggesting the stellar spin axis is not isotropically distributed around the planetary orbital axis.
+\cite{Albrecht21} inferred the 3D stellar obliquities of a sample of stars that have both sky-projected stellar obliquity and stellar inclination constraints. They found while the majority of planets have a small $\psi$, misaligned planets have $\psi$ clustered between 80--125$\degr$. Furthermore, the $\cos{\psi}$ distribution of misaligned systems is not uniformly distributed, but clusters near 0, suggesting the stellar spin axis is not isotropically distributed around the planetary orbital axis.
 
 The stellar obliquity distribution of exoplanetary systems can be inferred purely from their sky-projected stellar obliquity distribution. When we apply our framework to all systems with $\lambda$ measurements, we find misaligned systems have nearly isotropic stellar obliquity distribution. We compare the inferred distribution from the observation to the prediction of mutual inclination of different eccentricity excitation mechanisms of Hot Jupiters. It is in best agreement with the outcome of the scattering of multiple giant planets after a convergent disk migration \citep{Beague12}.
 
