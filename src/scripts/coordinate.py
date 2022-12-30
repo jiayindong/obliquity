@@ -28,9 +28,19 @@ z = np.outer(np.ones(np.size(u)), np.cos(v))
 
 #Plot the surface
 ax.plot_surface(x, y, z, rstride=4, cstride=4, color='b', linewidth=0, alpha=0.1)
+# ax.plot_wireframe(x, y, z, rstride=180, cstride=180, color='#e5e1e0', alpha=0.5)
 
-elev = 10.0
-rot = 60.0 / 180 * np.pi
+# u = np.linspace(0, 2 * np.pi, 500)
+# v = np.linspace(0, np.pi, 500)
+
+# x = 1 * np.outer(np.cos(u), np.sin(v))
+# y = 1 * np.outer(np.sin(u), np.sin(v))
+# z = 1 * np.outer(np.ones(np.size(u)), np.cos(v))
+#for i in range(2):
+#    ax.plot_surface(x+random.randint(-5,5), y+random.randint(-5,5), z+random.randint(-5,5),  rstride=4, cstride=4, color='b', linewidth=0, alpha=0.5)
+elev = 20.0
+rot = 30.0 / 180 * np.pi
+# ax.plot_surface(x, y, z,  rstride=4, cstride=4, color='w', linewidth=0, alpha=0.3)
 
 #calculate vectors for "vertical" circle
 a = np.array([-np.sin(elev / 180 * np.pi), 0, np.cos(elev / 180 * np.pi)])
@@ -48,11 +58,11 @@ ax.plot(a[0] * np.sin(vert_front) + b[0] * np.cos(vert_front), b[1] * np.cos(ver
         color='k',lw=1)
 
 
-ax.quiver(0, 0, 0, 1.4, 0, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # x-axis
+ax.quiver(0, 0, 0, 1.8, 0, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # x-axis
 ax.quiver(0, 0, 0, 0, 1.5, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # y-axis
 ax.quiver(0, 0, 0, 0, 0, 1.5, color='k', arrow_length_ratio=0.05, lw=1.5) # z-axis
 
-ax.text(1.7, 0, -0.05, r'$\textbf{Obs}$',fontsize=12)
+ax.text(2.1, 0, -0.05, r'$\textbf{Obs}$',fontsize=12)
 ax.text(0, 0, 1.55, r"$\vb*{n}_{\textbf{orb}}$",fontsize=14)
 
 # make the panes transparent
@@ -65,72 +75,95 @@ ax.yaxis._axinfo["grid"]['color'] =  (1,1,1,0)
 ax.zaxis._axinfo["grid"]['color'] =  (1,1,1,0)
 
 
-i = 40*np.pi/180
-lam = 40*np.pi/180
-u = np.cos(i)
-v = np.sin(i)*np.sin(lam)
-w = np.sin(i)*np.cos(lam)
+psi = 45*np.pi/180
+phi = np.linspace(-np.pi/2,np.pi/2,1000)
+x = np.cos(phi)*np.sin(psi)
+y = np.sin(phi)*np.sin(psi)
+z = np.cos(psi)
+ax.plot(x,y,z,c='grey')
 
-ax.quiver(0,0,0,u,v,w,color='k', arrow_length_ratio=0.1, lw=1.5, normalize=True)
-
-
-i = np.arccos(u)
-lam = np.linspace(-np.pi,np.pi,1000)
-x = np.cos(i)*np.ones(len(lam))
-y = np.sin(i)*np.sin(lam)
-z = np.sin(i)*np.cos(lam)
+psi = 45*np.pi/180
+phi = np.linspace(np.pi/2,3*np.pi/2,1000)
+x = np.cos(phi)*np.sin(psi)
+y = np.sin(phi)*np.sin(psi)
+z = np.cos(psi)
 ax.plot(x,y,z,c='grey')
 
 
-ax.quiver(0,0,0,0,v,w, color='k', arrow_length_ratio=0., lw=1.2, ls='--')
-ax.quiver(0,v,w,u,0,0, color='k', arrow_length_ratio=0., lw=1.2, ls='--')
+# num = 13
+# psi = 45*np.pi/180
+# phi = np.linspace(-np.pi,np.pi,num)
+# u = np.cos(phi)*np.sin(psi)
+# v = np.sin(phi)*np.sin(psi)
+# w = np.cos(psi)
+
+# x = np.zeros(num)
+# y = np.zeros(num)
+# z = np.zeros(num)
+
+# ax.quiver(x,y,z,u,v,w, color='grey', arrow_length_ratio=0.08, lw=1.2)
+
+# num = 9
+# psi = 45*np.pi/180
+# phi = np.linspace(np.pi/2,3*np.pi/2,num)
+# u = np.cos(phi)*np.sin(psi)
+# v = np.sin(phi)*np.sin(psi)
+# w = np.cos(psi)
+
+# x = np.zeros(num)
+# y = np.zeros(num)
+# z = np.zeros(num)
+
+# ax.quiver(x,y,z,u,v,w, color='grey', arrow_length_ratio=0.08, lw=1.2)
+
+psi = 45*np.pi/180
+phi = 60*np.pi/180
+u = np.cos(phi)*np.sin(psi)
+v = np.sin(phi)*np.sin(psi)
+w = np.cos(psi)
+ax.quiver(0,0,0,u,v,w,color='k', arrow_length_ratio=0.1, lw=1.5, normalize=True)
+
+ax.quiver(0,0,0,u,v,0, color='k', arrow_length_ratio=0., lw=1.2, ls='--')
+ax.quiver(u,v,0,0,0,w, color='k', arrow_length_ratio=0., lw=1.2, ls='--')
 
 
-# psi = 90*np.pi/180
-# phi = np.linspace(0,60*np.pi/180,100)
-# x = np.cos(phi)*np.sin(psi)*1/4
-# y = np.sin(phi)*np.sin(psi)*1/4
-# z = np.cos(psi)*1/4
-
-
-i = np.linspace(0,40*np.pi/180,100)
-lam = 40*np.pi/180
-r = np.linspace(1/6,1/4,100)
-x = np.cos(i)*r
-y = np.sin(i)*np.sin(lam)*r
-z = np.sin(i)*np.cos(lam)*r
+psi = 90*np.pi/180
+phi = np.linspace(0,60*np.pi/180,100)
+x = np.cos(phi)*np.sin(psi)*1/4
+y = np.sin(phi)*np.sin(psi)*1/4
+z = np.cos(psi)*1/4
 ax.plot(x,y,z,c='k',lw=1.2)
 
 
-i = np.pi/2
-lam = np.linspace(0,40*np.pi/180,100)
-r = np.linspace(1/5,2/7,100)
-x = np.cos(i)*r
-y = np.sin(i)*np.sin(lam)*r
-z = np.sin(i)*np.cos(lam)*r
+
+psi = np.linspace(0,55*np.pi/180,100)
+phi = 45*np.pi/180
+r = np.linspace(1/6,1/3,100)
+x = np.cos(phi)*np.sin(psi)*r
+y = np.sin(phi)*np.sin(psi)*r
+z = np.cos(psi)*r
 ax.plot(x,y,z,c='k',lw=1.2)
 
 
-# ax.text(1.15,1.1, 0.7, r"$\vb*{n_{\star}}$",fontsize=14)
-ax.text(0.8,0.4, 0.6, r"$\vb*{n_{\star}}$",fontsize=14)
+ax.text(0.9,1., 0.83, r"$\vb*{n_{\star}}$",fontsize=14)
 
-
-ax.text(0,0.01,0.25, r"$\vb*{\lambda}$",fontsize=14)
-ax.text(0.35,0,0.05, r"$\vb*{i_\star}$",fontsize=14)
+ax.text(-1.25,-0.8,-0.78, r"$\vb*{\theta}$",fontsize=14)
+ax.text(1.2,0.72,0.71, r"$\vb*{\psi}$",fontsize=14)
 
 
 # Set an equal aspect ratio
 ax.set_aspect('equal')
 
-ax.view_init(elev=10., azim=60, roll=0)
+ax.view_init(elev=20., azim=30, roll=0)
 
 ax.set_axis_off()
 
 plt.tight_layout()
 
-plt.savefig(paths.figures / "coord_lam.pdf", bbox_inches="tight", dpi=600)
+plt.savefig(paths.figures / "coord_psi.pdf", bbox_inches="tight", dpi=600)
 
 plt.close()
+
 
 
 
@@ -260,7 +293,7 @@ ax.set_axis_off()
 
 plt.tight_layout()
 
-plt.savefig(paths.figures / "coord_psi.pdf", bbox_inches="tight", dpi=600)
+plt.savefig(paths.figures / "coord_lam.pdf", bbox_inches="tight", dpi=600)
 
 plt.close()
 
