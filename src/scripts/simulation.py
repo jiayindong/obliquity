@@ -80,7 +80,7 @@ def posteriors(this_model):
         # logl for λ
         logl_λ = pm.Normal('logl_λ', mu=λ, sigma=err_lam, observed=obs_lam)
 
-        logi = pm.Normal('logl_i', mu=i, sigma=err_istar, observed=obs_istar)
+        logl_i = pm.Normal('logl_i', mu=i, sigma=err_istar, observed=obs_istar)
 
         hyper = pm.Potential("hyper", pm.logp(pm.Beta.dist(a,b), (cosψ+1)/2))
 
@@ -112,19 +112,19 @@ def posteriors(this_model):
 
         noistar_idata = pm.sample()
         
-        post = istar_idata.posterior
-        istar_draws = np.zeros(shape=(len(x),4000))
-        for a in range(4):
-            for b in range(1000):
-                istar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
+    post = istar_idata.posterior
+    istar_draws = np.zeros(shape=(len(x),4000))
+    for a in range(4):
+        for b in range(1000):
+            istar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
 
-        post = noistar_idata.posterior
-        noistar_draws = np.zeros(shape=(len(x),4000))
-        for a in range(4):
-            for b in range(1000):
-                noistar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
+    post = noistar_idata.posterior
+    noistar_draws = np.zeros(shape=(len(x),4000))
+    for a in range(4):
+        for b in range(1000):
+            noistar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
 
-        return istar_draws, noistar_draws
+    return istar_draws, noistar_draws
 
 
 ### PyMC models ###
