@@ -29,7 +29,7 @@ pgm.add_node("lambda", r"$\lambda_n$", 1., 1.5)
 
 pgm.add_node("istar", r"$i_{\star,n}$", 3., 1.5)
 
-pgm.add_node("pstar", r"$\theta_{\star,n}$", 4., 1.5)
+pgm.add_node("pstar", r"$\gamma_{\star,n}$", 4., 1.5)
 
 
 pgm.add_edge("beta", "psi")
