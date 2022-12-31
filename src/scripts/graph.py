@@ -54,8 +54,8 @@ pgm.add_edge("pstar", "Obs", plot_params={'ls':''})
 pgm.add_edge("istar", "Obs", plot_params=dict(ls=(0, (2, 2)),head_width=0,head_length=0))
 pgm.add_edge("istar", "Obs", plot_params={'ls':''})
 
-pgm.add_edge("lambda", "Obs", plot_params=dict(ls=(0, (2, 2)),head_width=0,head_length=0))
-pgm.add_edge("lambda", "Obs", plot_params={'ls':''})
+# pgm.add_edge("lambda", "Obs", plot_params=dict(ls=(0, (2, 2)),head_width=0,head_length=0))
+# pgm.add_edge("lambda", "Obs", plot_params={'ls':''})
 
 # pgm.add_edge("pstar", "obs_pstar", plot_params=dict(ls=(0, (2, 2)),head_width=0,head_length=0))
 # pgm.add_edge("pstar", "obs_pstar", plot_params={'ls':''})
