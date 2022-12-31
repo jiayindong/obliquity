@@ -46,10 +46,14 @@ for a in range(4):
 plt.figure(figsize=(3.5,2.7),dpi=110)
 
 q025, q16, q50, q84, q975 = np.percentile(all_randinc_draws, [2.5, 16, 50, 84, 97.5], axis=1)
-plt.plot(2*x-1, q50, color='#f56e4a')
+plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
+
+plt.plot(2*x-1, q50, color='C0', lw=1.2)
+plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
+plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
 plt.ylim([0,2])
 plt.xlim([-1,1])

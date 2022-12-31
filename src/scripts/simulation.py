@@ -249,9 +249,11 @@ if __name__ == '__main__':
     ax = fig.add_subplot(4,2,1)
             
     q025, q16, q50, q84, q975 = np.percentile(uni_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-    plt.plot(2*x-1, q50, color='C0', lw=1.2)
-    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
-    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
+
+    plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
+    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
+    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
+
 
     plt.ylim([0,1])
     plt.xlim([-1,1])
@@ -266,9 +268,9 @@ if __name__ == '__main__':
     ax = fig.add_subplot(4,2,2)
 
     q025, q16, q50, q84, q975 = np.percentile(uni_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-    plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
-    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
-    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
+    plt.plot(2*x-1, q50, color='C0', lw=1.2)
+    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
+    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
     plt.ylim([0,1])
     plt.xlim([-1,1])
@@ -285,9 +287,9 @@ if __name__ == '__main__':
     ax = fig.add_subplot(4,2,3)
             
     q025, q16, q50, q84, q975 = np.percentile(norm1_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-    plt.plot(2*x-1, q50, color='C0', lw=1.2)
-    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
-    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
+    plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
+    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
+    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
     plt.ylim([0,2.1])
     plt.xlim([-1,1])
@@ -302,9 +304,9 @@ if __name__ == '__main__':
     ax = fig.add_subplot(4,2,4)
 
     q025, q16, q50, q84, q975 = np.percentile(norm1_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-    plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
-    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
-    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
+    plt.plot(2*x-1, q50, color='C0', lw=1.2)
+    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
+    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
     plt.ylim([0,2.1])
     plt.xlim([-1,1])
@@ -321,9 +323,9 @@ if __name__ == '__main__':
     ax = fig.add_subplot(4,2,5)
             
     q025, q16, q50, q84, q975 = np.percentile(norm2_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-    plt.plot(2*x-1, q50, color='C0', lw=1.2)
-    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
-    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
+    plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
+    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
+    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
     plt.ylim([0,2.1])
     plt.xlim([-1,1])
@@ -338,9 +340,9 @@ if __name__ == '__main__':
     ax = fig.add_subplot(4,2,6)
 
     q025, q16, q50, q84, q975 = np.percentile(norm2_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-    plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
-    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
-    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
+    plt.plot(2*x-1, q50, color='C0', lw=1.2)
+    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
+    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
     plt.ylim([0,2.1])
     plt.xlim([-1,1])
@@ -357,9 +359,9 @@ if __name__ == '__main__':
     ax = fig.add_subplot(4,2,7)
             
     q025, q16, q50, q84, q975 = np.percentile(norm3_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-    plt.plot(2*x-1, q50, color='C0', lw=1.2)
-    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
-    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
+    plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
+    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
+    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
     plt.ylim([0,2.1])
     plt.xlim([-1,1])
@@ -374,9 +376,10 @@ if __name__ == '__main__':
     ax = fig.add_subplot(4,2,8)
 
     q025, q16, q50, q84, q975 = np.percentile(norm3_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-    plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
-    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
-    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
+    plt.plot(2*x-1, q50, color='C0', lw=1.2)
+    plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
+    plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
+
 
     plt.ylim([0,2.1])
     plt.xlim([-1,1])
