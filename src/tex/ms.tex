@@ -226,15 +226,6 @@ It was surprising that the inferred $\cos{\psi}$ distribution of the observed-$i
 
 We find the underlying $\lambda$ distributions of the observed-$i_\star$ sample and the full sample by building another hierarchical Bayesian model. We again use a two-component mixture Beta distribution to describe well-aligned and misaligned systems. We extend the Beta distribution support from $[0,1]$ to $[0,\pi]$ by multiplying the distribution by $\pi$. We use the observed $\lambda$ and uncertainties for the likelihoods. Figure~\ref{fig:lam_dist} shows the $\lambda$ distributions of two samples. It clearly shows that in the observed-$i_\star$ sample, misaligned systems are clustered at $\sim 110\degr$, whereas in the full sample, misaligned systems are nearly uniformly distributed. 
 
-\begin{figure*}[ht!]
-    \script{lam_dist.py}
-    \begin{centering}
-        \includegraphics{figures/lam_dist.pdf}
-        \caption{The distributions of sky-projected stellar obliquity ($\lambda$) of the \numistar systems that have both sky-projected stellar obliquity $\lambda$ and stellar inclination $i_\star$ measurements (left panel) and all \numall systems that have sky-projected stellar obliquity measurements. The observed-$i_\star$ has a cluster of systems near $110\degr$, whereas such clustering is not found in the all-system distribution.}
-        \label{fig:lam_dist}
-    \end{centering}
-\end{figure*}
-
 One plausible explanation for the disparity between the two distributions is their small sample sizes. In the measured-$i_\star$ sample, only $21$ systems are misaligned  (i.e., $\lambda > 30\degr$), and in the full sample, $51$ systems are misaligned. It is likely that the 21 samples could not yet represent the population $\psi$ distribution. 
 
 Furthermore, the measured-$i_\star$ sample could be biased towards perpendicular planets. Misaligned systems are often found around hot stars. However, to measure the inclinations of hot stars, the most prolific inclination measurement method, the rotational modulation method, is no longer applicable to hot stars due to their lack of starspots. Instead, the gravity-darkening method is often used. The method, however, could be biased since it only detects planets transiting across stellar disks with large brightness variations (i.e., planet crossing the stellar poles or perpendicular planets). In the measured-$i_\star$ sample, $6/21$ systems have stellar inclinations constrained via gravity darkening. All six planets are misaligned and have nearly polar orbits: 
