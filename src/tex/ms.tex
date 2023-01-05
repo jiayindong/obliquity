@@ -6,6 +6,7 @@
 \usepackage{amssymb}
 \usepackage{bm}
 \usepackage{physics}
+\usepackage[super]{nth}
 
 \newcommand{\numistar}{62\xspace}
 \newcommand{\numall}{161\xspace}
@@ -40,9 +41,9 @@
 \begin{abstract}
 
 Stellar obliquity $\psi$, the angle between a planet's orbital axis and its host star's spin axis, traces the formation environment and dynamical evolution of a planetary system. In exoplanet observations, only the sky-projected stellar obliquity $\lambda$ can be measured. To find the true stellar obliquity, information about the stellar inclination $i_\star$ is required.
-Here we show that, while it is important to know the stellar inclination to tightly constrain the stellar obliquity of an individual system, the stellar inclination is not necessarily required for the population stellar obliquity inference. Stellar obliquity distribution can be inferred purely from sky-projected stellar obliquities.
-We introduce a flexible, hierarchical Bayesian framework to infer the stellar obliquity distribution of exoplanetary systems from their projected stellar obliquities, stellar inclinations, or both.
-Applying the framework to all systems with projected stellar obliquity measurements, which are mostly Hot Jupiter systems, we find that the stellar obliquity distribution is unimodal and peaked at zero degrees. Misaligned systems have nearly isotropic stellar obliquity distribution, at odds with previous observations.
+Here we show that, while it is important to know the stellar inclination to tightly constrain the stellar obliquity of an individual system, the stellar inclination is not necessarily required for the population stellar obliquity inference. The constraint on stellar obliquity distribution is predominantly based on sky-projected stellar obliquities.
+We introduce a flexible, hierarchical Bayesian framework to infer the stellar obliquity distribution of exoplanetary systems from their sky-projected stellar obliquities, stellar inclinations, or both.
+Applying the framework to all systems with projected stellar obliquity measurements, which are mostly Hot Jupiter systems, we find that the stellar obliquity distribution is unimodal and peaked at zero degrees. Misaligned systems have nearly isotropic stellar obliquities, at odds with the analysis of systems that also have $i_\star$ measurements.
 
 \end{abstract}
 
@@ -51,40 +52,45 @@ Applying the framework to all systems with projected stellar obliquity measureme
 \label{sec:intro}
 
 Stellar obliquity $\psi$ describes the angle between a planet's orbital axis $\bf{n}_{\rm orb}$ and its host star's spin axis $\bf{n}_{\star}$. 
-The angle is an important trace of the formation environment and dynamical evolution of a planetary system. The stellar obliquity evolution can be summarized into three phases. First, the formation and evolution of a protoplanetary disk around its host star determine the primordial stellar obliquity. Second, post-formation dynamical evolution in the planetary system excites the mutual inclinations between planets or stellar companions and further sculpts the stellar obliquity. Lastly, tidal realignment of the host star's spin axis to the planet's orbital axis could reduce the stellar obliquity, if the process is efficient.
+The angle is an important tracer of the formation environment and dynamical evolution of a planetary system. Stellar obliquity evolution can be roughly summarized into three stages. First, the formation and evolution of a protoplanetary disk around its host star determine the primordial stellar obliquity. Second, post-formation dynamical evolution in the planetary system, such as planet-planet scattering or von Zeipel-Kozai-Lidov mechanisms, excites the mutual inclinations between planetary or stellar companions, further sculpting the stellar obliquity. Lastly, tidal realignment of the host star's spin axis to the planet's orbital axis could reduce the stellar obliquity, if the stellar tidal dissipation is efficient.
 
-In reality, only the sky-projected stellar obliquity $\lambda$, the angle between the projections of $\bf{n}_{\rm orb}$ and $\bf{n}_{\star}$ onto the plane of the sky, can be measured. Stellar obliquity $\psi$ can be derived if the stellar inclination $i_\star$ is also known. The calculation follows \citep[e.g.,][]{Fabrycky09}:
+While observed aligned systems could have different original stellar obliquities because of the tidal realignment, the excitation of stellar obliquities can only be the outcome of the primordial protoplanetary disk misalignment and post-formation dynamical interactions. Recent stellar obliquity measurements on Warm Jupiter systems with large planet-star separations and systems that are still at young ages both find a tendency of system alignment. If the trend holds as more observations coming up, it could suggest that the primordial stellar obliquity is quite low. Stellar obliquities of misaligned systems could then be linked to the dynamical processes that result in the current orbit of close-in planets. With that in mind, we aim to build a statistical model to characterize the stellar obliquity distribution of exoplanetary systems in misalignment to be compared with theoretical predictions.
+
+In reality, only the sky-projected stellar obliquity $\lambda$, the angle between the projections of $\bf{n}_{\rm orb}$ and $\bf{n}_{\star}$ onto the plane of the sky, can be measured. Stellar obliquity $\psi$ can be found if the stellar inclination $i_\star$ is known. The calculation follows \citep[e.g.,][]{Fabrycky09}:
 \begin{equation}\label{eqn:psi}
     \cos{\psi} = \sin{i_\star}\sin{i_{\rm orb}}\cos{\lambda} + \cos{i_\star}\cos{i_{\rm orb}},
 \end{equation}
 where $i_{\rm orb}$ is the angle between the vector $\bf{n}_{\rm orb}$ and the observer's line of sight, and $i_\star$ is the angle between $\bf{n}_{\star}$ and the observer's line of sight.
+Since we are discussing transiting exoplanet systems where $i_{\rm orb} \approx 90\degr$, $\cos{\psi} \approx \sin{i_\star}\cos{\lambda}$.
+
 The stellar inclination can often be constrained via, e.g., photometric and spectroscopic rotational modulation introduced by starspots, gravity darkening, and asteroseismology. Since the stellar inclination measurement is degenerate between $i_\star$ and $180\degr - i_\star$, $i_\star$ is usually assumed to be less than $90\degr$.
-Since the sky-projected stellar obliquities can be measured only on transiting exoplanet systems where $i_{\rm orb} \approx 90\degr$, $\cos{\psi} \approx \sin{i_\star}\cos{\lambda}$.
+For systems without $i_\star$ measurements, it is still possible to infer their stellar obliquities from the sky-projected obliquities, assuming isotropic stellar inclinations. The inferred $\psi$ will have a larger uncertainty compared to the one inferred with known $i_\star$ \citep{Fabrycky09}.
 
-Stellar obliquity is important to understand; however, not all systems have a stellar inclination measurement.
-For systems without measured $i_\star$, it is still possible to infer the stellar obliquity $\psi$ from the sky-projected obliquity $\lambda$ by assuming the stellar inclination $i_\star$ follows the isotropic distribution, although results in a larger uncertainty on $\psi$ \citep{Fabrycky09}.
+It is not yet clear how does the stellar inclination measurement affect the inference of the stellar obliquity distribution of a population. 
+In this work, we propose an approach to infer $\psi$ distribution from $\lambda$ distribution and show that the stellar obliquity distribution inference only weakly depends on stellar inclination.
+In Section~\ref{sec:jacobian}, we present the Jacobian transformation between the stellar obliquity distribution, the sky-projected stellar obliquity distribution, and the stellar inclination distribution with or without measured $i_\star$.
+In Section~\ref{sec:hbm}, we introduce a flexible, hierarchical Bayesian framework to infer the population stellar obliquity distribution.
+In Section~\ref{sec:data}, we apply the framework to all exoplanetary systems with measured sky-projected obliquity.
 
-In this work, we extend the inference of stellar obliquity to a population. We identify an approach to infer $\psi$ distribution from $\lambda$ distribution and show that a similar constraint can be reached with or without stellar inclination measurement.
-In Section~\ref{sec:jacobian}, we present the transformation between the stellar obliquity distribution and the sky-projected stellar obliquity distribution.
-In Section~\ref{sec:hbm}, we introduce a hierarchical Bayesian framework to infer the population stellar obliquity distribution. 
-And lastly, in Section~\ref{sec:data}, we apply our framework to all exoplanetary systems with measured sky-projected obliquity.
+\section{Transformation between the $\psi$, $\lambda$, and \lowercase{$i_\star$} distributions}\label{sec:jacobian}
 
 \begin{figure*}[ht!]
     \script{coordinate.py}
     \gridline{
-        \fig{figures/coord_psi.pdf}{0.45\textwidth}{\vspace*{-1.8cm}(a) The $\{\psi, \theta\}$ coordinate system. The grey circle corresponds to a constant $\psi$ value.}
-        \fig{figures/coord_lam.pdf}{0.45\textwidth}{\vspace*{-1.8cm}(b) The $\{\lambda, i_\star\}$ coordinate system. The grey circle corresponds to a constant $i_\star$ value.}
+        \fig{figures/coord_psi.pdf}{0.45\textwidth}{\vspace*{-1.8cm}(a) The $\{\psi, \theta\}$ coordinate system. The grey circle corresponds to a constant $\psi$ value and its circumference is proportional to $\sin{\psi}$.}
+        \fig{figures/coord_lam.pdf}{0.45\textwidth}{\vspace*{-1.8cm}(b) The $\{\lambda, i_\star\}$ coordinate system. The grey circle corresponds to a constant $i_\star$ value and its circumference is proportional to $\sin{i_\star}$.}
     }
     \vspace*{-1.5cm}
-    \caption{Two coordinate systems to describe the stellar spin axis $\bf{n}_{\star}$ and the planet's orbital axis $\bf{n}_{\rm orb}$. Here we define the observer's line of sight as one of the two horizontal axes, and the orbital axis of the planet as the vertical axis. We approximate the orbital inclination to $90\degr$.}
+    \caption{Two coordinate systems to describe the stellar spin axis $\bf{n}_{\star}$ and the planet's orbital axis $\bf{n}_{\rm orb}$. Here we define the observer's line of sight as one of the two horizontal axes (conventional $x$-axis in Cartesian), and the orbital axis of the planet as the vertical axis (conventional $z$-axis in Cartesian). We approximate the orbital inclination of the planet to $90\degr$.}
     \label{fig:coord}
 \end{figure*}
 
-\section{Transformation between the $\psi$ and $\lambda$ distributions}\label{sec:jacobian}
+Stellar obliquity $\psi$ is the angle between a planet's orbital axis $\bf{n}_{\rm orb}$ and its host star's spin axis $\bf{n}_{\star}$. In Figure~\ref{fig:coord}, we build two coordinate systems to describe the stellar spin axis $\bf{n}_{\star}$ for a given orbital axis $\bf{n}_{\rm orb}$. In both coordinates, we set the observer's line of sight to be one of the two horizontal axes, and the orbital axis of the planet to be the vertical axis. We approximate the orbital inclination of the transiting planet to $90\degr$ here and in the rest of the work to simplify the problem for population study. If the orbital inclination deviates from $90\degr$, $\bf{n}_{\rm orb}$ instead of being the vertical axis needs to be rotated $\pm (90\degr-i_{\rm orb})$ along the line of sight. 
 
-For any given $\bf{n}_{\rm orb}$ axis, if $\bf{n}_{\star}$ is a random vector with uniform distribution on a three-dimensional sphere, i.e., $\bf{n}_{\star}$ is isotropically distributed, the probability distribution of $\psi$ follows $p_{\psi} \sim \sin{\psi}$. Since $p_{\cos{\psi}} = p_{\psi} \abs{\dv*{\psi}{\cos{\psi}}}$, $p_{\cos{\psi}}$ is uniformly distributed between $-1$ and $1$. If the stellar obliquity instead has some preferred angles, the $\cos{\psi}$ distribution will present concentrations at certain values.
+The $\{\psi, \theta\}$ coordinate system shown in panel (a) relates to physical properties of a planetary system. $\psi$ is the angle between the stellar spin axis and the planetary orbital axis and $\theta$ is the azimuthal angle of the stellar spin axis. For the given $\bf{n}_{\rm orb}$ axis, if $\bf{n}_{\star}$ is a random vector with uniform distribution on a three-dimensional sphere, i.e., $\bf{n}_{\star}$ is isotropically distributed, the probability distribution of $\psi$ follows $p_{\psi} \sim \sin{\psi}$ and $p_\theta \sim 1/2\pi$. Since $p_{\cos{\psi}} = p_{\psi} \abs{\dv*{\psi}{\cos{\psi}}}$, $p_{\cos{\psi}}$ is uniformly distributed between $-1$ and $1$ for isotropic stellar obliquity.
+The $\{\lambda, i_\star\}$ coordinate system shown in panel (b) relates to observed properties. $\lambda$ is the sky-projected stellar obliquity and $i_\star$ is the stellar inclination. If $\bf{n}_{\star}$ is isotropically distributed, $p_{i_\star} \sim \sin{i_\star}$ and $p_\lambda \sim 1/2\pi$. Again, since $p_{\cos{i_\star}} = p_{i_\star} \abs{\dv*{i_\star}{\cos{i_\star}}}$, $p_{\cos{i_\star}}$ is uniformly distributed between $-1$ and $1$. Because of the observational degeneracy between $i_\star$ and $180\degr - i_\star$, the convention is to have $0 \leq i_\star \leq 90\degr$, and thus $p_{\cos{i_\star}}$ is uniformly distributed between $0$ and $1$ (i.e., $p_{\cos{i_\star}} \sim 1$). This also limits $\theta$ to $[-\pi/2, \pi/2]$. 
 
-Given a certain $\psi$ distribution, the $\lambda$ and $i_\star$ are no longer randomly/isotropically distributed. We first find relations between $\{\psi, \theta\}$ and $\{\lambda, i_\star\}$, where $\theta$ is the azimuthal angle of the stellar spin axis, as shown in Figure~\ref{fig:coord}. We transform $\bf{n}_{\star}$ in two coordinate systems to Cartesian, pair their terms, and get:
+We could find the mathematical relations between $\{\psi, \theta\}$ and $\{\lambda, i_\star\}$ by pairing the Cartesian components of $\bf{n}_{\star}$ in two coordinate systems:
 \begin{align}
     \sin{\psi}\cos{\theta} = \cos{i_\star}& \label{eq:coord1}\\
     \sin{\psi}\sin{\theta} = \sin{\lambda}\sin{i_\star}& \label{eq:coord2}\\
@@ -92,49 +98,58 @@ Given a certain $\psi$ distribution, the $\lambda$ and $i_\star$ are no longer r
 \end{align}
 Thus, $i_\star = \cos[-1](\sin{\psi}\cos{\theta})$ and $\lambda = \tan[-1](\tan{\psi}\sin{\theta})$. 
 
-First, we find the $\lambda$ distribution for a given $\cos{\psi}$ distribution. If the stellar obliquity is isotropically distributed, the $\cos{\psi}$ distribution will be uniform, and the $\lambda$ distribution will also be uniform. If the stellar obliquity has preferred angles, i.e., the $\cos{\psi}$ distribution will have concentrations, what will be the corresponding $\lambda$ distribution? We first find the distribution of $\cos{\lambda}$ using the Jacobian transformation from $\cos{\psi}$. Replacing $\sin{i_\star}$ in Equation~(\ref{eq:coord3}) with Equation~(\ref{eq:coord1}), we find $\cos{\lambda} = \cos{\psi}/\sqrt{1-(1-\cos^2{\psi})\cos^2{\theta}}$. Reorganize the equation, and we also get $\cos^2{\psi} = \frac{\cos^2{\lambda}\cos^2{\theta}-\cos^2{\lambda}}{\cos^2{\lambda}\cos^2{\theta}-1}$.
-The distribution transformation follows
+First, we derive the $\lambda$ distribution for a given $\cos{\psi}$ distribution. We could find the distribution of $\cos{\lambda}$ using the Jacobian transformation from $\cos{\psi}$ and $\cos{\theta}$. Since $\psi$ and $\theta$ are independent variables, we could marginalize over $\theta$ to find the relation between the probability density functions between $\lambda$ and $\psi$.
+The Jacobian transformation follows
 \begin{equation}
     p_{\cos{\lambda}} = 2 \int_{0}^{1} \abs{\pdv{\cos{\psi}}{\cos{\lambda}}} p_{\cos{\psi}} p_{\cos{\theta}} d\cos{\theta}.
 \end{equation}
-We have $\abs{\pdv{\cos{\psi}}{\cos{\lambda}}} = \frac{(1-\cos^2{\theta})^{1/2}}{(1-\cos^2{\theta}\cos^2{\lambda})^{3/2}}$. Assuming $\theta$ is uniformly distributed between $-\pi/2$ and $\pi/2$\footnote{The $\theta$ is defined between $-\pi/2$ and $\pi/2$ since we limit $0 \leq i_\star \leq \pi/2$.}, $p_{\cos{\theta}} = p_{\theta} \abs{\dv*{\theta}{\cos{\theta}}} = 1/\pi/(1-\cos^2{\theta)^{1/2}}$. Combining all the parts together, we get
-\begin{equation}\label{eqn:jac}
+Replacing $\sin{i_\star}$ in Equation~(\ref{eq:coord3}) with Equation~(\ref{eq:coord1}), we find $\cos{\lambda} = \cos{\psi}/\sqrt{1-(1-\cos^2{\psi})\cos^2{\theta}}$. Reorganize the equation, we get $\cos^2{\psi} = \frac{\cos^2{\lambda}\cos^2{\theta}-\cos^2{\lambda}}{\cos^2{\lambda}\cos^2{\theta}-1}$.
+The derivative gives $\abs{\pdv{\cos{\psi}}{\cos{\lambda}}} = \frac{(1-\cos^2{\theta})^{1/2}}{(1-\cos^2{\theta}\cos^2{\lambda})^{3/2}}$. If $\theta$ is uniformly distributed between $-\pi/2$ and $\pi/2$, $p_{\cos{\theta}} = p_{\theta} \abs{\dv*{\theta}{\cos{\theta}}} = 1/\pi/(1-\cos^2{\theta)^{1/2}}$. Putting all the parts together, we get
+\begin{equation}\label{eqn:jac_lam}
     p_{\cos{\lambda}} = \frac{2}{\pi} \int_{0}^{1} (1-\cos^2{\theta}\cos^2{\lambda})^{-3/2} p_{\cos{\psi}} d\cos{\theta}.
 \end{equation}
+If $\cos{\psi}$ is uniformly distribution, i.e., $p_{\cos{\psi}} = 1/2$, Equation~(\ref{eqn:jac_lam}) becomes $p_{\cos{\lambda}} = 1/\pi/\sqrt{1-\cos^2{\lambda}}$, which is equivalent to $p_\lambda = 1/\pi$. The $\lambda$ is uniformly distributed if an isotropic $\psi$. If $\cos{\psi}$ follows other distributions, $p_\lambda$ could be found by evaluating Equation~(\ref{eqn:jac_lam}) numerically.
 
-If $\cos{\psi}$ is uniformly distribution, i.e., $p_{\cos{\psi}} = 1/2$, the integral derives $p_{\cos{\lambda}} = 1/\pi/\sqrt{1-\cos^2{\lambda}}$, which is equivalent to $p_\lambda = 1/\pi$. The $\lambda$ is uniformly distributed. If $\cos{\psi}$ follows other distributions, we may integrate Equation~(\ref{eqn:jac}) numerically, find the $\cos{\lambda}$ distribution, and solve for the $\lambda$ distribution.
-
-Similarly, we could derive the distribution of $\cos{i_\star}$ for a given $\cos{\psi}$ distribution via the Jacobian transformation and marginalizing over $\cos{\theta}$. We begin with
+Next, we derive the $i_\star$ distribution for a given $\cos{\psi}$ distribution. Similarly, we first find the Jacobian transformation of $i_\star$ from $\psi$ and $\theta$ and then marginalize over $\theta$. It is easier to work on $\cos{i_\star}$ than $i_\star$:
 \begin{equation}
-    p_{\cos{i_\star}} = 4 \int_{0}^{1} \abs{\pdv{\sin{\psi}}{\cos{i_\star}}} p_{\sin{\psi}} p_{\cos{\theta}} d\cos{\theta},
+    p_{\cos{i_\star}} = 4 \int_{0}^{1} \abs{\pdv{\sin{\psi}}{\cos{i_\star}}} p_{\sin{\psi}} p_{\cos{\theta}} d\cos{\theta}.
 \end{equation}
-and from Equation(\ref{eq:coord1}), we find $\sin{\psi} = \cos{i_\star}/\cos{\theta}$ and $\abs{\pdv{\sin{\psi}}{\cos{i_\star}}} = 1/\cos{\theta}$. Similarly, we assume $\theta$ is uniformly distributed, and $p_{\cos{\theta}} = 1/\pi/(1-\cos^2{\theta)^{1/2}}$. Lastly, we transform the $p_{\sin{\psi}}$ to $p_{\cos{\psi}}$, where $p_{\sin{\psi}} = p_{\cos{\psi}}\sqrt{1-\cos^2{\psi}}/\cos{\psi}$. Combining all the pieces together, we get
-\begin{equation}
+From Equation~(\ref{eq:coord1}), we have $\sin{\psi} = \cos{i_\star}/\cos{\theta}$ and $\abs{\pdv{\sin{\psi}}{\cos{i_\star}}} = 1/\cos{\theta}$. Again, we assume $\theta$ is uniformly distributed, and $p_{\cos{\theta}} = 1/\pi/(1-\cos^2{\theta)^{1/2}}$. Lastly, we transform the $p_{\sin{\psi}}$ to $p_{\cos{\psi}}$, where $p_{\sin{\psi}} = p_{\cos{\psi}}\sqrt{1-\cos^2{\psi}}/\cos{\psi}$. Combining all the pieces together, we get
+\begin{equation}\label{eqn:jac_istar}
     p_{\cos{i_\star}} = \frac{4}{\pi} \int_{\cos{i_\star}}^{1} \frac{\cos{i_\star}/\cos{\theta}}{\sqrt{\cos^2{\theta}-\cos^2{i_\star}}} \frac{1}{\sqrt{1-\cos^2{\theta}}} p_{\cos{\psi}} d\cos{\theta}.
 \end{equation}
-If $\cos{\psi}$ is uniformly distribution, i.e., $p_{\cos{\psi}} = 1/2$, the integral gives $1$, which suggests the $\cos{i_\star}$ is uniform.
+If $\cos{\psi}$ is uniformly distribution, i.e., $p_{\cos{\psi}} = 1/2$, the integral gives $1$, which suggests the $\cos{i_\star}$ probability density function is uniform.
 
-We note that we could not infer $\psi$ from $\lambda$ and $\theta$ since they are not independent variables. Instead, we will have to infer $\psi$ from $\lambda$ and $i_\star$.
+From Equation~(\ref{eqn:jac_lam}) and (\ref{eqn:jac_istar}), we can now derive the $\lambda$ and $i_\star$ distributions for any given $\psi$ distributions, assuming the azimuthal angle of the stellar spin axis $\theta$ is random. In Figure~\ref{fig:transform}, we find and examine numerical solutions of the $\lambda$ and $i_\star$ distributions for four different $\cos{\psi}$ distributions. The first row in Figure~\ref{fig:transform} presents an isotropic $\psi$ where $\cos{\psi} \sim \mathcal{U}(-1,1)$, and the second to fourth rows in Figure~\ref{fig:transform} present Normal distributions of $\cos{\psi}$ following $\mathcal{N}(0,0.2)$, $\mathcal{N}(-0.4,0.2)$, and $\mathcal{N}(0.4,0.2)$, respectively. In each row, we solve the $\lambda$ and $i_\star$ distributions numerically as shown in blue curves, and samplings of $\lambda$ and $i_\star$ from $\cos{\psi}$ and $\theta$ distributions as shown in grey histograms. For an uniform $\cos{\psi}$ distribution, the $\lambda$ distribution is uniform and the $i_\star$ distribution is isotropic and proportional to $\sin{i_\star}$, as expected.
+
+Interestingly, for a given stellar obliquity distribution, the $\lambda$ distribution is sensitive to and closely related to the underlying $\psi$ distribution, as shown in Figure~\ref{fig:transform}. For different stellar obliquity distributions, the $\lambda$ distributions are distinguishable from each other and thus, when we infer the $\psi$ distribution from the $\lambda$ distribution, the solution will not be degenerate.
+On the other hand, the $i_\star$ distributions less depend on the underlying $\psi$ distribution. Compared to an isotropic $i_\star$ distribution, the $i_\star$ distributions for different $\psi$ distributions differ at the low values (i.e., $i_\star < \pi/4$), which places a challenge to observation. More importantly, since the $i_\star$ distributions are less sensitive to the underlying $\psi$ distributions, when we infer the $\psi$ distributions from the $i_\star$ distribution, the solution could be very degenerate.
+
+Due to the lack dependency on the $i_\star$ distribution, the $\psi$ distribution could be inferred purely from the $\lambda$ distribution without losing much information. We note that although we could find a relation between $\psi$, $\lambda$, and $\theta$, the $\psi$ distribution cannot be inferred from the $\lambda$ and $\theta$ distributions since $\lambda$ and $\theta$ are not independent variables. We will have to infer the $\psi$ distribution from the $\lambda$ and $i_\star$ distributions.
+In the \nth{4} column in Figure~\ref{fig:transform}, we find the $\psi$ distribution from the $\lambda$ distribution, simply assuming an isotropic $i_\star$ distribution. As shown in grey histograms, the method could correctly recover the peaks and widths of the underlying $\psi$ distributions (presented as blue dashed lines). The method over-predicts $\cos{\psi}$ at $\pm 1$ because of the over-prediction of $i_\star$ near $90\degr$. Later we show that this minor deviation from the true distribution has little impact on the population inference.
 
 \begin{figure*}[ht!]
     \script{transform.py}
     \includegraphics[width=\linewidth]{figures/transform.pdf}
-    \caption{Distribution transformations between the stellar obliquity $\cos{\psi}$ (1st column), sky-projected stellar obliquity $\lambda$ (2nd column), and stellar inclination $i_\star$ (3rd column). The inferred $\cos{\psi}$ assuming an isotropic stellar inclination is shown in the 4th column. Each row has a simulated $\cos{\psi}$ distribution. Assuming a uniform $\theta$, the simulated $\lambda$ and $i_\star$ distributions are shown in grey histograms, and the analytical solutions are shown as blue curves.}
+    \caption{Simulated $\cos{\psi}$ distributions (\nth{1} column) and their corresponding sky-projected stellar obliquity $\lambda$ (\nth{2} column) and stellar inclination $i_\star$ (\nth{3} column) distributions. The inferred $\cos{\psi}$ distributions assuming isotropic stellar inclinations are shown in the \nth{4} column. The random samplings of $\lambda$ and $i_\star$ out of the $\cos{\psi}$ distributions are shown as grey histograms, and the numerical solutions are shown as blue curves.}
     \label{fig:transform}
 \end{figure*}
 
 \section{Hierarchical Bayesian Framework}\label{sec:hbm}
 
+Our goal is to model the stellar obliquity distribution of all exoplanetary systems with sky-projected stellar obliquity measurements. The model could be extended to systems that also have stellar inclination information.
+In Section~\ref{sec:jacobian}, we showed the stellar inclination information is less important in the stellar obliquity distribution inference. Therefore, we aim to build a flexible framework that allows users to include or not include stellar inclination information.
+
 \begin{figure}[ht!]
     \script{graph.py}
     \includegraphics[width=\linewidth]{figures/graph.pdf}
-    \caption{Hierarchical Bayesian framework to infer the stellar obliquity distribution of exoplanetary systems. The stellar obliquity distribution is described by hyperparameters $\vb*{\beta}$ and constrained by $n_{\rm th}$ system's stellar obliquity $\psi_n$. Each $\psi_n$ is calculated by the system's sky-projected stellar obliquity $\lambda_n$ and stellar inclination $i_{\star, n}$. $\theta_{\star, n}$ contains other information of the star other than $i_{\star, n}$, such as the stellar radius and stellar rotation period. Obs$_{\star,n}$ contains observations of the star, such as the stellar spectral and photometric and/or spectroscopic time series, and $\hat{\lambda}_n$ has the measured sky-projected stellar obliquity.}
+    \caption{Hierarchical Bayesian framework to infer the stellar obliquity distribution of exoplanetary systems. The stellar obliquity distribution is described by hyperparameters $\vb*{\beta}$ and constrained by $n_{\rm th}$ system's stellar obliquity $\psi_n$. Each $\psi_n$ is calculated by the system's sky-projected stellar obliquity $\lambda_n$ and stellar inclination $i_{\star, n}$, if available. $\gamma_{\star, n}$ contains properties of the star other than inclination, such as stellar radius and rotation period for $i_{\star, n}$ inference. Obs$_{\star,n}$ includes all the observed properties of the star with uncertainties, and $\hat{\lambda}_n$ has the measured sky-projected stellar obliquity and its uncertainty.}
     \label{fig:graph}
 \end{figure}
 
-We build a hierarchical Bayesian framework to model the 3D stellar obliquity ($\psi$) distribution of exoplanetary systems. Figure~\ref{fig:graph} shows the probabilistic graphical model. We aim to constrain a set of hyperparameters $\bm{\beta}$ that describe the stellar obliquity $\psi$ distribution. $\bm{\beta}$ is constrained by $N$ individual systems, where each system has $\psi_n$ that is calculated by the sky-projected stellar obliquity $\lambda_n$ and the stellar inclination $i_n$. For simplicity, we approximate $i_{\rm orb}$ to $90\degr$ and use the simplified version of Equation~(\ref{eqn:psi}) to compute $\psi_n$.
-The parameter $\theta_{\star, n}$ contains stellar parameters other than $i_\star$, e.g., stellar rotation period and stellar radius, if the information is available.
-Obs$_{\star,n}$ describes observations that help to constrain $i_{\star,n}$, such as photometric or spectroscopic time series and the stellar spectra. If the rotational modulation method is used to constrain the stellar inclination, the $i_{\star,n}$ and $\theta_{\star,n}$ are constrained by rotational modulation in photometric or spectroscopic time series and observed sky-projected stellar rotational line broadening $\hat{v}\sin{i_{\star,n}}$ \citep[e.g.,][]{Masuda20}. If the gravity-darkening method is used, the $i_{\star,n}$ is constrained by the anomaly in transit light curves. If asteroseismology is used, the $i_{\star,n}$ is constrained from the periodic variation in the photometric time series.
+Figure~\ref{fig:graph} shows the probabilistic graphical model for the hierarchical Bayesian framework. We aim to constrain a set of hyperparameters $\bm{\beta}$ that describe the stellar obliquity $\psi$ distribution. $\bm{\beta}$ is constrained by $N$ individual systems, where each system has $\psi_n$ that is calculated by the sky-projected stellar obliquity $\lambda_n$ and the stellar inclination $i_n$. For simplicity, we approximate $i_{\rm orb}$ to $90\degr$ and use the simplified version of Equation~(\ref{eqn:psi}) to compute $\psi_n$.
+The parameter $\gamma_{\star, n}$ contains stellar parameters other than $i_\star$, e.g., stellar rotation period and stellar radius, if the information is available.
+Obs$_{\star,n}$ describes observations that help to constrain $i_{\star,n}$, such as photometric or spectroscopic time series and the stellar spectra. If the rotational modulation method is used to constrain the stellar inclination, the $i_{\star,n}$ and $\gamma_{\star,n}$ are constrained by rotational modulation in photometric or spectroscopic time series and observed sky-projected stellar rotational line broadening $\hat{v}\sin{i_{\star,n}}$ \citep[e.g.,][]{Masuda20}. If the gravity-darkening method is used, the $i_{\star,n}$ is constrained by the anomaly in transit light curves. If asteroseismology is used, the $i_{\star,n}$ is constrained from the periodic variation in the photometric time series.
 Lastly, the sky-projected stellar obliquity $\lambda_n$ is constrained by observed $\hat{\lambda}_n$.
 
 For the stellar obliquity distribution, we adopt a two-component mixture Beta distribution with hyperparameters $\bm{\beta} = \{\bm{w},\bm{a},\bm{b}\}$, where each hyperparameter has a dimension of 2. The Beta distribution is flexible to describe both the spike of aligned systems with 3D stellar obliquities close to $0\degr$ and the clustered or broadly distributed systems of misaligned systems.
@@ -158,10 +173,9 @@ We set the hyperpriors such that $a_0$ and $b_0$ will be used to infer the spike
 
 The likelihood functions are the following:
 \begin{align}
-    L(\lambda) &\sim \prod_{i=1}^N\mathcal{N}(\hat{\lambda}_n, \sigma_{\hat{\lambda}_n}) \nonumber\\
-    L(i_\star, \theta_\star) &\sim \prod_{i=1}^N\mathcal{N}({\rm Obs}_{\star,n}, \sigma_{{\rm Obs}_{\star,n}}).
+    \mathcal{L}(\lambda) &\sim \prod_{i=1}^N\mathcal{N}(\hat{\lambda}_n, \sigma_{\hat{\lambda}_n}) \nonumber\\
+    \mathcal{L}(i_\star, \gamma_\star) &\sim \prod_{i=1}^N\mathcal{N}({\rm Obs}_{\star,n}, \sigma_{{\rm Obs}_{\star,n}}).
 \end{align}
-
 
 \begin{figure}[ht!]
     \script{simulation.py}
@@ -174,7 +188,7 @@ The likelihood functions are the following:
     \script{psi_dist.py}
     \begin{centering}
         \includegraphics{figures/psi_dist.pdf}
-        \caption{The distributions of the cosine of 3D stellar obliquity $\cos{\psi}$. The left panel presents the inferred $\cos{\psi}$ distribution for the \numistar systems that have both sky-projected stellar obliquity $\lambda$ and stellar inclination $i_\star$ measurements using the statistical model described in Figure~\ref{fig:graph}. The middle panel uses the same sample as the left panel but now removes the likelihood function on $i_\star$. The right panel presents the $\cos{\psi}$ distribution for all \numall systems that have sky-projected stellar obliquity $\lambda$ measurements and has no likelihood function on $i_\star$. The $\cos{\psi}$ distribution for the observed-$i_\star$ are similar, and both show a cluster near $\cos{\psi} = -0.2$, whereas the distribution for all systems does not have such a trend.}
+        \caption{Stellar obliquity distribution of all exoplanetary systems with sky-projected stellar obliquity measurements.}
         \label{fig:psi_dist}
     \end{centering}
 \end{figure}
