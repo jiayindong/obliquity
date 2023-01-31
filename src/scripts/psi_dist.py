@@ -144,7 +144,7 @@ if __name__ == '__main__':
         ### logl for hyper priors
         mix = pm.Potential("mix", pm.logp(pm.Mixture.dist(w=w, comp_dists=components), (cosψ+1)/2))
         
-        all_randinc = pm.sample()
+        all_randinc = pm.sample(chains=4)
 
     x = np.linspace(1e-5,1-1e-5,1000)
 
