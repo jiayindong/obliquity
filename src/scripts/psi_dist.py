@@ -8,6 +8,10 @@ import subprocess
 # implement pip as a subprocess:
 subprocess.check_call([sys.executable, '-m', 'pip', 'install',
 'arviz'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install',
+'pymc'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install',
+'aesara'])
 
 import paths
 import matplotlib.pyplot as plt
