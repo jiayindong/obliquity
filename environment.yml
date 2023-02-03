@@ -4,3 +4,6 @@ dependencies:
   - conda-forge::python=3.9
   - pip:
       - matplotlib==3.4.3
+      - arviz
+      - pymc==4.1.7
+      - aesara==2.8.2

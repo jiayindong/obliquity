@@ -5,14 +5,6 @@ os.environ["PATH"] += os.pathsep + str(Path.home() / "bin")
 import sys
 import subprocess
 
-# implement pip as a subprocess:
-subprocess.check_call([sys.executable, '-m', 'pip', 'install',
-'arviz'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install',
-'pymc==4.1.7'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install',
-'aesara==2.8.2'])
-
 import paths
 import matplotlib.pyplot as plt
 import pymc as pm
@@ -166,8 +158,8 @@ if __name__ == '__main__':
     plt.ylim([0,2])
     plt.xlim([-1,1])
 
-    plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-    plt.ylabel('Probablity density function')
+    # plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+    # plt.ylabel('Probablity density function')
 
     plt.tight_layout()
     plt.savefig(paths.figures / "psi_dist.pdf", bbox_inches="tight", dpi=600)
