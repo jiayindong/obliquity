@@ -1,9 +1,11 @@
 dependencies:
-  - conda-forge::numpy=1.19.2
+  - conda-forge::numpy=1.23.4
   - conda-forge::pip=21.0.1
   - conda-forge::python=3.9
+  - pandas==1.5.1
+  - aesara==2.8.2
+  - pymc==4.1.7
   - pip:
-      - matplotlib==3.4.3
+      - matplotlib==3.6.2
+      - daft
       - arviz
-      - pymc==4.1.7
-      - aesara==2.8.2

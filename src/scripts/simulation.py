@@ -5,12 +5,6 @@ os.environ["PATH"] += os.pathsep + str(Path.home() / "bin")
 
 import subprocess
 import sys
-subprocess.check_call([sys.executable, '-m', 'pip', 'install',
-'arviz'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install',
-'pymc==4.1.7'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install',
-'aesara'])
 
 import pymc as pm
 import arviz as az
