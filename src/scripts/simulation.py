@@ -44,7 +44,7 @@ def posteriors(this_model):
     err_lam = 8*np.pi/180
 
     with this_model:    
-        idata = pm.sample(draws=50)
+        idata = pm.sample(chains=4, draws=50)
 
     true_istar = idata.posterior.i.values.ravel()
     obs_istar = true_istar + err_istar*np.random.normal(size=nsample)
@@ -78,7 +78,7 @@ def posteriors(this_model):
 
         hyper = pm.Potential("hyper", pm.logp(pm.Beta.dist(a,b), (cosψ+1)/2))
 
-        istar_idata = pm.sample()
+        istar_idata = pm.sample(target_accept=0.9,chains=4)
 
     with pm.Model() as model_noistar:
 
@@ -104,7 +104,7 @@ def posteriors(this_model):
 
         hyper = pm.Potential("hyper", pm.logp(pm.Beta.dist(a,b), (cosψ+1)/2))
 
-        noistar_idata = pm.sample()
+        noistar_idata = pm.sample(target_accept=0.9,chains=4)
         
     post = istar_idata.posterior
     istar_draws = np.zeros(shape=(len(x),4000))
@@ -124,7 +124,6 @@ def posteriors(this_model):
 ### PyMC models ###
 
 if __name__ == '__main__':
-
 
     with pm.Model() as model_uni:
 
