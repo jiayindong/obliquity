@@ -36,13 +36,20 @@
 
 \author{et al.}
 
+\received{}
+\revised{}
+\accepted{}
+
+\submitjournal{the AAS Journals}
+
 % Abstract with filler text
 \begin{abstract}
 
-Stellar obliquity $\psi$, the angle between a planet's orbital axis and its host star's spin axis, traces the formation environment and dynamical evolution of a planetary system. In exoplanet observations, only the sky-projected stellar obliquity $\lambda$ can be measured. To find the true stellar obliquity, information about the stellar inclination $i_\star$ is required.
-Here we show that, while it is important to know the stellar inclination to tightly constrain the stellar obliquity of an individual system, the stellar inclination is not necessarily required for the population stellar obliquity inference. The constraint on stellar obliquity distribution is predominantly based on sky-projected stellar obliquities.
-We introduce a flexible, hierarchical Bayesian framework that allows inferring the stellar obliquity distribution from sky-projected stellar obliquities, and if available, stellar inclinations.
-Applying the framework to all systems with sky-projected stellar obliquity measurements, mostly Hot Jupiter systems, we find that the stellar obliquity distribution is unimodal and peaked at zero degrees. Misaligned systems have nearly isotropic stellar obliquities, at odds with the analysis of systems that also have $i_\star$ measurements.
+Stellar obliquity $\psi$, the angle between a planet's orbital axis and its host star's spin axis, traces the formation and evolution of a planetary system. In transiting-exoplanet observations, only the sky-projected stellar obliquity $\lambda$ can be measured. To find the true stellar obliquity $\psi$, information about stellar inclination $i_\star$ is also required.
+Here we show that, while the stellar inclination is important to infer the stellar obliquity of an individual system, they are not necessarily required for the population stellar obliquity inference. 
+Constraints on the stellar obliquity distribution are predominantly contributed by the sky-projected stellar obliquities.
+We introduce a flexible, hierarchical Bayesian framework that could infer the stellar obliquity distribution purely from sky-projected stellar obliquities. Stellar inclination measurements are optional in the model, and if not provided, are assumed to be isotropically distributed.
+Applying the framework to all exoplanetary systems with sky-projected stellar obliquity measurements, we find that the stellar obliquity distribution is unimodal and peaked at zero degrees. Misaligned systems have nearly isotropic stellar obliquities, which may have important implications for the formation and evolution of planetary systems.
 
 \end{abstract}
 
@@ -51,15 +58,11 @@ Applying the framework to all systems with sky-projected stellar obliquity measu
 \label{sec:intro}
 
 Stellar obliquity $\psi$ describes the angle between a planet's orbital axis $\bf{n}_{\rm orb}$ and its host star's spin axis $\bf{n}_{\star}$. 
-The angle is an important tracer of a planetary system's formation environment and dynamical evolution. Stellar obliquity evolution can be roughly summarized into three stages. First, the formation and evolution of a protoplanetary disk around its host star determine the primordial stellar obliquity \citep[e.g.,][]{Bate10, Lai11, Batygin12}. Second, post-formation dynamical evolution in the planetary system, such as planet-planet scattering \citep[e.g.,][]{Rasio96, Chatterjee08, Nagasawa08, Beague12} and von Zeipel-Kozai-Lidov mechanisms \citep[e.g.,][]{Wu03, Naoz16}, excites the mutual inclinations between planetary or stellar companions, further sculpting the stellar obliquity. Lastly, tidal realignment of the host star's spin axis to the planet's orbital axis could reduce the stellar obliquity, if the stellar tidal dissipation is efficient \citep[e.g.,][]{Winn10, Albrecht12}. Furthermore, massive stars with convective cores could generate internal gravity waves and dissipate angular momentum to their radiative zones, thus modifying stellar obliquities \citep{Rogers12, Rogers13}.
+The angle is an important tracer of a planetary system's formation environment and dynamical evolution. The evolution of stellar obliquity can be roughly summarized into three stages. First, the formation and evolution of a protoplanetary disk around its host star determine the primordial stellar obliquity \citep[e.g.,][]{Bate10, Lai11, Batygin12}. Second, post-formation dynamical evolution in the planetary system, such as planet-planet scattering \citep[e.g.,][]{Rasio96, Chatterjee08, Nagasawa08, Beague12}, von Zeipel-Kozai-Lidov mechanisms \citep[e.g.,][]{Wu03, Naoz16}, and secular chaos \citep{Wu11}, excites the mutual inclinations between planetary or stellar companions, further sculpting the stellar obliquity. Lastly, tidal realignment of the host star's spin axis to the planet's orbital axis could reduce the stellar obliquity, if the tidal dissipation in the star is efficient \citep[e.g.,][]{Winn10, Albrecht12}. Furthermore, massive stars with convective cores could generate internal gravity waves and dissipate angular momentum to their radiative zones, modifying the stellar obliquity \citep{Rogers12, Rogers13}.
 
-It is yet unclear which one or more of these mechanisms predominantly sculpts the stellar obliquities in exoplanetary systems and the linkage between stellar obliquities and the formation pathways of close-in planets.
-Because of tidal realignment, aligned systems could have had different stellar obliquities in the past, making it hard to trace the obliquity-sculpting mechanism.
-On the other hand, misaligned systems with stellar obliquities that have not yet been washed out by tidal effects still provide clues on obliquity-sculpting mechanisms.
-Proposed mechanisms have different predictions on the stellar obliquity distributions. For example, in the secular chaos mechanism, stellar obliquity (or more accurately mutual inclinations between planets) could never get beyond $90\degr$ \citep{Teyssandier19}; in the stellar Kozai mechanism, stellar obliquity distribution should peak at $40\degr$ and $140\degr$ \citep{Anderson16}.
-Motivated by these predictions, we build a statistical model to characterize the stellar obliquity distribution of exoplanetary systems to distinguish between proposed stellar-obliquity-sculpting mechanisms.
+It is yet unclear if all of these physical and dynamic processes apply to exoplanetary systems. These proposed mechanisms have different predictions on stellar obliquity distributions \citep[see][and references therein]{Albrecht22}. For example, in the secular chaos mechanism, the stellar obliquity could never get beyond $90\degr$ \citep{Teyssandier19}. In the stellar Kozai mechanism, the stellar obliquity distribution should be bimodal and concentrated at $40\degr$ and $140\degr$ \citep[e.g.,][]{Fabrycky07, Anderson16, Vick19}. In the multiple-planet scattering mechanism, the majority of systems should be aligned, and a small fraction of systems have a wide range of stellar obliquities \citep[e.g.,][]{Beague12}. Motivated by these predictions, we aim to constrain the stellar obliquity distribution of exoplanetary systems from a Bayesian approach to find dominant mechanisms that sculpt close-in planetary systems.
 
-In exoplanetary observation, only the sky-projected stellar obliquity $\lambda$, the angle between the projections of $\bf{n}_{\rm orb}$ and $\bf{n}_{\star}$ onto the plane of the sky, can be measured. Stellar obliquity $\psi$ can be found, if the stellar inclination $i_\star$ is known. The calculation follows \citep[e.g.,][]{Fabrycky09}:
+In exoplanetary observation, only the sky-projected stellar obliquity $\lambda$, the angle between the projections of $\bf{n}_{\rm orb}$ and $\bf{n}_{\star}$ onto the plane of the sky, can be measured. Stellar obliquity $\psi$ can be calculated, if the stellar inclination $i_\star$ is known. The relation follows \citep[e.g.,][]{Fabrycky09}:
 \begin{equation}\label{eqn:psi}
     \cos{\psi} = \sin{i_\star}\sin{i_{\rm orb}}\cos{\lambda} + \cos{i_\star}\cos{i_{\rm orb}},
 \end{equation}
@@ -67,10 +70,10 @@ where $i_{\rm orb}$ is the angle between the vector $\bf{n}_{\rm orb}$ and the o
 For transiting exoplanet systems where $i_{\rm orb} \approx 90\degr$, $\cos{\psi} \approx \sin{i_\star}\cos{\lambda}$.
 
 Stellar inclination can often be constrained via, e.g., photometric and spectroscopic rotational modulation introduced by starspots, gravity darkening, and asteroseismology \citep[see][and references therein]{Albrecht22}.
-For systems without $i_\star$ measurements, it is still possible to infer their stellar obliquities from the sky-projected obliquities, assuming isotropic stellar inclinations. The inferred $\psi$ will have a larger uncertainty than the one inferred with known $i_\star$ \citep{Fabrycky09}.
+For systems without $i_\star$ measurements, it is still possible to infer their stellar obliquities from the sky-projected obliquities, assuming isotropic stellar inclinations. The inferred $\psi$ will have greater uncertainty than the one inferred with $i_\star$ measurement \citep{Fabrycky09}.
 
-We do not yet know the role of stellar inclinations in the population stellar obliquity distribution inference. 
-In this work, we propose an approach to infer the stellar obliquity $\psi$ distribution from the sky-projected stellar obliquity $\lambda$ distribution. We show that the stellar obliquity distribution inference weakly depends on stellar inclination.
+We do not yet understand the importance of stellar inclination in population stellar obliquity inference.
+In this work, we propose an approach to infer the stellar obliquity $\psi$ distribution from the sky-projected stellar obliquity $\lambda$ distribution. We show that the stellar obliquity distribution inference weakly depends on stellar inclinations.
 In Section~\ref{sec:hbm}, we introduce a flexible, hierarchical Bayesian framework to infer the population stellar obliquity distribution.
 In Section~\ref{sec:applications}, we apply the framework to simulated data and real observations.
 In Section~\ref{sec:jacobian}, we find the mathematical relation between the $\psi$, $\lambda$, and $i_\star$ distributions and explain why stellar inclination is not important in stellar obliquity distribution inference.
@@ -117,7 +120,7 @@ The likelihood functions follow:
     \mathcal{L}(i_\star) &\sim \prod_{i=1}^N\mathcal{N}({\rm Obs}_{\star,n}, \sigma_{{\rm Obs}_{\star,n}}).
 \end{align}
 If $\gamma_{\star, n}$ is available, we construct Normal distributions with means and standard deviations from their observed data.
-Here we assume uniform hyperpriors for the Beta distribution. For population inference on a small number of systems (i.e., $N<50$), the choice of hyperpriors could impact the inferred distribution \citep{Nagpal22}. When applying the framework to small sample size, it is important to test the robustness of inferred distributions on different hyperpriors.
+Here we assume uniform hyperpriors for the Beta distribution. For population inference on a small number of systems (i.e., $N<50$), the choice of hyperpriors could impact the inferred distribution \citep{Nagpal22}. When applying the framework to a small sample size, it is important to test the robustness of inferred distributions on different hyperpriors.
 
 The probabilistic model is built with the $\mathtt{PyMC}$ \citep[$\mathtt{v4.1.7}$;][]{pymc} package and the posteriors are sampled using the No-U-Turn Sampler \citep[NUTS;][]{Hoffman11}, a gradient-based sampling algorithm of the Markov chain Monte Carlo (MCMC). All figures and simulations in this paper are fully reproducible and built with the $\mathtt{showyourwork}$ package. The open source code can be found on \href{https://github.com/jiayindong/polar}{GitHub\,\faGithub}.
 
@@ -134,7 +137,7 @@ Surprisingly, in all four distributions, the inferred $\cos{\psi}$ distributions
 
 We also examine the importance of orbital inclination to the stellar obliquity inference. Since all the systems we study are transiting exoplanetary systems, we consider an isotropic orbital inclination distribution from $80\degr$ to $90\degr$. This broad inclination range corresponds to an impact parameter range from 0 to 1 for a circular orbit planet with an $a/R_\star$ of 6. We find at this level of orbital inclination deviations, the difference on the inferred stellar obliquity distributions is minimal. For transiting planet systems, approximating orbital inclinations to $90\degr$ will not compromise the stellar obliquity distribution inference.
 
-From the simulated data, we confirm that while stellar inclinations help to constrain the stellar obliquity of individual systems, they are not necessarily required for the population stellar obliquity inference. The constraint on stellar obliquity distribution is predominantly based on sky-projected stellar obliquities, and the sky-projected stellar obliquity could correctly infer the peak and width of the underlying stellar obliquity distribution.
+From the simulated data, we confirm that while stellar inclinations help to constrain the stellar obliquity of individual systems, they are not necessarily required for the population stellar obliquity inference. The constraint on stellar obliquity distribution is predominantly based on sky-projected stellar obliquities. The sky-projected stellar obliquity could correctly infer the peak and width of the underlying stellar obliquity distribution.
 
 \begin{figure}[ht!]
     \script{simulation.py}
