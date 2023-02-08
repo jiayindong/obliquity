@@ -33,6 +33,8 @@ datasets:
 dependencies:
   # src/tex/ms.tex:
   #   - src/tex/stylesheet.tex
+  src/scripts/psi_plot.py:
+    - src/data/all_randinc.nc
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
@@ -59,7 +61,7 @@ overleaf:
 require_inputs: true
 
 # Allow cacheable rules to run on GitHub Actions?
-run_cache_rules_on_ci: false
+run_cache_rules_on_ci: true
 
 # Mapping of script file extensions to instructions for executing them
 scripts:
