@@ -1,10 +1,18 @@
 rule psi:
     output:
-        "src/data/all_randinc.nc"
+        "src/data/simulation"
     cache:
         True
     script:
         "src/scripts/psi.py"
+
+rule psi_plot:
+    input:
+        "src/data/simulation"
+    output:
+        "src/figures/psi_dist.pdf"
+    script:
+        "src/scripts/psi_plot.py"
 
 rule sim:
     output:

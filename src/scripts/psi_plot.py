@@ -54,5 +54,5 @@ plt.xlabel(r'$\cos{\psi}$',fontsize=11)
 plt.ylabel('Probablity density function')
 
 plt.tight_layout()
-plt.savefig(paths.figures / "psi_dist.pdf", bbox_inches="tight", dpi=600)
+plt.savefig(paths.figures / "simulation/psi_dist.pdf", bbox_inches="tight", dpi=600)
 plt.close()
