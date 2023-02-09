@@ -1,6 +1,6 @@
 rule psi:
     output:
-        "src/data/simulation"
+        directory("src/data/simulation")
     cache:
         True
     script:
@@ -16,7 +16,7 @@ rule psi_plot:
 
 rule sim:
     output:
-	"src/data/simulation"
+	directory("src/data/simulation")
     cache:
         True
     script:
