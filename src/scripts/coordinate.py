@@ -9,7 +9,7 @@ import subprocess
 
 from matplotlib import rc
 rc('font', **{'family':'sans-serif'})
-rc('text', usetex=True)
+rc('text', usetex=False)
 rc('text.latex', preamble=r'\usepackage{physics}')
 
 import matplotlib.pyplot as plt
@@ -62,7 +62,10 @@ ax.quiver(0, 0, 0, 1.8, 0, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # x-ax
 ax.quiver(0, 0, 0, 0, 1.5, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # y-axis
 ax.quiver(0, 0, 0, 0, 0, 1.5, color='k', arrow_length_ratio=0.05, lw=1.5) # z-axis
 
-ax.text(2.1, 0, -0.05, r'$\textbf{Obs}$',fontsize=12)
+# ax.text(2.1, 0, -0.05, r'$\textbf{Obs}$',fontsize=12)
+# ax.text(0, 0, 1.55, r"$\vb*{n}_{\textbf{orb}}$",fontsize=14)
+
+ax.text(2.1, 0, -0.05, Obs, fontweight='bold', fontsize=12)
 ax.text(0, 0, 1.55, r"$\vb*{n}_{\textbf{orb}}$",fontsize=14)
 
 # make the panes transparent
@@ -203,7 +206,10 @@ ax.quiver(0, 0, 0, 1.4, 0, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # x-ax
 ax.quiver(0, 0, 0, 0, 1.8, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # y-axis
 ax.quiver(0, 0, 0, 0, 0, 1.5, color='k', arrow_length_ratio=0.05, lw=1.5) # z-axis
 
-ax.text(1.7, 0, -0.05, r'$\textbf{Obs}$',fontsize=12)
+# ax.text(1.7, 0, -0.05, r'$\textbf{Obs}$',fontsize=12)
+# ax.text(0, 0, 1.55, r"$\vb*{n}_{\textbf{orb}}$",fontsize=14)
+
+ax.text(1.7, 0, -0.05, 'Obs', fontweight='bold', fontsize=12)
 ax.text(0, 0, 1.55, r"$\vb*{n}_{\textbf{orb}}$",fontsize=14)
 
 # make the panes transparent
