@@ -212,7 +212,7 @@ if __name__ == '__main__':
         iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
         iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
         
-
+        
     uni_istar_draws, uni_noistar_draws = posteriors(model_uni)
     np.save(paths.data / "uni_istar_draws.npy", uni_istar_draws)
     np.save(paths.data / "uni_noistar_draws.npy", uni_noistar_draws)

@@ -48,6 +48,8 @@ norm2_noistar_draws = np.load(paths.data / "norm2_noistar_draws.npy")
 norm3_istar_draws = np.load(paths.data / "norm3_istar_draws.npy")
 norm3_noistar_draws = np.load(paths.data / "norm3_noistar_draws.npy")
 
+print('yes')
+
 ### Make the plot ###
 fig, big_axes = plt.subplots(figsize=(3.5,6.5),dpi=110,nrows=4,ncols=1,sharey=True) 
 
@@ -217,6 +219,8 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 fig.set_facecolor('w')
 
 plt.tight_layout(pad=0,w_pad=0.5, h_pad=-2)
+
+print('yes')
 
 plt.savefig(paths.figures / "simulation.pdf", bbox_inches="tight", dpi=600)
 plt.close()
