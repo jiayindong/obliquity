@@ -8,7 +8,7 @@ rule psi:
 
 rule sim:
     output:
-	directory("src/data/simulation")
+	"src/data/simulation"
     cache:
         True
     script:
