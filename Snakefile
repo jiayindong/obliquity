@@ -8,14 +8,7 @@ rule psi:
 
 rule sim:
     output:
-        "src/data/uni_istar_draws.npy"
-	"src/data/uni_noistar_draws.npy"
-        "src/data/norm1_istar_draws.npy"
-	"src/data/norm1_noistar_draws.npy"
-        "src/data/norm2_istar_draws.npy"
-	"src/data/norm2_noistar_draws.npy"
-        "src/data/norm3_istar_draws.npy"
-	"src/data/norm3_noistar_draws.npy"
+	directory("src/data/simulation")
     cache:
         True
     script:

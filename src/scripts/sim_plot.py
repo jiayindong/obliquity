@@ -36,17 +36,17 @@ x = np.linspace(1e-5,1-1e-5,1000)
 σ = 0.2        
 
 # load the distribution draws from MCMC
-uni_istar_draws = np.load(paths.data / "uni_istar_draws.npy")
-uni_noistar_draws = np.load(paths.data / "uni_noistar_draws.npy")
+uni_istar_draws = np.load(paths.data / "simulation/uni_istar_draws.npy")
+uni_noistar_draws = np.load(paths.data / "simulation/uni_noistar_draws.npy")
 
-norm1_istar_draws = np.load(paths.data / "norm1_istar_draws.npy")
-norm1_noistar_draws = np.load(paths.data / "norm1_noistar_draws.npy")
+norm1_istar_draws = np.load(paths.data / "simulation/norm1_istar_draws.npy")
+norm1_noistar_draws = np.load(paths.data / "simulation/norm1_noistar_draws.npy")
 
-norm2_istar_draws = np.load(paths.data / "norm2_istar_draws.npy")
-norm2_noistar_draws = np.load(paths.data / "norm2_noistar_draws.npy")
+norm2_istar_draws = np.load(paths.data / "simulation/norm2_istar_draws.npy")
+norm2_noistar_draws = np.load(paths.data / "simulation/norm2_noistar_draws.npy")
 
-norm3_istar_draws = np.load(paths.data / "norm3_istar_draws.npy")
-norm3_noistar_draws = np.load(paths.data / "norm3_noistar_draws.npy")
+norm3_istar_draws = np.load(paths.data / "simulation/norm3_istar_draws.npy")
+norm3_noistar_draws = np.load(paths.data / "simulation/norm3_noistar_draws.npy")
 
 ### Make the plot ###
 fig, big_axes = plt.subplots(figsize=(3.5,6.5),dpi=110,nrows=4,ncols=1,sharey=True) 

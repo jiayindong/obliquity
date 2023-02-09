@@ -214,17 +214,17 @@ if __name__ == '__main__':
         
         
     uni_istar_draws, uni_noistar_draws = posteriors(model_uni)
-    np.save(paths.data / "uni_istar_draws.npy", uni_istar_draws)
-    np.save(paths.data / "uni_noistar_draws.npy", uni_noistar_draws)
+    np.save(paths.data / "simulation/uni_istar_draws.npy", uni_istar_draws)
+    np.save(paths.data / "simulation/uni_noistar_draws.npy", uni_noistar_draws)
 
     norm1_istar_draws, norm1_noistar_draws = posteriors(model_norm1)
-    np.save(paths.data / "norm1_istar_draws.npy", norm1_istar_draws)
-    np.save(paths.data / "norm1_noistar_draws.npy", norm1_noistar_draws)
+    np.save(paths.data / "simulation/norm1_istar_draws.npy", norm1_istar_draws)
+    np.save(paths.data / "simulation/norm1_noistar_draws.npy", norm1_noistar_draws)
 
     norm2_istar_draws, norm2_noistar_draws = posteriors(model_norm2)
-    np.save(paths.data / "norm2_istar_draws.npy", norm2_istar_draws)
-    np.save(paths.data / "norm2_noistar_draws.npy", norm2_noistar_draws)
+    np.save(paths.data / "simulation/norm2_istar_draws.npy", norm2_istar_draws)
+    np.save(paths.data / "simulation/norm2_noistar_draws.npy", norm2_noistar_draws)
 
     norm3_istar_draws, norm3_noistar_draws = posteriors(model_norm3)
-    np.save(paths.data / "norm3_istar_draws.npy", norm3_istar_draws)
-    np.save(paths.data / "norm3_noistar_draws.npy", norm3_noistar_draws)    
+    np.save(paths.data / "simulation/norm3_istar_draws.npy", norm3_istar_draws)
+    np.save(paths.data / "simulation/norm3_noistar_draws.npy", norm3_noistar_draws)    
