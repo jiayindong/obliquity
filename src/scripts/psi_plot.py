@@ -28,7 +28,7 @@ plt.rcParams['ytick.minor.width'] =  1.0
 plt.rcParams['lines.markeredgewidth'] =  1.0
 
 # plot the cospsi distribution
-all_randinc = az.from_netcdf(paths.data / "all_randinc.nc")
+all_randinc = az.from_netcdf(paths.data / "simulation/all_randinc.nc")
 
 x = np.linspace(1e-5,1-1e-5,1000)
 
