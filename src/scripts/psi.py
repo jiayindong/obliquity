@@ -138,4 +138,4 @@ if __name__ == '__main__':
         
         all_randinc = pm.sample(target_accept=0.9,chains=4)
 
-    az.to_netcdf(all_randinc.posterior, paths.data / "simulation/all_randinc.nc")
+    az.to_netcdf(all_randinc.posterior, paths.data / "all_randinc.nc")

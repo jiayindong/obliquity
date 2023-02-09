@@ -1,6 +1,6 @@
 rule psi:
     output:
-        directory("src/data/simulation")
+        "src/data/all_randinc.nc"
     cache:
         True
     script:
@@ -8,7 +8,7 @@ rule psi:
 
 rule psi_plot:
     input:
-        "src/data/simulation"
+        rules.psi.output
     output:
         "src/figures/psi_dist.pdf"
     script:
@@ -16,7 +16,7 @@ rule psi_plot:
 
 rule sim:
     output:
-	"src/data/simulation"
+        directory("src/data/simulation")
     cache:
         True
     script:

@@ -213,18 +213,21 @@ if __name__ == '__main__':
         iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
         
         
+    sim_dir = paths.data / "simulation"
+    sim_dir.mkdir(exist_ok=True, parents=True)
+
     uni_istar_draws, uni_noistar_draws = posteriors(model_uni)
-    np.save(paths.data / "simulation/uni_istar_draws.npy", uni_istar_draws)
-    np.save(paths.data / "simulation/uni_noistar_draws.npy", uni_noistar_draws)
+    np.save(sim_dir / "uni_istar_draws.npy", uni_istar_draws)
+    np.save(sim_dir / "uni_noistar_draws.npy", uni_noistar_draws)
 
     norm1_istar_draws, norm1_noistar_draws = posteriors(model_norm1)
-    np.save(paths.data / "simulation/norm1_istar_draws.npy", norm1_istar_draws)
-    np.save(paths.data / "simulation/norm1_noistar_draws.npy", norm1_noistar_draws)
+    np.save(sim_dir / "norm1_istar_draws.npy", norm1_istar_draws)
+    np.save(sim_dir / "norm1_noistar_draws.npy", norm1_noistar_draws)
 
     norm2_istar_draws, norm2_noistar_draws = posteriors(model_norm2)
-    np.save(paths.data / "simulation/norm2_istar_draws.npy", norm2_istar_draws)
-    np.save(paths.data / "simulation/norm2_noistar_draws.npy", norm2_noistar_draws)
+    np.save(sim_dir / "norm2_istar_draws.npy", norm2_istar_draws)
+    np.save(sim_dir / "norm2_noistar_draws.npy", norm2_noistar_draws)
 
     norm3_istar_draws, norm3_noistar_draws = posteriors(model_norm3)
-    np.save(paths.data / "simulation/norm3_istar_draws.npy", norm3_istar_draws)
-    np.save(paths.data / "simulation/norm3_noistar_draws.npy", norm3_noistar_draws)    
+    np.save(sim_dir / "norm3_istar_draws.npy", norm3_istar_draws)
+    np.save(sim_dir / "norm3_noistar_draws.npy", norm3_noistar_draws)    

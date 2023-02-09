@@ -34,7 +34,7 @@ dependencies:
   # src/tex/ms.tex:
   #   - src/tex/stylesheet.tex
   src/scripts/psi_plot.py:
-    - src/data/simulation/
+    - src/data/all_randinc.nc
   src/scripts/sim_plot.py:
     - src/data/simulation/
 
