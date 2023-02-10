@@ -17,10 +17,13 @@
 
 An open source scientific article created using the [showyourwork](https://github.com/showyourwork/showyourwork) workflow.
 
-## A Hierarchical Bayesian Framework for Stellar Obliquity Distribution Inference
+### A Hierarchical Bayesian Framework for Stellar Obliquity Distribution Inference
 
-**Jiayin Dong**<sup>1</sup> and **Dan Foreman-Mackey**<sup>1</sup>
+by **Jiayin Dong**<sup>1</sup> and **Dan Foreman-Mackey**<sup>1</sup>
 
 <sup>1</sup>CCA, Flatiron Institute
 
-Source code and Jupyter Notebook demonstration for Dong & Foreman-Mackey 2023 to be submitted to the AAS Journals
+The repository includes source code to reproduce figures and statistical models presented in **Dong & Foreman-Mackey 2023 to be submitted to the AAS Journals**.
+
+A Jupyter Notebook demonstration for the hierarchical Bayesian modeling for the stellar obliquity distribution inference can be found here:
+https://github.com/jiayindong/obliquity/blob/main/obliquity_demos.ipynb.
