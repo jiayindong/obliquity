@@ -19,7 +19,7 @@ from scipy import stats
 
 from matplotlib import rc
 rc('font', **{'family':'sans-serif'})
-rc('text', usetex=False)
+rc('text', usetex=True)
 rc('text.latex', preamble=r'\usepackage{physics}')
 
 plt.rcParams['xtick.top'] =  True
@@ -44,7 +44,7 @@ def posteriors(this_model):
     err_lam = 8*np.pi/180
 
     with this_model:    
-        idata = pm.sample(chains=4, draws=50)
+        idata = pm.sample(chains=4, draws=50, tune=0)
 
     true_istar = idata.posterior.i.values.ravel()
     obs_istar = true_istar + err_istar*np.random.normal(size=nsample)
@@ -105,20 +105,8 @@ def posteriors(this_model):
         hyper = pm.Potential("hyper", pm.logp(pm.Beta.dist(a,b), (cosψ+1)/2))
 
         noistar_idata = pm.sample(target_accept=0.9,chains=4)
-        
-    post = istar_idata.posterior
-    istar_draws = np.zeros(shape=(len(x),4000))
-    for a in range(4):
-        for b in range(1000):
-            istar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
 
-    post = noistar_idata.posterior
-    noistar_draws = np.zeros(shape=(len(x),4000))
-    for a in range(4):
-        for b in range(1000):
-            noistar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
-
-    return istar_draws, noistar_draws
+    return istar_idata, noistar_idata
 
 
 ### PyMC models ###
@@ -216,18 +204,18 @@ if __name__ == '__main__':
     sim_dir = paths.data / "simulation"
     sim_dir.mkdir(exist_ok=True, parents=True)
 
-    uni_istar_draws, uni_noistar_draws = posteriors(model_uni)
-    np.save(sim_dir / "uni_istar_draws.npy", uni_istar_draws)
-    np.save(sim_dir / "uni_noistar_draws.npy", uni_noistar_draws)
+    uni_istar, uni_noistar = posteriors(model_uni)
+    az.to_netcdf(uni_istar.posterior, sim_dir / "uni_istar.nc")
+    az.to_netcdf(uni_noistar.posterior, sim_dir / "uni_noistar.nc")
 
-    norm1_istar_draws, norm1_noistar_draws = posteriors(model_norm1)
-    np.save(sim_dir / "norm1_istar_draws.npy", norm1_istar_draws)
-    np.save(sim_dir / "norm1_noistar_draws.npy", norm1_noistar_draws)
+    norm1_istar, norm1_noistar = posteriors(model_norm1)
+    az.to_netcdf(norm1_istar.posterior, sim_dir / "norm1_istar.nc")
+    az.to_netcdf(norm1_noistar.posterior, sim_dir / "norm1_noistar.nc")
 
-    norm2_istar_draws, norm2_noistar_draws = posteriors(model_norm2)
-    np.save(sim_dir / "norm2_istar_draws.npy", norm2_istar_draws)
-    np.save(sim_dir / "norm2_noistar_draws.npy", norm2_noistar_draws)
+    norm2_istar, norm2_noistar = posteriors(model_norm2)
+    az.to_netcdf(norm2_istar.posterior, sim_dir / "norm2_istar.nc")
+    az.to_netcdf(norm2_noistar.posterior, sim_dir / "norm2_noistar.nc")
 
-    norm3_istar_draws, norm3_noistar_draws = posteriors(model_norm3)
-    np.save(sim_dir / "norm3_istar_draws.npy", norm3_istar_draws)
-    np.save(sim_dir / "norm3_noistar_draws.npy", norm3_noistar_draws)    
+    norm3_istar, norm3_noistar = posteriors(model_norm3)
+    az.to_netcdf(norm3_istar.posterior, sim_dir / "norm3_istar.nc")
+    az.to_netcdf(norm3_noistar.posterior, sim_dir / "norm3_noistar.nc")

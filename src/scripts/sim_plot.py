@@ -17,10 +17,10 @@ import pandas as pd
 import scipy.integrate as integrate
 from scipy import stats
 
-# from matplotlib import rc
-# rc('font', **{'family':'sans-serif'})
-# rc('text', usetex=False)
-# rc('text.latex', preamble=r'\usepackage{physics}')
+from matplotlib import rc
+rc('font', **{'family':'sans-serif'})
+rc('text', usetex=True)
+rc('text.latex', preamble=r'\usepackage{physics}')
 
 plt.rcParams['xtick.top'] =  True
 plt.rcParams['xtick.direction'] =  'in'
@@ -35,18 +35,30 @@ plt.rcParams['lines.markeredgewidth'] =  1.0
 x = np.linspace(1e-5,1-1e-5,1000)
 σ = 0.2        
 
-# load the distribution draws from MCMC
-uni_istar_draws = np.load(paths.data / "simulation/uni_istar_draws.npy")
-uni_noistar_draws = np.load(paths.data / "simulation/uni_noistar_draws.npy")
+# load the posteriors from the MCMC and calculate psi dists
+def psi_dist_draws(model_name):
 
-norm1_istar_draws = np.load(paths.data / "simulation/norm1_istar_draws.npy")
-norm1_noistar_draws = np.load(paths.data / "simulation/norm1_noistar_draws.npy")
+    istar_idata = np.load(paths.data / "simulation/%s_istar_draws.npy"%model_name)
+    noistar_idata = np.load(paths.data / "simulation/%s_noistar_draws.npy"%model_name)
 
-norm2_istar_draws = np.load(paths.data / "simulation/norm2_istar_draws.npy")
-norm2_noistar_draws = np.load(paths.data / "simulation/norm2_noistar_draws.npy")
+    post = istar_idata.posterior
+    istar_draws = np.zeros(shape=(len(x),4000))
+    for a in range(4):
+        for b in range(1000):
+            istar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
 
-norm3_istar_draws = np.load(paths.data / "simulation/norm3_istar_draws.npy")
-norm3_noistar_draws = np.load(paths.data / "simulation/norm3_noistar_draws.npy")
+    post = noistar_idata.posterior
+    noistar_draws = np.zeros(shape=(len(x),4000))
+    for a in range(4):
+        for b in range(1000):
+            noistar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
+
+    return istar_draws, noistar_draws
+
+uni_istar_draws, uni_noistar_draws = psi_dist_draws('uni')
+norm1_istar_draws, norm1_noistar_draws = dist_draws('norm1')
+norm2_istar_draws, norm2_noistar_draws = dist_draws('norm2')
+norm3_istar_draws, norm3_noistar_draws = dist_draws('norm3')
 
 ### Make the plot ###
 fig, big_axes = plt.subplots(figsize=(3.5,6.5),dpi=110,nrows=4,ncols=1,sharey=True) 

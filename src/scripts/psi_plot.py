@@ -53,8 +53,6 @@ plt.xlim([-1,1])
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
 plt.ylabel('Probablity density function')
 
-# plt.gca().set_facecolor('w')
-
 plt.tight_layout()
 plt.savefig(paths.figures / "psi_dist.pdf", bbox_inches="tight", dpi=600)
 plt.close()
