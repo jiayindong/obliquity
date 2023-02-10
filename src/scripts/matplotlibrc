@@ -1,2 +1,19 @@
 # Enforce a non-interactive backend
 backend: agg
+
+# set axis and ticks
+xtick.top : True
+xtick.direction : 'in'
+xtick.major.width : 1.0
+xtick.minor.width : 1.0
+ytick.right :  True
+ytick.direction' :  'in'
+ytick.major.width : 1.0
+ytick.minor.width :  1.0
+lines.markeredgewidth : 1.0
+
+# set font to match LaTeX's Computer Modern
+font.family : serif
+font.serif : cmr10
+mathtext.fontset : cm
+axes.formatter.use_mathtext : True # needed when using cm=cmr10 for normal text
