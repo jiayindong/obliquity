@@ -19,7 +19,7 @@ jobs:
         shell: bash -l {0}
         run: |
           wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
-          sudo ~/bin/tlmgr install type1cm cm-super underscore physics
+          sudo ~/bin/tlmgr install type1cm cm-super
 
       - name: Build the article PDF
         id: build
