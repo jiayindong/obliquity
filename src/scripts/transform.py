@@ -17,10 +17,10 @@ import pandas as pd
 import scipy.integrate as integrate
 from scipy import stats
 
-# from matplotlib import rc
-# rc('font', **{'family':'sans-serif'})
-# rc('text', usetex=False)
-# rc('text.latex', preamble=r'\usepackage{physics}')
+from matplotlib import rc
+rc('font', **{'family':'sans-serif'})
+rc('text', usetex=True)
+rc('text.latex', preamble=r'\usepackage{physics}')
 
 plt.rcParams['xtick.top'] =  True
 plt.rcParams['xtick.direction'] =  'in'
@@ -135,7 +135,6 @@ if __name__ == '__main__':
 
     plt.figure(figsize=(7,5),dpi=110)
 
-
     ### cosψ ~ Uniform(-1,1) ###
 
     cosψ = uni.posterior.cosψ.values.ravel()
@@ -158,7 +157,7 @@ if __name__ == '__main__':
 
     plt.subplot(4,4,3)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
-    plt.title(r'$i_*$')
+    plt.title(r'$i_\star$')
     plt.xlim([0,np.pi/2])
     plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
     plt.ylim([0,1.1])
@@ -225,7 +224,7 @@ if __name__ == '__main__':
 
     plt.subplot(4,4,7)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
-    plt.title(r'$i_*$')
+    plt.title(r'$i_\star$')
     plt.xlim([0,np.pi/2])
     plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
     plt.ylim([0,1.1])
@@ -293,7 +292,7 @@ if __name__ == '__main__':
 
     plt.subplot(4,4,11)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
-    plt.title(r'$i_*$')
+    plt.title(r'$i_\star$')
     plt.xlim([0,np.pi/2])
     plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
     plt.ylim([0,1.1])
@@ -370,7 +369,7 @@ if __name__ == '__main__':
 
     plt.subplot(4,4,15)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
-    plt.title(r'$i_*$')
+    plt.title(r'$i_\star$')
     plt.xlim([0,np.pi/2])
     plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
     plt.ylim([0,1.1])
