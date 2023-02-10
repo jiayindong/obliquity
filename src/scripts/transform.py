@@ -158,7 +158,7 @@ if __name__ == '__main__':
 
     plt.subplot(4,4,3)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
-    plt.title(r'$i_\star$')
+    plt.title(r'$i_*$')
     plt.xlim([0,np.pi/2])
     plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
     plt.ylim([0,1.1])
@@ -225,7 +225,7 @@ if __name__ == '__main__':
 
     plt.subplot(4,4,7)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
-    plt.title(r'$i_\star$')
+    plt.title(r'$i_*$')
     plt.xlim([0,np.pi/2])
     plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
     plt.ylim([0,1.1])
@@ -293,7 +293,7 @@ if __name__ == '__main__':
 
     plt.subplot(4,4,11)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
-    plt.title(r'$i_\star$')
+    plt.title(r'$i_*$')
     plt.xlim([0,np.pi/2])
     plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
     plt.ylim([0,1.1])
@@ -370,7 +370,7 @@ if __name__ == '__main__':
 
     plt.subplot(4,4,15)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
-    plt.title(r'$i_\star$')
+    plt.title(r'$i_*$')
     plt.xlim([0,np.pi/2])
     plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
     plt.ylim([0,1.1])
