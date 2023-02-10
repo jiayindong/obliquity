@@ -38,8 +38,8 @@ x = np.linspace(1e-5,1-1e-5,1000)
 # load the posteriors from the MCMC and calculate psi dists
 def psi_dist_draws(model_name):
 
-    istar_idata = az.from_netcdf(paths.data / "simulation/%s_istar_draws.nc"%model_name)
-    noistar_idata = az.from_netcdf(paths.data / "simulation/%s_noistar_draws.nc"%model_name)
+    istar_idata = az.from_netcdf(paths.data / "simulation/%s_istar.nc"%model_name)
+    noistar_idata = az.from_netcdf(paths.data / "simulation/%s_noistar.nc"%model_name)
 
     post = istar_idata.posterior
     istar_draws = np.zeros(shape=(len(x),4000))
