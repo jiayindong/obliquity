@@ -16,3 +16,11 @@
 </p>
 
 An open source scientific article created using the [showyourwork](https://github.com/showyourwork/showyourwork) workflow.
+
+## A Hierarchical Bayesian Framework for Stellar Obliquity Distribution Inference
+
+**Jiayin Dong**<sup>1</sup> and **Dan Foreman-Mackey**<sup>1</sup>
+
+<sup>1</sup>CCA, Flatiron Institute
+
+Source code and Jupyter Notebook demonstration for Dong & Foreman-Mackey 2023 to be submitted to the AAS Journals
