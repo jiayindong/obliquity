@@ -13,9 +13,9 @@ import numpy as np
 import arviz as az
 from scipy.stats import beta
 
-from matplotlib import rc
-rc('font', **{'family':'sans-serif'})
-rc('text', usetex=False)
+# from matplotlib import rc
+# rc('font', **{'family':'sans-serif'})
+# rc('text', usetex=False)
 
 plt.rcParams['xtick.top'] =  True
 plt.rcParams['xtick.direction'] =  'in'

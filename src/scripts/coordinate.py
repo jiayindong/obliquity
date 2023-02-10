@@ -7,10 +7,10 @@ import paths
 import sys
 import subprocess
 
-from matplotlib import rc
-rc('font', **{'family':'sans-serif'})
-rc('text', usetex=True)
-#rc('text.latex', preamble=r'\usepackage{physics}')
+# from matplotlib import rc
+# rc('font', **{'family':'sans-serif'})
+# rc('text', usetex=True)
+# rc('text.latex', preamble=r'\usepackage{physics}')
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -49,8 +49,8 @@ ax.quiver(0, 0, 0, 1.8, 0, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # x-ax
 ax.quiver(0, 0, 0, 0, 1.5, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # y-axis
 ax.quiver(0, 0, 0, 0, 0, 1.5, color='k', arrow_length_ratio=0.05, lw=1.5) # z-axis
 
-ax.text(2.1, 0, -0.05, r'$\textbf{Obs}$',fontsize=12)
-#ax.text(0, 0, 1.55, r"$\vb*{n}_{\textbf{orb}}$",fontsize=14)
+ax.text(2.1, 0, -0.05, r'Obs', fontsize=12, fontweight='bold')
+ax.text(0, 0, 1.55, r"$n_{orb}$", fontsize=14, fontweight='bold')
 
 # make the panes transparent
 ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
@@ -100,9 +100,9 @@ y = np.sin(phi)*np.sin(psi)*r
 z = np.cos(psi)*r
 ax.plot(x,y,z,c='k',lw=1.2)
 
-# ax.text(0.9,1., 0.83, r"$\vb*{n_{\star}}$",fontsize=14)
-# ax.text(-1.25,-0.8,-0.78, r"$\vb*{\theta}$",fontsize=14)
-# ax.text(1.2,0.72,0.71, r"$\vb*{\psi}$",fontsize=14)
+ax.text(0.9,1., 0.83, r"$n_*$", fontsize=14, fontweight='bold')
+ax.text(-1.2,-0.8,-0.78, r"$\theta$", fontsize=14, fontweight='bold')
+ax.text(1.2,0.72,0.71, r"$\psi$", fontsize=14, fontweight='bold')
 
 # Set an equal aspect ratio
 ax.set_aspect('equal')
@@ -148,8 +148,8 @@ ax.quiver(0, 0, 0, 1.4, 0, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # x-ax
 ax.quiver(0, 0, 0, 0, 1.8, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # y-axis
 ax.quiver(0, 0, 0, 0, 0, 1.5, color='k', arrow_length_ratio=0.05, lw=1.5) # z-axis
 
-ax.text(1.7, 0, -0.05, r'$\textbf{Obs}$',fontsize=12)
-#ax.text(0, 0, 1.55, r"$\vb*{n}_{\textbf{orb}}$",fontsize=14)
+ax.text(1.7, 0, -0.05, r'$Obs$',fontsize=12,fontweight='bold')
+ax.text(0, 0, 1.55, r"$n_{orb}$",fontsize=14,fontweight='bold')
 
 # make the panes transparent
 ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
@@ -209,9 +209,9 @@ y = np.sin(i)*np.sin(lam)*r
 z = np.sin(i)*np.cos(lam)*r
 ax.plot(x,y,z,c='k',lw=1.2)
 
-# ax.text(0.85, 0.1, 0.35, r"$\vb*{n_{\star}}$",fontsize=14)
-# ax.text(0,0.01,0.25, r"$\vb*{\lambda}$",fontsize=14)
-# ax.text(0.35,0,0.05, r"$\vb*{i_\star}$",fontsize=14)
+ax.text(0.85, 0.1, 0.35, r"$n_*$",fontsize=14,fontweight='bold')
+ax.text(0,0.01,0.25, r"$\lambda$",fontsize=14,fontweight='bold')
+ax.text(0.35,0,0.05, r"$i_*$",fontsize=14,fontweight='bold')
 
 # Set an equal aspect ratio
 ax.set_aspect('equal')

@@ -17,10 +17,10 @@ import pandas as pd
 import scipy.integrate as integrate
 from scipy import stats
 
-from matplotlib import rc
-rc('font', **{'family':'sans-serif'})
-rc('text', usetex=False)
-rc('text.latex', preamble=r'\usepackage{physics}')
+# from matplotlib import rc
+# rc('font', **{'family':'sans-serif'})
+# rc('text', usetex=False)
+# rc('text.latex', preamble=r'\usepackage{physics}')
 
 plt.rcParams['xtick.top'] =  True
 plt.rcParams['xtick.direction'] =  'in'
@@ -77,12 +77,11 @@ plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
-
 plt.ylim([0,1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r"$\bf{with}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = np.ones_like(cosψ)*0.5
@@ -99,7 +98,7 @@ plt.ylim([0,1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r"$\bf{no}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = np.ones_like(cosψ)*0.5
@@ -118,7 +117,7 @@ plt.ylim([0,2.1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r"$\bf{with}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
@@ -135,7 +134,7 @@ plt.ylim([0,2.1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r"$\bf{no}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
@@ -154,7 +153,7 @@ plt.ylim([0,2.1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r"$\bf{with}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
@@ -171,7 +170,7 @@ plt.ylim([0,2.1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r"$\bf{no}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
@@ -190,7 +189,7 @@ plt.ylim([0,2.1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r"$\bf{with}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
@@ -208,7 +207,7 @@ plt.ylim([0,2.1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r"$\bf{no}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)

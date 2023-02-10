@@ -17,10 +17,10 @@ import pandas as pd
 import scipy.integrate as integrate
 from scipy import stats
 
-from matplotlib import rc
-rc('font', **{'family':'sans-serif'})
-rc('text', usetex=False)
-rc('text.latex', preamble=r'\usepackage{physics}')
+# from matplotlib import rc
+# rc('font', **{'family':'sans-serif'})
+# rc('text', usetex=False)
+# rc('text.latex', preamble=r'\usepackage{physics}')
 
 plt.rcParams['xtick.top'] =  True
 plt.rcParams['xtick.direction'] =  'in'
