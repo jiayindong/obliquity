@@ -22,6 +22,16 @@ from scipy import stats
 # rc('text', usetex=False)
 # rc('text.latex', preamble=r'\usepackage{physics}')
 
+plt.rcParams['xtick.top'] =  True
+plt.rcParams['xtick.direction'] =  'in'
+plt.rcParams['xtick.major.width'] =  1.0
+plt.rcParams['xtick.minor.width'] =  1.0
+plt.rcParams['ytick.right'] =  True
+plt.rcParams['ytick.direction'] =  'in'
+plt.rcParams['ytick.major.width'] = 1.0
+plt.rcParams['ytick.minor.width'] =  1.0
+plt.rcParams['lines.markeredgewidth'] =  1.0
+
 ### PyMC models ###
 
 if __name__ == '__main__':
