@@ -50,8 +50,8 @@ plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 plt.ylim([0,2])
 plt.xlim([-1,1])
 
-# plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-# plt.ylabel('Probablity density function')
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.ylabel('Probablity density function')
 
 # plt.gca().set_facecolor('w')
 
