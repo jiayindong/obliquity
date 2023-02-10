@@ -202,7 +202,6 @@ plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
-
 plt.ylim([0,2.1])
 plt.xlim([-1,1])
 
