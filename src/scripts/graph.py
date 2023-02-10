@@ -7,28 +7,28 @@ import paths
 import sys
 import subprocess
 
-# from matplotlib import rc
-# rc('font', **{'family':'sans-serif'})
-# rc('text', usetex=True)
-# rc('text.latex', preamble=r'\usepackage{physics}')
+from matplotlib import rc
+rc('font', **{'family':'sans-serif'})
+rc('text', usetex=True)
+rc('text.latex', preamble=r'\usepackage{physics}')
 
 import daft
 
 pgm = daft.PGM(observed_style="shaded",node_unit=1, node_ec='k',dpi=150,line_width=0.8)
                
 # Hierarchical parameters.
-pgm.add_node("beta", r"$\beta$", 2, 2.8)
+pgm.add_node("beta", r"$\vb*{\beta}$", 2, 2.8)
 
 # Latent variable.
 pgm.add_node("psi", r"$\psi_n$", 2, 2.)
 
 pgm.add_node("lambda", r"$\lambda_n$", 1., 1.2)
 
-pgm.add_node("iorb", r"$i_{orb, n}$", 2., 1.2)
+pgm.add_node("iorb", r"$i_{{\rm orb},n}$", 2., 1.2)
 
-pgm.add_node("istar", r"$i_{*,n}$", 3., 1.2)
+pgm.add_node("istar", r"$i_{\star,n}$", 3., 1.2)
 
-pgm.add_node("pstar", r"$\gamma_{*,n}$", 4., 1.2)
+pgm.add_node("pstar", r"$\gamma_{\star,n}$", 4., 1.2)
 
 pgm.add_edge("beta", "psi")
 
@@ -40,9 +40,9 @@ pgm.add_edge("istar", "psi")
 
 pgm.add_node("obs_lambda", r"$\hat{\lambda}_n$", 1., 0.4, observed=True)
 
-pgm.add_node("obs_iorb", r"$\hat{i}_{orb, n}$", 2., 0.4, observed=True)
+pgm.add_node("obs_iorb", r"$\hat{i}_{{\rm orb}, n}$", 2., 0.4, observed=True)
 
-pgm.add_node("Obs", r"Obs$_{*, n}$", 3., 0.4, observed=True, aspect=1., fontsize=8)
+pgm.add_node("Obs", r"Obs$_{\star, n}$", 3., 0.4, observed=True, aspect=1., fontsize=8)
 
 pgm.add_edge("lambda", "obs_lambda")
 
