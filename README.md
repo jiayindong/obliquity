@@ -25,5 +25,5 @@ by **Jiayin Dong**<sup>1</sup> and **Dan Foreman-Mackey**<sup>1</sup>
 
 The repository includes source code to reproduce figures and statistical models presented in **Dong & Foreman-Mackey 2023 to be submitted to the AAS Journals**.
 
-A Jupyter Notebook demonstration for the hierarchical Bayesian modeling for the stellar obliquity distribution inference can be found here:
-https://github.com/jiayindong/obliquity/blob/main/obliquity_demos.ipynb.
+A Jupyter Notebook demonstration for the hierarchical Bayesian modeling for the stellar obliquity distribution inference can be found at here:
+https://github.com/jiayindong/obliquity/blob/main/obliquity_distribution_demos.ipynb.
