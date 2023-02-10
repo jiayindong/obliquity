@@ -11,13 +11,14 @@ import daft
 
 from matplotlib import rc
 rc('font', **{'family':'sans-serif'})
-rc('text', usetex=False)
-rc('text.latex', preamble=r'\usepackage{physics}')
+rc('text', usetex=True)
+#rc('text.latex', preamble=r'\usepackage{physics}')
 
 pgm = daft.PGM(observed_style="shaded",node_unit=1, node_ec='k',dpi=150,line_width=0.8)
                
 # Hierarchical parameters.
-pgm.add_node("beta", r"$\vb*{\beta}$", 2, 2.8)
+#pgm.add_node("beta", r"$\vb*{\beta}$", 2, 2.8)
+pgm.add_node("beta", r"$\beta$", 2, 2.8)
 
 # Latent variable.
 pgm.add_node("psi", r"$\psi_n$", 2, 2.)
