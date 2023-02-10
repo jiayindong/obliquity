@@ -17,22 +17,8 @@ import pandas as pd
 import scipy.integrate as integrate
 from scipy import stats
 
-from matplotlib import rc
-rc('font', **{'family':'sans-serif'})
-rc('text', usetex=True)
-rc('text.latex', preamble=r'\usepackage{physics}')
-
-plt.rcParams['xtick.top'] =  True
-plt.rcParams['xtick.direction'] =  'in'
-plt.rcParams['xtick.major.width'] =  1.0
-plt.rcParams['xtick.minor.width'] =  1.0
-plt.rcParams['ytick.right'] =  True
-plt.rcParams['ytick.direction'] =  'in'
-plt.rcParams['ytick.major.width'] = 1.0
-plt.rcParams['ytick.minor.width'] =  1.0
-plt.rcParams['lines.markeredgewidth'] =  1.0
-
 from scipy.stats import beta
+
 x = np.linspace(1e-5,1-1e-5,1000)
 σ = 0.2
 

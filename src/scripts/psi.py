@@ -27,7 +27,7 @@ plt.rcParams['ytick.major.width'] = 1.0
 plt.rcParams['ytick.minor.width'] =  1.0
 plt.rcParams['lines.markeredgewidth'] =  1.0
 
-# Sky-projected stellar obliquity and uncertainty extracted from Albrecht+22
+# Sky-projected stellar obliquity and uncertainty extracted from Albrecht+22 Table A1
 Lam = np.array([8.20304715e-02, 5.23598776e-02, 1.74532925e-02, 6.56243772e-01,
        1.74532928e-03, 1.74532925e-01, 5.11381482e-02, 2.58308733e-02,
        1.25663706e+00, 6.45771832e-02, 3.49065856e-03, 3.70009815e-01,
