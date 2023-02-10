@@ -36,11 +36,11 @@
 
 \author{et al.}
 
-\received{}
-\revised{}
-\accepted{}
+% \received{}
+% \revised{}
+% \accepted{}
 
-\submitjournal{the AAS Journals}
+% \submitjournal{the AAS Journals}
 
 % Abstract with filler text
 \begin{abstract}
@@ -124,7 +124,7 @@ The likelihood functions follow:
 If $\gamma_{\star, n}$ is available, we construct Normal distributions with means and standard deviations from their observed data.
 Here we assume uniform hyperpriors for the Beta distribution. For population inference on a small number of systems (i.e., $N \lesssim 50$), the choice of hyperpriors could impact the inferred distribution \citep{Nagpal22}. When applying the framework to a small sample size, it is important to test the robustness of inferred distributions on different hyperpriors.
 
-The probabilistic model is built with the $\mathtt{PyMC}$ \citep[$\mathtt{v4.1.7}$;][]{pymc} package and the posteriors are sampled using the No-U-Turn Sampler \citep[NUTS;][]{Hoffman11}, a gradient-based sampling algorithm of the Markov chain Monte Carlo (MCMC). All figures and simulations in this paper are fully reproducible and built with the $\mathtt{showyourwork}$ package. The open source code can be found on \href{https://github.com/jiayindong/obliquity}{GitHub\,\faGithub\,(https://github.com/jiayindong/obliquity)}.
+The probabilistic model is built with the $\mathtt{PyMC}$ \citep[$\mathtt{v4.1.7}$;][]{pymc} package and the posteriors are sampled using the No-U-Turn Sampler \citep[NUTS;][]{Hoffman11}, a gradient-based sampling algorithm of the Markov chain Monte Carlo (MCMC). All figures and simulations in this paper are fully reproducible and built with the \showyourwork package. The open source code can be found on \href{https://github.com/jiayindong/obliquity}{GitHub\,\faGithub\,(https://github.com/jiayindong/obliquity)}.
 
 \section{Applications to Simulated and Observational Data}\label{sec:applications}
 
@@ -244,9 +244,15 @@ When jointly modeling the stellar obliquity distribution from one sample with st
 Lastly, we applied the framework to all exoplanetary systems with sky-projected stellar obliquity measurements and found that $67\pm9$\% of the systems have stellar obliquity less than $40\degr$, and $33\pm9$\% of the systems have nearly isotropically distributed obliquities between $40\degr$ and $140\degr$.
 The distribution could have important implications for the formation and evolution of close-in planetary systems and be worthwhile for further investigation.
 
+\section{Reproducibility}\label{sec:reproducibility}
+This study was carried out using the reproducibility software \href{https://github.com/showyourwork/showyourwork}{\showyourwork} \citep{Luger2021}, which leverages continuous integration to programmatically download the data from \href{https://zenodo.org/}{zenodo.org}, create the figures, and compile the manuscript. 
+Each figure caption contains one link to the script used to make the figure (at the commit corresponding to the current build of the manuscript).
+The git repository associated with this study is publicly available at \url{https://github.com/jiayindong/obliquity}.
+A Jupyter notebook with examples of the stellar obliquity distribution inference can be found in the same repository.
+
 \vspace*{5mm}
 
-\software{$\mathtt{ArviZ}$ \citep{arviz_2019}, $\mathtt{Jupyter}$ \citep{Jupyter}, $\mathtt{Matplotlib}$ \citep{Matplotlib07, Matplotlib16}, $\mathtt{NumPy}$ \citep{NumPy11, NumPy20}, $\mathtt{pandas}$ \citep{mckinney-proc-scipy-2010, reback2020pandas}, $\mathtt{PyMC}$ \citep{pymc}, $\mathtt{SciPy}$ \citep{2020SciPy-NMeth}}
+\software{$\mathtt{ArviZ}$ \citep{arviz_2019}, $\mathtt{Jupyter}$ \citep{Jupyter}, $\mathtt{Matplotlib}$ \citep{Matplotlib07, Matplotlib16}, $\mathtt{NumPy}$ \citep{NumPy11, NumPy20}, $\mathtt{pandas}$ \citep{mckinney-proc-scipy-2010, reback2020pandas}, $\mathtt{PyMC}$ \citep{pymc}, $\mathtt{SciPy}$ \citep{2020SciPy-NMeth}, \showyourwork \citep{Luger2021}}
 
 \bibliography{bib}
 
