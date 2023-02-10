@@ -32,14 +32,15 @@ plt.rcParams['ytick.major.width'] = 1.0
 plt.rcParams['ytick.minor.width'] =  1.0
 plt.rcParams['lines.markeredgewidth'] =  1.0
 
+from scipy.stats import beta
 x = np.linspace(1e-5,1-1e-5,1000)
 σ = 0.2        
 
 # load the posteriors from the MCMC and calculate psi dists
 def psi_dist_draws(model_name):
 
-    istar_idata = az.from_netcdf(paths.data / simulation/ "%s_istar.nc"%model_name)
-    noistar_idata = az.from_netcdf(paths.data / simulation/ "%s_noistar.nc"%model_name)
+    istar_idata = az.from_netcdf(paths.data / "simulation" / (model_name + "_istar.nc"))
+    noistar_idata = az.from_netcdf(paths.data / "simulation" / (model_name + "_noistar.nc"))
 
     post = istar_idata.posterior
     istar_draws = np.zeros(shape=(len(x),4000))
@@ -55,10 +56,10 @@ def psi_dist_draws(model_name):
 
     return istar_draws, noistar_draws
 
-uni_istar_draws, uni_noistar_draws = psi_dist_draws('uni')
-norm1_istar_draws, norm1_noistar_draws = dist_draws('norm1')
-norm2_istar_draws, norm2_noistar_draws = dist_draws('norm2')
-norm3_istar_draws, norm3_noistar_draws = dist_draws('norm3')
+uni_istar_draws, uni_noistar_draws = psi_dist_draws("uni")
+norm1_istar_draws, norm1_noistar_draws = psi_dist_draws("norm1")
+norm2_istar_draws, norm2_noistar_draws = psi_dist_draws("norm2")
+norm3_istar_draws, norm3_noistar_draws = psi_dist_draws("norm3")
 
 ### Make the plot ###
 fig, big_axes = plt.subplots(figsize=(3.5,6.5),dpi=110,nrows=4,ncols=1,sharey=True) 
