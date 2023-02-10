@@ -61,6 +61,7 @@ norm1_istar_draws, norm1_noistar_draws = psi_dist_draws("norm1")
 norm2_istar_draws, norm2_noistar_draws = psi_dist_draws("norm2")
 norm3_istar_draws, norm3_noistar_draws = psi_dist_draws("norm3")
 
+
 ### Make the plot ###
 fig, big_axes = plt.subplots(figsize=(3.5,6.5),dpi=110,nrows=4,ncols=1,sharey=True) 
 
@@ -80,29 +81,12 @@ for row, big_ax in enumerate(big_axes, start=1):
     big_ax.tick_params(labelcolor=(1.,1.,1., 0.0), top='off', bottom='off', left='off', right='off')
     # removes the white frame
     big_ax._frameon = False
+    
 
 ### Uniform cosψ ###
 ax = fig.add_subplot(4,2,1)
         
 q025, q16, q50, q84, q975 = np.percentile(uni_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-
-plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
-plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
-plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
-
-plt.ylim([0,1])
-plt.xlim([-1,1])
-
-plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r"$\bf{with}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
-
-cosψ = np.linspace(-1,1,200)
-pcosψ = np.ones_like(cosψ)*0.5
-plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1)
-
-ax = fig.add_subplot(4,2,2)
-
-q025, q16, q50, q84, q975 = np.percentile(uni_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
@@ -111,7 +95,24 @@ plt.ylim([0,1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r"$\bf{no}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
+plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+
+cosψ = np.linspace(-1,1,200)
+pcosψ = np.ones_like(cosψ)*0.5
+plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1)
+
+ax = fig.add_subplot(4,2,2)
+
+q025, q16, q50, q84, q975 = np.percentile(uni_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
+plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
+plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
+
+plt.ylim([0,1])
+plt.xlim([-1,1])
+
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = np.ones_like(cosψ)*0.5
@@ -122,23 +123,6 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1)
 ax = fig.add_subplot(4,2,3)
         
 q025, q16, q50, q84, q975 = np.percentile(norm1_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
-plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
-plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
-
-plt.ylim([0,2.1])
-plt.xlim([-1,1])
-
-plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r"$\bf{with}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
-
-cosψ = np.linspace(-1,1,200)
-pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
-plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
-
-ax = fig.add_subplot(4,2,4)
-
-q025, q16, q50, q84, q975 = np.percentile(norm1_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
@@ -147,7 +131,24 @@ plt.ylim([0,2.1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r"$\bf{no}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
+plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+
+cosψ = np.linspace(-1,1,200)
+pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
+plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
+
+ax = fig.add_subplot(4,2,4)
+
+q025, q16, q50, q84, q975 = np.percentile(norm1_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
+plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
+plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
+
+plt.ylim([0,2.1])
+plt.xlim([-1,1])
+
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
@@ -158,23 +159,6 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 ax = fig.add_subplot(4,2,5)
         
 q025, q16, q50, q84, q975 = np.percentile(norm2_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
-plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
-plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
-
-plt.ylim([0,2.1])
-plt.xlim([-1,1])
-
-plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r"$\bf{with}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
-
-cosψ = np.linspace(-1,1,200)
-pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
-plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
-
-ax = fig.add_subplot(4,2,6)
-
-q025, q16, q50, q84, q975 = np.percentile(norm2_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
@@ -183,7 +167,24 @@ plt.ylim([0,2.1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r"$\bf{no}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
+plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+
+cosψ = np.linspace(-1,1,200)
+pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
+plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
+
+ax = fig.add_subplot(4,2,6)
+
+q025, q16, q50, q84, q975 = np.percentile(norm2_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
+plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
+plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
+
+plt.ylim([0,2.1])
+plt.xlim([-1,1])
+
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
@@ -194,23 +195,6 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 ax = fig.add_subplot(4,2,7)
         
 q025, q16, q50, q84, q975 = np.percentile(norm3_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
-plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
-plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
-
-plt.ylim([0,2.1])
-plt.xlim([-1,1])
-
-plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r"$\bf{with}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
-
-cosψ = np.linspace(-1,1,200)
-pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
-plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
-
-ax = fig.add_subplot(4,2,8)
-
-q025, q16, q50, q84, q975 = np.percentile(norm3_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
@@ -219,7 +203,24 @@ plt.ylim([0,2.1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r"$\bf{no}$"+ ' ' + r'$i_*$ likelihood', fontsize=10)
+plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+
+cosψ = np.linspace(-1,1,200)
+pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
+plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
+
+ax = fig.add_subplot(4,2,8)
+
+q025, q16, q50, q84, q975 = np.percentile(norm3_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
+plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
+plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
+
+plt.ylim([0,2.1])
+plt.xlim([-1,1])
+
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
