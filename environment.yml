@@ -8,4 +8,4 @@ dependencies:
   - arviz
   - pymc<5
   - pip:
-      - daft
+    - daft
