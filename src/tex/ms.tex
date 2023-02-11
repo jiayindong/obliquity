@@ -96,7 +96,7 @@ The sky-projected stellar obliquity $\lambda_n$ is constrained by observed $\hat
 The orbital inclination $i_{{\rm orb},n}$ is constrained by the transit light curves of exoplanets.
 Obs$_{\star,n}$ includes observed data that helps to constrain $i_{\star,n}$ and $\gamma_{\star, n}$.
 If the rotational modulation method is used to constrain the stellar inclination, the $i_{\star,n}$ and $\gamma_{\star,n}$ are constrained by rotational modulation in photometric or spectroscopic time series and observed sky-projected stellar rotational line broadening $\hat{v}\sin{i_{\star,n}}$ \citep[e.g.,][]{Masuda20}, where we have $v\sin{i_\star} = 2 \pi R_\star / P_{\rm rot}$.
-If the gravity-darkening method is used, the $i_{\star,n}$ could be constrained by the anomaly in transit light curves. If asteroseismology is used, the $i_{\star,n}$ could be constrained from the mode splitting in the Fourier transform of photometric time series.
+If the gravity-darkening method is used, the $i_{\star,n}$ could be constrained by the anomaly in transit light curves \citep{Barnes09}. If asteroseismology is used, the $i_{\star,n}$ could be constrained from the mode splitting in the Fourier transform of photometric time series \citep{Chaplin13}.
 
 For the stellar obliquity distribution, we model the $\cos{\psi}$ distribution instead of $\psi$ distribution to understand if the stellar obliquity is isotropically distributed. If stellar obliquity distribution follows an isotropic distribution, the $\cos{\psi}$ distribution will be uniformly distributed between -1 to 1. We adopt a two-component mixture Beta distribution with hyperparameters $\bm{\beta} = \{\bm{w},\bm{a},\bm{b}\}$, where each hyperparameter has a dimension of 2. One component is designed for a large population of well-aligned systems, and the other is designed for misaligned systems. The Beta distribution is a flexible distribution that can describe the spike of aligned systems with stellar obliquities close to $0\degr$ or the clustered or broadly distributed misaligned systems.
 The probability density function of $\cos{\psi}$ follows 
@@ -244,11 +244,10 @@ When jointly modeling the stellar obliquity distribution from one sample with st
 Lastly, we applied the framework to all exoplanetary systems with sky-projected stellar obliquity measurements and found that $67\pm9$\% of the systems have stellar obliquity less than $40\degr$, and $33\pm9$\% of the systems have nearly isotropically distributed obliquities between $40\degr$ and $140\degr$.
 The distribution could have important implications for the formation and evolution of close-in planetary systems and be worthwhile for further investigation.
 
-\section{Reproducibility}\label{sec:showyourwork}
-This study was carried out using the reproducibility software \href{https://github.com/showyourwork/showyourwork}{\showyourwork} \citep{Luger2021}, which leverages continuous integration to programmatically download the data from \href{https://zenodo.org/}{zenodo.org}, create the figures, and compile the manuscript. 
+This study was carried out with the reproducible workflow \href{https://github.com/showyourwork/showyourwork}{\showyourwork} \citep{Luger2021}, which leverages continuous integration to programmatically download the data from \href{https://zenodo.org/}{zenodo.org}, create the figures, and compile the manuscript. 
 Each figure caption contains one link to the script used to make the figure (at the commit corresponding to the current build of the manuscript).
 The git repository associated with this study is publicly available at \url{https://github.com/jiayindong/obliquity}.
-A Jupyter notebook with examples of the stellar obliquity distribution inference can be found in the same repository.
+A Jupyter notebook demonstration including case studies of the stellar obliquity distribution inference can be found in the same repository.
 
 \vspace*{5mm}
 
