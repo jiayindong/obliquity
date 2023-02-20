@@ -32,11 +32,11 @@ pgm.add_node("pstar", r"$\gamma_{\star,n}$", 4., 1.2)
 
 pgm.add_edge("beta", "psi")
 
-pgm.add_edge("lambda", "psi")
+pgm.add_edge("psi", "lambda")
 
-pgm.add_edge("iorb", "psi")
+pgm.add_edge("psi", "iorb")
 
-pgm.add_edge("istar", "psi")
+pgm.add_edge("psi", "istar")
 
 pgm.add_node("obs_lambda", r"$\hat{\lambda}_n$", 1., 0.4, observed=True)
 
