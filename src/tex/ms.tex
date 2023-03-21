@@ -79,9 +79,34 @@ In some cases, stellar inclinations can be constrained via, for example, photome
 However, for the vast majority of exoplanet systems, $i_\star$ measurements are not feasible. In these cases, it is still possible to infer their stellar obliquities from the sky-projected obliquities, assuming isotropic stellar inclinations; however, the inferred $\psi$ will have greater uncertainty than the one inferred with $i_\star$ measurement \citep{Fabrycky09}.
 
 The relationship between the distributions of stellar obliquity, sky-projected stellar obliquity, and stellar inclination is still not fully understood. In this study, we aim to gain a deeper understanding of this relationship and develop a statistical approach to infer the stellar obliquity distribution.
+\edits{In Section~\ref{sec:coords}, we find the expression of $\lambda$ and $i_\star$ in terms of the orbital inclination $i_{\rm orb}$, stellar obliquity $\psi$, and the azimuthal angle of the stellar spin axis $\theta$.}
 In Section~\ref{sec:hbm}, we introduce a flexible, hierarchical Bayesian framework that allows us to infer the stellar obliquity distribution of a sample.
 In Section~\ref{sec:applications}, we apply the framework to simulated data and real observations and show that the inferred stellar obliquity distribution from sky-projected stellar obliquities is robust even if the $i_\star$ information is not provided.
 In Section~\ref{sec:jacobian}, we further investigate the relationship between the distributions of $\psi$, $\lambda$, and $i_\star$, and explain why sky-projected stellar obliquities play a predominant role in determining the inferred distribution of stellar obliquities.
+
+{\color{purple}
+
+\section{Relations between $\{\lambda, \lowercase{i}_\star\}$ and $\{\psi, \theta\}$}\label{sec:coords}
+
+In this section, we find the expression of $\lambda$ and $i_\star$ in terms of $\psi$, $\theta$, and $i_{\rm orb}$. To do so, we introduce two coordinates that describe the stellar spin axis and its planet's orbital axis.
+
+In the $\{\psi, \theta\}$ coordinate system, we assume the planetary orbital axis is aligned with the $\vb{z}$-axis. The stellar spin axis can be written as 
+\begin{equation}
+    \vb{n_\star} = \sin{\psi}\cos{\theta}\vu*{x} + \sin{\psi}\sin{\theta}\vu*{y} + \cos{\psi}\vu*{z}
+\end{equation}
+
+\begin{figure*}[ht!]
+    \script{coordinate.py}
+    \gridline{
+        \fig{figures/coord_psi.pdf}{0.45\textwidth}{\vspace*{-1.8cm}(a) The $\{\psi, \theta\}$ coordinate system. The grey circle corresponds to a constant $\psi$ value and its circumference is proportional to $\sin{\psi}$.}
+        \fig{figures/coord_lam.pdf}{0.45\textwidth}{\vspace*{-1.8cm}(b) The $\{\lambda, i_\star\}$ coordinate system. The grey circle corresponds to a constant $i_\star$ value and its circumference is proportional to $\sin{i_\star}$.}
+    }
+    \vspace*{-1cm}
+    \caption{Two coordinate systems that describe the stellar spin axis $\bf{n}_{\star}$ and the planet's orbital axis $\bf{n}_{\rm orb}$. \edits{Add more descriptions here.}}
+    \label{fig:coord}
+\end{figure*}
+
+}
 
 \section{Hierarchical Bayesian Framework}\label{sec:hbm}
 
@@ -92,9 +117,9 @@ In the absence of an $i_\star$, $P_{\rm rot}$, or $v\sin{i}_\star$ measurement, 
 \begin{figure}[ht!]
     \script{graph.py}
     \includegraphics[width=\linewidth]{figures/graph.pdf}
-    \caption{A probabilistic graphical model showing the conditional structure of our hierarchical Bayesian framework for inferring the stellar obliquity distribution of exoplanetary systems. The population model is parameterized by hyperparameters $\vb*{\beta}$, and it is constrained by the sky-projected stellar obliquity $\lambda_n$, orbital inclination $i_{{\rm orb}, n}$, and, if available, the stellar inclination $i_{\star, n}$ of each $n_{\rm th}$ individual system. Each system's stellar obliquity $\psi_n$ is inferred simultaneously based on these data. 
+    \caption{\edits{Need some edits: A probabilistic graphical model showing the conditional structure of our hierarchical Bayesian framework for inferring the stellar obliquity distribution of exoplanetary systems. The population model is parameterized by hyperparameters $\vb*{\beta}$, and it is constrained by the sky-projected stellar obliquity $\lambda_n$, orbital inclination $i_{{\rm orb}, n}$, and, if available, the stellar inclination $i_{\star, n}$ of each $n_{\rm th}$ individual system. Each system's stellar obliquity $\psi_n$ is inferred simultaneously based on these data. 
     Properties of the star other than its inclination, such as its radius and rotation period, are represented by $\gamma_{\star, n}$, and these can inform the constraint on $i_{\star, n}$, if available. 
-    Obs$_{\star,n}$ contains all observed properties of the star with uncertainties, $\hat{\lambda}_n$ has the measured sky-projected stellar obliquity and its uncertainty, and $\hat{i}_{{\rm orb}, n}$ has measured orbital inclination and its uncertainty.}
+    Obs$_{\star,n}$ contains all observed properties of the star with uncertainties, $\hat{\lambda}_n$ has the measured sky-projected stellar obliquity and its uncertainty, and $\hat{i}_{{\rm orb}, n}$ has measured orbital inclination and its uncertainty.}}
     \label{fig:graph}
 \end{figure}
 
@@ -211,20 +236,9 @@ The broad distribution of misaligned systems is in good agreement with the predi
 
 In this section, we aim to gain insight into the reasons behind the predominant role of the sky-projected stellar obliquity distribution and the less significant impact of the stellar inclination distribution in the inference of the stellar obliquity distribution.
 
-\begin{figure*}[ht!]
-    \script{coordinate.py}
-    \gridline{
-        \fig{figures/coord_psi.pdf}{0.45\textwidth}{\vspace*{-1.8cm}(a) The $\{\psi, \theta\}$ coordinate system. The grey circle corresponds to a constant $\psi$ value and its circumference is proportional to $\sin{\psi}$.}
-        \fig{figures/coord_lam.pdf}{0.45\textwidth}{\vspace*{-1.8cm}(b) The $\{\lambda, i_\star\}$ coordinate system. The grey circle corresponds to a constant $i_\star$ value and its circumference is proportional to $\sin{i_\star}$.}
-    }
-    \vspace*{-1cm}
-    \caption{Two coordinate systems that describe the stellar spin axis $\bf{n}_{\star}$ and the planet's orbital axis $\bf{n}_{\rm orb}$. Here we define the observer's line of sight as one of the horizontal axes (represented as the conventional $x$-axis in Cartesian coordinates), and the orbital axis of the planet as the vertical axis (represented as the conventional $z$-axis in Cartesian coordinates). We approximate the orbital inclination of the planet to $90\degr$.}
-    \label{fig:coord}
-\end{figure*}
-
 In Figure~\ref{fig:coord}, we present two coordinate systems that describe the stellar spin axis $\bf{n}_{\star}$ for a given orbital axis $\bf{n}_{\rm orb}$. In both coordinates, we set the observer's line of sight to be one of the horizontal axes (represented as the conventional $x$-axis in Cartesian coordinates), and the orbital axis of the planet to be the vertical axis (represented as the conventional $z$-axis in Cartesian coordinates). To simplify the problem, the orbital inclination of the transiting planet is assumed to be $90\degr$ in this illustration. As discussed in Section~\ref{subsec:sims}, the assumption will not compromise the stellar obliquity distribution inference for transiting planets.
 
-The $\{\psi, \theta\}$ coordinate system shown in panel (a) relates to the physical properties of a planetary system. $\psi$ is the angle between the stellar spin axis and the planetary orbital axis, and $\theta$ is the azimuthal angle of the stellar spin axis. For the given $\bf{n}_{\rm orb}$ axis, if $\bf{n}_{\star}$ is a random vector with uniform distribution on a three-dimensional sphere, i.e., $\bf{n}_{\star}$ is isotropically distributed, the probability density function of $\psi$ follows $p(\psi) = \sin{\psi}$ and $p(\theta) = 1/2\pi$. 
+The $\{\psi, \theta\}$ coordinate system shown in panel (a) relates to the physical properties of a planetary system. $\psi$ is the angle between the stellar spin axis and the planetary orbital axis, and $\theta$ is the azimuthal angle of the stellar spin axis. For the given $\bf{n}_{\rm orb}$ axis, if $\bf{n}_{\star}$ is a random vector with uniform distribution on a three-dimensional sphere, i.e., $\bf{n}_{\star}$ is isotropically distributed, the probability density function of $\psi$ follows $p(\psi) = \sin{\psi}$ and $p(\theta) = 1/2\pi$.
 \edits{Here $p(x)$ denote the probability density distribution of $x$.}
 Since $p(\cos{\psi}) = p(\psi) \abs{\dv*{\psi}{\cos{\psi}}}$, $p(\cos{\psi})$ is uniformly distributed between $-1$ and $1$ for isotropic stellar obliquity.
 The $\{\lambda, i_\star\}$ coordinate system shown in panel (b) relates to observed properties. $\lambda$ is the sky-projected stellar obliquity and $i_\star$ is the stellar inclination. If $\bf{n}_{\star}$ is isotropically distributed, $p(i_\star) = \sin{i_\star}$ and $p(\lambda) = 1/2\pi$. Again, since $p(\cos{i_\star}) = p(i_\star) \abs{\dv*{i_\star}{\cos{i_\star}}}$, $p(\cos{i_\star})$ is uniformly distributed between $-1$ and $1$. 
