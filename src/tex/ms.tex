@@ -11,7 +11,7 @@
 \usepackage{hyperref}
 
 \newcommand{\dfm}[1]{\textcolor{blue}{\textbf{From DFM:} #1}}
-\newcommand{\edits}[1]{\textcolor{grey}{\textbf{Edits:} #1}}
+\newcommand{\edits}[1]{\textcolor{purple}{#1}}
 
 \received{}
 \revised{}
@@ -112,21 +112,23 @@ This could include a direct measurement of $\hat{i}_{\star,n}$ \citep[via gravit
 % If the gravity-darkening method is used, the $i_{\star,n}$ could be constrained by the anomaly in transit light curves \citep{Barnes09}. If asteroseismology is used, the $i_{\star,n}$ could be constrained from the mode splitting in the Fourier transform of photometric time series \citep{Chaplin13}.
 
 For the stellar obliquity distribution, we model the $\cos{\psi}$ distribution instead of $\psi$ distribution to understand if the stellar obliquity is isotropically distributed.
-If stellar obliquity distribution is isotropic, $\cos{\psi}$ is uniformly distributed between -1 to 1.
-To flexibly model the stellar obliquity distribution, we select a two-component mixture of Betas distribution with hyperparameters $\bm{\beta} = \{\bm{w},\bm{a},\bm{b}\}$, where each hyperparameter has a dimension of 2.
+If stellar obliquity distribution is isotropic, $\cos{\psi}$ is uniformly distributed between -1 and 1.
+To flexibly model the stellar obliquity distribution, we select a two-component mixture of Betas distribution with hyperparameters $\bm{\beta} = \{\bm{w},\bm{a},\bm{b}\}$, where each hyperparameter has a dimension of 2. \edits{We have $\bm{w} = \{w_0, w_1\}$, $\bm{a} = \{a_0, a_1\}$, and  $\bm{b} = \{b_0, b_1\}$.}
 This mixture distribution has the capacity to capture anything from an isotropic distribution to a strongly bimodal population.
 % One component is designed for a large population of well-aligned systems, and the other is designed for misaligned systems. The Beta distribution is a flexible distribution that can describe the spike of aligned systems with stellar obliquities close to $0\degr$ or the clustered or broadly distributed misaligned systems.
 \dfm{The notation here is a bit sloppy. It might be better to say something like: there's some parameter $x \sim \mathrm{mixture}$ which we then transform as $2\,x-1$, which isn't quite the same.}
 Then, under this model, the probability density function for $\cos{\psi}$ is 
 \begin{align}
-    \cos{\psi} &\sim 2\,\Bigl( w_0 {\rm Beta}(a_0, b_0) + w_1 {\rm Beta}(a_1, b_1)\Bigr)-1.
+    u_0 &\sim {\rm Beta}(a_0, b_0) \nonumber\\
+    u_1 &\sim {\rm Beta}(a_1, b_1) \nonumber\\
+    \cos{\psi} &\sim 2\,( w_0 u_0 + w_1 u_1)-1.
 \end{align}
-Since the Beta distribution is defined on the interval $[0, 1]$, we extend its support to $[-1,1]$ using a linear transformation (i.e., $2\,{\rm Beta} - 1$). 
-
+Since the Beta distribution is defined on the interval $[0, 1]$, we extend its support to $[-1,1]$ using a linear transformation (i.e., $2\,( w_0 u_0 + w_1 u_1)-1$).
 \dfm{I'm not sure that I understand this next bit. Why and how do we do this?}
 For the ${\rm Beta}(a_0,b_0)$ component, we have it to describe the population of aligned systems. For the $a_0/b_0 \gg 1$, the distribution will have a spike at $\cos{\psi} = 1$. For the ${\rm Beta}(a_1,b_1)$ component, we have it to describe the misaligned systems.
-
+% add more description on why chose a0, b0 priors
 We design the order of the two components to prevent label switching in the mixture model \dfm{how?}.
+
 With the design, the hyperparameter and parameter priors are the following:
 \begin{align}
     w_{0,1} &\sim {\rm Dirichlet}(1, 1) \nonumber\\
@@ -165,7 +167,6 @@ In Figure~\ref{fig:simulation}, we present the results of this experiment, plott
 Since the simulated stellar obliquity distributions only have a single component, we model the data with a single Beta distribution.
 Each row of Figure~\ref{fig:simulation} corresponds to a different simulation distribution. The orange curve and contours in the left column are the median, 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred $\cos{\psi}$ distribution with stellar inclination information.
 The right column shows the same inferences (in blue) when constraints on stellar inclination are not included.
-% We simply assume an isotropic distribution of $i_\star$ for these models.
 Surprisingly, Figure~\ref{fig:simulation} demonstrates that our inference procedure recovers the true distribution for $\cos{\psi}$ equally well, regardless of the inclusion of $i_\star$ measurements.
 Despite the fact that the inferred distributions without $i_\star$ measurements have marginally wider uncertainties, as indicated by shallow color contours, the modes and widths of the inferred stellar obliquity distributions are consistent with or without $i_\star$ likelihood.
 Since the injected distributions in rows 2-4 are Normal distributions, it should not be surprising that the inferred distributions, which are Beta distributions, may not exactly match the injected distributions.
@@ -223,9 +224,11 @@ In this section, we aim to gain insight into the reasons behind the predominant 
 
 In Figure~\ref{fig:coord}, we present two coordinate systems that describe the stellar spin axis $\bf{n}_{\star}$ for a given orbital axis $\bf{n}_{\rm orb}$. In both coordinates, we set the observer's line of sight to be one of the horizontal axes (represented as the conventional $x$-axis in Cartesian coordinates), and the orbital axis of the planet to be the vertical axis (represented as the conventional $z$-axis in Cartesian coordinates). To simplify the problem, the orbital inclination of the transiting planet is assumed to be $90\degr$ in this illustration. As discussed in Section~\ref{subsec:sims}, the assumption will not compromise the stellar obliquity distribution inference for transiting planets.
 
-The $\{\psi, \theta\}$ coordinate system shown in panel (a) relates to the physical properties of a planetary system. $\psi$ is the angle between the stellar spin axis and the planetary orbital axis, and $\theta$ is the azimuthal angle of the stellar spin axis. For the given $\bf{n}_{\rm orb}$ axis, if $\bf{n}_{\star}$ is a random vector with uniform distribution on a three-dimensional sphere, i.e., $\bf{n}_{\star}$ is isotropically distributed, the probability density function of $\psi$ follows $p_{\psi} \sim \sin{\psi}$ and $p_\theta \sim 1/2\pi$. Since $p_{\cos{\psi}} = p_{\psi} \abs{\dv*{\psi}{\cos{\psi}}}$, $p_{\cos{\psi}}$ is uniformly distributed between $-1$ and $1$ for isotropic stellar obliquity.
-The $\{\lambda, i_\star\}$ coordinate system shown in panel (b) relates to observed properties. $\lambda$ is the sky-projected stellar obliquity and $i_\star$ is the stellar inclination. If $\bf{n}_{\star}$ is isotropically distributed, $p_{i_\star} \sim \sin{i_\star}$ and $p_\lambda \sim \mathcal{U}(-\pi, \pi)$. Again, since $p_{\cos{i_\star}} = p_{i_\star} \abs{\dv*{i_\star}{\cos{i_\star}}}$, $p_{\cos{i_\star}}$ is uniformly distributed between $-1$ and $1$. 
-Because of the observational degeneracy between $i_\star$ and $180\degr - i_\star$, the convention is to have $0 \leqslant i_\star \leqslant 90\degr$, and thus $p_{\cos{i_\star}}$ is uniformly distributed between $0$ and $1$ and $p_{\cos{i_\star}} \sim \mathcal{U}(0, 1)$. This also limits $p_\theta \sim \mathcal{U}(-\pi/2, \pi/2)$.
+The $\{\psi, \theta\}$ coordinate system shown in panel (a) relates to the physical properties of a planetary system. $\psi$ is the angle between the stellar spin axis and the planetary orbital axis, and $\theta$ is the azimuthal angle of the stellar spin axis. For the given $\bf{n}_{\rm orb}$ axis, if $\bf{n}_{\star}$ is a random vector with uniform distribution on a three-dimensional sphere, i.e., $\bf{n}_{\star}$ is isotropically distributed, the probability density function of $\psi$ follows $p(\psi) = \sin{\psi}$ and $p(\theta) = 1/2\pi$. 
+\edits{Here $p(x)$ denote the probability density distribution of $x$.}
+Since $p(\cos{\psi}) = p(\psi) \abs{\dv*{\psi}{\cos{\psi}}}$, $p(\cos{\psi})$ is uniformly distributed between $-1$ and $1$ for isotropic stellar obliquity.
+The $\{\lambda, i_\star\}$ coordinate system shown in panel (b) relates to observed properties. $\lambda$ is the sky-projected stellar obliquity and $i_\star$ is the stellar inclination. If $\bf{n}_{\star}$ is isotropically distributed, $p(i_\star) = \sin{i_\star}$ and $p(\lambda) = 1/2\pi$. Again, since $p(\cos{i_\star}) = p(i_\star) \abs{\dv*{i_\star}{\cos{i_\star}}}$, $p(\cos{i_\star})$ is uniformly distributed between $-1$ and $1$. 
+Because of the observational degeneracy between $i_\star$ and $\pi - i_\star$, the convention is to have $0 \leqslant i_\star \leqslant \pi/2$, and thus $\cos{i_\star} \sim \mathcal{U}(0, 1)$ (i.e., $p(\cos{i_\star}) = 1$). This also suggests $\theta \sim \mathcal{U}(-\pi/2, \pi/2)$.
 
 We could find the mathematical relations between $\{\psi, \theta\}$ and $\{\lambda, i_\star\}$ by pairing the Cartesian components of $\bf{n}_{\star}$ in two coordinate systems:
 \begin{align}
@@ -235,27 +238,51 @@ We could find the mathematical relations between $\{\psi, \theta\}$ and $\{\lamb
 \end{align}
 
 First, we derive the $\lambda$ distribution for a given $\cos{\psi}$ distribution. We could find the distribution of $\cos{\lambda}$ using the Jacobian transformation from $\cos{\psi}$ and $\cos{\theta}$. Since $\psi$ and $\theta$ are independent variables, we could marginalize over $\theta$ to find the relation between the probability density functions between $\lambda$ and $\psi$.
+
 The Jacobian transformation follows
 \begin{equation}
-    p_{\cos{\lambda}} = \int \abs{\pdv{\cos{\psi}}{\cos{\lambda}}} p_{\cos{\psi}} p_{\cos{\theta}} d\cos{\theta}.
+    p(\cos{\lambda}) = \int \abs{\pdv{\cos{\psi}}{\cos{\lambda}}} p(\cos{\psi}) p(\cos{\theta}) d\cos{\theta}.
 \end{equation}
-Replacing $\sin{i_\star}$ in Equation~(\ref{eq:coord3}) using Equation~(\ref{eq:coord1}), we find $\cos{\lambda} = \cos{\psi}/\sqrt{1-(1-\cos^2{\psi})\cos^2{\theta}}$. Reorganize the equation, we get $\cos^2{\psi} = \frac{\cos^2{\lambda}\cos^2{\theta}-\cos^2{\lambda}}{\cos^2{\lambda}\cos^2{\theta}-1}$ and
-the partial derivative $\abs{\pdv{\cos{\psi}}{\cos{\lambda}}} = \frac{(1-\cos^2{\theta})^{1/2}}{(1-\cos^2{\theta}\cos^2{\lambda})^{3/2}}$. Assume $\theta$ is uniformly distributed between $-\pi/2$ and $\pi/2$, $p_{\cos{\theta}} = p_{\theta} \abs{\dv*{\theta}{\cos{\theta}}} = 2/\pi/(1-\cos^2{\theta)^{1/2}}$, where the factor of 2 is due to two solutions of $\theta$ to the $\cos{\theta}$. Putting all the parts together, we get
+Replacing $\sin{i_\star}$ in Equation~(\ref{eq:coord3}) using Equation~(\ref{eq:coord1}), we find 
+\begin{equation}
+    \cos{\lambda} = \cos{\psi}/\sqrt{1-(1-\cos^2{\psi})\cos^2{\theta}}.
+\end{equation} 
+Reorganize the equation, we get 
+\begin{equation}
+    \cos^2{\psi} = \frac{\cos^2{\lambda}\cos^2{\theta}-\cos^2{\lambda}}{\cos^2{\lambda}\cos^2{\theta}-1}
+\end{equation}
+and the partial derivative 
+\begin{equation}
+    \abs{\pdv{\cos{\psi}}{\cos{\lambda}}} = \frac{(1-\cos^2{\theta})^{1/2}}{(1-\cos^2{\theta}\cos^2{\lambda})^{3/2}}.
+\end{equation}
+Assume $\theta$ is uniformly distributed between $-\pi/2$ and $\pi/2$, $p(\cos{\theta}) = p(\theta) \abs{\dv*{\theta}{\cos{\theta}}} = 2/\pi/(1-\cos^2{\theta)^{1/2}}$, where the factor of 2 is due to two solutions of $\theta$ to the $\cos{\theta}$. Putting all the parts together, we get
 \begin{equation}\label{eqn:jac_lam}
-    p_{\cos{\lambda}} = \frac{2}{\pi} \int_{0}^{1} (1-\cos^2{\theta}\cos^2{\lambda})^{-3/2} p_{\cos{\psi}} d\cos{\theta}.
+    p(\cos{\lambda}) = \frac{2}{\pi} \int_{0}^{1} (1-\cos^2{\theta}\cos^2{\lambda})^{-3/2} p(\cos{\psi}) d\cos{\theta}.
 \end{equation}
-If $\cos{\psi}$ is uniformly distribution, i.e., $p_{\cos{\psi}} \sim 1/2$, Equation~(\ref{eqn:jac_lam}) becomes $p_{\cos{\lambda}} \sim 1/\pi/\sqrt{1-\cos^2{\lambda}}$, which is equivalent to $p_\lambda \sim \mathcal{U}(-\pi, \pi)$. This suggests $\lambda$ is uniformly distributed for an isotropic $\psi$ distribution. For different $\cos{\psi}$ distributions, $p_\lambda$ can be found by evaluating Equation~(\ref{eqn:jac_lam}).
+If $\cos{\psi}$ is uniformly distribution, i.e., $p(\cos{\psi}) = 1/2$, Equation~(\ref{eqn:jac_lam}) becomes $p(\cos{\lambda}) = 1/\pi/\sqrt{1-\cos^2{\lambda}}$, which is equivalent to $\lambda \sim \mathcal{U}(-\pi, \pi)$. This suggests $\lambda$ is uniformly distributed for an isotropic $\psi$ distribution. For different $\cos{\psi}$ distributions, $p(\lambda)$ can be found by evaluating Equation~(\ref{eqn:jac_lam}).
 
 Next, we derive the $i_\star$ distribution for a given $\cos{\psi}$ distribution. Similarly, we first find the Jacobian transformation of $i_\star$ from $\psi$ and $\theta$ and then marginalize over $\theta$. It is easier to work on $\cos{i_\star}$ than $i_\star$:
 \begin{equation}
-    p_{\cos{i_\star}} = \int \abs{\pdv{\sin{\psi}}{\cos{i_\star}}} p_{\sin{\psi}} p_{\cos{\theta}} d\cos{\theta}.
+    p(\cos{i_\star}) = \int \abs{\pdv{\sin{\psi}}{\cos{i_\star}}} p(\sin{\psi}) p(\cos{\theta}) d\cos{\theta}.
 \end{equation}
-From Equation~(\ref{eq:coord1}), we have $\sin{\psi} = \cos{i_\star}/\cos{\theta}$ and $\abs{\pdv{\sin{\psi}}{\cos{i_\star}}} = 1/\cos{\theta}$. Again, we assume $\theta$ is uniformly distributed, and this gives $p_{\cos{\theta}} = 2/\pi/(1-\cos^2{\theta)^{1/2}}$. Lastly, we transform the $p_{\sin{\psi}}$ to $p_{\cos{\psi}}$, where $p_{\sin{\psi}} = 2p_{\cos{\psi}}\sin{\psi}/\sqrt{1-\sin^2{\psi}}$ and the factor of 2 is from two solutions of $\cos{\psi}$ to the $\cos^2{\psi} = 1-\sin^2{\psi}$. Combining all the pieces together, we get
-\begin{equation}\label{eqn:jac_istar}
-    p_{\cos{i_\star}} = \frac{4}{\pi} \int_{\cos{i_\star}}^{1} \frac{\cos{i_\star}/\cos{\theta}}{\sqrt{\cos^2{\theta}-\cos^2{i_\star}}} \frac{1}{\sqrt{1-\cos^2{\theta}}} p_{\cos{\psi}} d\cos{\theta}.
+From Equation~(\ref{eq:coord1}), we get 
+\begin{equation}
+    \sin{\psi} = \cos{i_\star}/\cos{\theta}
+\end{equation} and the partial derivative
+\begin{equation}
+    \abs{\pdv{\sin{\psi}}{\cos{i_\star}}} = 1/\cos{\theta}.
+\end{equation} 
+Again, we assume $\theta$ is uniformly distributed, and this gives $p(\cos{\theta}) = 2/\pi/(1-\cos^2{\theta)^{1/2}}$. Lastly, we transform the $p(\sin{\psi})$ to $p(\cos{\psi})$,
+\begin{equation}
+    p(\sin{\psi}) = 2p(\cos{\psi})\sin{\psi}/\sqrt{1-\sin^2{\psi}}.
 \end{equation}
+The factor of 2 is from two solutions of $\cos{\psi}$ to the $\cos^2{\psi} = 1-\sin^2{\psi}$. Combining all the pieces together, we get
+\begin{align}\label{eqn:jac_istar}
+    p(\cos{i_\star}) = \frac{4}{\pi} \int_{\cos{i_\star}}^{1}& \frac{\cos{i_\star}/\cos{\theta}}{\sqrt{\cos^2{\theta}-\cos^2{i_\star}}} \nonumber\\ 
+    &\frac{1}{\sqrt{1-\cos^2{\theta}}} p(\cos{\psi}) d\cos{\theta}.
+\end{align}
 Note that the lower limit of the integral is $\cos{i_\star}$ instead of 0 since $\lvert \cos{\theta}/\cos{i_\star} \rvert \geqslant 1$.
-If $\cos{\psi}$ is uniformly distribution, i.e., $p_{\cos{\psi}} \sim 1/2$, the integral gives $1$, which suggests the $\cos{i_\star}$ is uniformly distributed, as expected.
+If $\cos{\psi}$ is uniformly distribution, i.e., $p(\cos{\psi}) = 1/2$, the integral gives $1$, which suggests the $\cos{i_\star}$ is uniformly distributed, as expected.
 
 Using Equation~(\ref{eqn:jac_lam}) and (\ref{eqn:jac_istar}), we can now derive the $\lambda$ and $i_\star$ distributions for any given $\psi$ distributions, assuming the azimuthal angle of the stellar spin axis $\theta$ is random. In Figure~\ref{fig:transform}, we present numerical solutions of the $\lambda$ and $i_\star$ distributions for four different $\cos{\psi}$ distributions. The top row of Figure~\ref{fig:transform} shows an isotropic $\psi$ distribution, where $\cos{\psi} \sim \mathcal{U}(-1,1)$. The second, third, and fourth rows of Figure~\ref{fig:transform} present Normal distributions of $\cos{\psi}$ following $\mathcal{N}(0,0.2)$, $\mathcal{N}(-0.4,0.2)$, and $\mathcal{N}(0.4,0.2)$, respectively. 
 The blue curves in each row show the numerical solutions of the $\lambda$ and $i_\star$ distributions, while the grey histograms show the sampling of $\lambda$ and $i_\star$ from the $\cos{\psi}$ and $\theta$ distributions. 
