@@ -95,6 +95,37 @@ In the $\{\psi, \theta\}$ coordinate system, we assume the planetary orbital axi
     \vb{n_\star} = \sin{\psi}\cos{\theta}\vu*{x} + \sin{\psi}\sin{\theta}\vu*{y} + \cos{\psi}\vu*{z}
 \end{equation}
 
+In the $\{\lambda, i_\star\}$ coordinate system, where the $\vb{x'}$-axis is defined by the observer's line of sight, the stellar spin axis could be written as 
+\begin{equation}
+    \vb{n_\star}' = \cos{i_\star}\vu*{x}' + \sin{i_\star}\sin{\lambda}\vu*{y}' + \sin{i_\star}\cos{\lambda}\vu*{z}'
+\end{equation}
+
+To convert the stellar spin vector $\vb{n_\star}$ from $\vb{x,y,z}$ to $\vb{x',y',z'}$, we apply the rotation matrix to the vector by rotating the vector by $\pi/2 - i_{\rm orb}$ around the $\vb{y'}$-axis. 
+\begin{equation}
+      \vb{n_\star}' = \mqty[\sin{i_{\rm orb}} & 0 & \cos{i_{\rm orb}} \\ 0 & 1 & 0 \\ -\cos{i_{\rm orb}} & 0 & \sin{i_{\rm orb}}] \vb{n_\star}  
+\end{equation}
+
+Now we get $\vb{n_\star}'$ in the $\vb{x',y',z'}$ coordinate expressed by $\psi$, $\theta$, and $i_{\rm orb}$.
+\begin{equation}
+    \begin{split}
+    \vb{n_\star}' = (\sin{\psi}\cos{\theta}\sin{i_{\rm orb}}+\cos{\psi}\cos{i_{\rm orb}})\vu*{x}' &\\
+    + \sin{\psi}\sin{\theta}\vu*{y}'& \\
+    + (-\sin{\psi}\cos{\theta}\cos{i_{\rm orb}}+\cos{\psi}\sin{i_{\rm orb}})\vu*{z}'&
+    \end{split}
+\end{equation}
+
+Use the equation, we find the relation between $\lambda$ or $i_\star$ and $\psi$, $\theta$, and $i_{\rm orb}$.
+
+First, comparing the $\vb{x'}$ terms, we find
+\begin{equation}
+    i_\star = \cos[-1](\sin{\psi}\cos{\theta}\sin{i_{\rm orb}}+\cos{\psi}\cos{i_{\rm orb}}).
+\end{equation}
+
+Dividing the $\vb{y'}$ term by the $\vb{z'}$ term, we get
+\begin{equation}
+    \lambda = \tan[-1](\frac{\sin{\psi}\sin{\theta}}{-\sin{\psi}\cos{\theta}\cos{i_{\rm orb}}+\cos{\psi}\sin{i_{\rm orb}}}).
+\end{equation}
+
 \begin{figure*}[ht!]
     \script{coordinate.py}
     \gridline{
