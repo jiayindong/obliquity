@@ -88,16 +88,16 @@ In Section~\ref{sec:jacobian}, we further investigate the relationship between t
 
 \section{Relations between $\{\lambda, \lowercase{i}_\star\}$ and $\{\psi, \theta\}$}\label{sec:coords}
 
-In this section, we find the expression of $\lambda$ or $i_\star$ in terms of $\psi$, $\theta$, and $i_{\rm orb}$. To do so, we introduce two coordinate systems that describe the stellar spin axis $\vb{n_\star}$ and its planet's orbital axis $\vb{n_{\rm orb}}$, shown in Figure~\ref{fig:coord}.
+In this section, we find the expression of $\lambda$ or $i_\star$ in terms of stellar obliquity $\psi$, the azimuthal angle of the stellar spin axis relative to the orbital axis $\theta$, and the orbital inclination $i_{\rm orb}$. In Figure~\ref{fig:coord}, we introduce two coordinate systems that describe the stellar spin axis $\vb{n_\star}$ and its planet's orbital axis $\vb{n_{\rm orb}}$.
 
 In the $\{\psi, \theta\}$ coordinate system, we assume the planetary orbital axis is aligned with the $\vb{z}$-axis. The stellar spin axis can be written as 
 \begin{equation}
-    \vb{n_\star} = \sin{\psi}\cos{\theta}\vu*{x} + \sin{\psi}\sin{\theta}\vu*{y} + \cos{\psi}\vu*{z}
+    \vb{\hat{n}_\star} = \sin{\psi}\cos{\theta}\vu*{x} + \sin{\psi}\sin{\theta}\vu*{y} + \cos{\psi}\vu*{z}
 \end{equation}
 
 In the $\{\lambda, i_\star\}$ coordinate system, where the $\vb{x'}$-axis is defined by the observer's line of sight, the stellar spin axis could be written as 
 \begin{equation}
-    \vb{n_\star}' = \cos{i_\star}\vu*{x}' + \sin{i_\star}\sin{\lambda}\vu*{y}' + \sin{i_\star}\cos{\lambda}\vu*{z}'
+    \vb{\hat{n}_\star}' = \cos{i_\star}\vu*{x}' + \sin{i_\star}\sin{\lambda}\vu*{y}' + \sin{i_\star}\cos{\lambda}\vu*{z}'
 \end{equation}
 
 To convert the stellar spin vector $\vb{n_\star}$ from $\vb{x,y,z}$ to $\vb{x',y',z'}$, we apply the rotation matrix to the vector by rotating the vector by $\pi/2 - i_{\rm orb}$ around the $\vb{y'}$-axis. 
