@@ -8,7 +8,7 @@ import subprocess
 import paths
 import matplotlib.pyplot as plt
 import pymc as pm
-import aesara.tensor as at
+import pytensor.tensor as at
 import numpy as np
 import arviz as az
 from scipy.stats import beta

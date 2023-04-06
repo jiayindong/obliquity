@@ -8,7 +8,7 @@ import sys
 
 import pymc as pm
 import arviz as az
-import aesara.tensor as at
+import pytensor.tensor as at
 
 import matplotlib.pyplot as plt
 import numpy as np
