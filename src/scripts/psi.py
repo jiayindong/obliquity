@@ -105,7 +105,7 @@ if __name__ == '__main__':
     nplanet = len(Lam)
     with pm.Model() as randinc:
 
-        ncomps = 2
+        nsample = 2
 
         # hyperprior
         w = pm.Dirichlet('w', np.ones(ncomps))
