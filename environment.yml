@@ -1,11 +1,10 @@
 channels:
   - conda-forge
 dependencies:
-  - python=3.9
+  - python=3.10
   - numpy
   - pandas
-  - aesara
   - arviz
-  - pymc<5
+  - pymc>=5
   - pip:
     - daft
