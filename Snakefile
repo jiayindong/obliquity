@@ -1,6 +1,6 @@
 rule psi:
     output:
-        "src/data/all_randinc.nc"
+        "src/data/all_noistar.nc"
     cache:
         True
     script:
