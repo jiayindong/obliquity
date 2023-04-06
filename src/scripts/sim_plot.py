@@ -92,7 +92,7 @@ for row, big_ax in enumerate(big_axes, start=1):
 # cosψ ~ U(-1,1)
 ax = fig.add_subplot(4,3,1)
         
-q025, q16, q50, q84, q975 = np.percentile(uni_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+q025, q16, q50, q84, q975 = np.percentile(uni_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
@@ -147,7 +147,7 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=10)
 # cosψ ~ N(0,0.2)
 ax = fig.add_subplot(4,3,4)
         
-q025, q16, q50, q84, q975 = np.percentile(norm1_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+q025, q16, q50, q84, q975 = np.percentile(norm1_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
@@ -202,7 +202,7 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=10)
 # cosψ ~ N(-0.4,0.2)
 ax = fig.add_subplot(4,3,7)
         
-q025, q16, q50, q84, q975 = np.percentile(norm2_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+q025, q16, q50, q84, q975 = np.percentile(norm2_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
@@ -238,12 +238,7 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 # cosψ ~ N(-0.4,0.2), nolam
 ax = fig.add_subplot(4,3,9)
 
-q025, q16, q50, q84, q975 = np.percentile(norm2_nolam_draws[:,:1000], [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, color='#69a9a3')
-plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
-plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
-
-q025, q16, q50, q84, q975 = np.percentile(norm2_nolam_draws[:,1000:2000], [2.5, 16, 50, 84, 97.5], axis=1)/2
+q025, q16, q50, q84, q975 = np.percentile(norm2_nolam_draws[:,:], [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#69a9a3')
 plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
 plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
@@ -262,7 +257,7 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=10)
 # cosψ ~ N(0.4,0.2)
 ax = fig.add_subplot(4,3,10)
         
-q025, q16, q50, q84, q975 = np.percentile(norm3_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+q025, q16, q50, q84, q975 = np.percentile(norm3_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
@@ -298,12 +293,7 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 # cosψ ~ N(0.4,0.2), nolam
 ax = fig.add_subplot(4,3,12)
 
-q025, q16, q50, q84, q975 = np.percentile(norm3_nolam_draws[:,:1000], [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, color='#69a9a3')
-plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
-plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
-
-q025, q16, q50, q84, q975 = np.percentile(norm3_nolam_draws[:,2000:3000], [2.5, 16, 50, 84, 97.5], axis=1)/2
+q025, q16, q50, q84, q975 = np.percentile(norm3_nolam_draws[:,:], [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#69a9a3')
 plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
 plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
