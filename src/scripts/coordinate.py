@@ -26,13 +26,13 @@ x = np.outer(np.cos(u), np.sin(v))
 y = np.outer(np.sin(u), np.sin(v))
 z = np.outer(np.ones(np.size(u)), np.cos(v))
 
-# plot the surface
+#Plot the surface
 ax.plot_surface(x, y, z, rstride=4, cstride=4, color='b', linewidth=0, alpha=0.1)
 
 elev = 20.0
 rot = 30.0 / 180 * np.pi
 
-# calculate vectors for "vertical" circle
+#calculate vectors for "vertical" circle
 a = np.array([-np.sin(elev / 180 * np.pi), 0, np.cos(elev / 180 * np.pi)])
 b = np.array([0, 1, 0])
 b = b * np.cos(rot) + np.cross(a, b) * np.sin(rot) + a * np.dot(a, b) * (1 - np.cos(rot))
@@ -51,9 +51,9 @@ ax.quiver(0, 0, 0, 1.8, 0, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # x-ax
 ax.quiver(0, 0, 0, 0, 1.5, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # y-axis
 ax.quiver(0, 0, 0, 0, 0, 1.5, color='k', arrow_length_ratio=0.05, lw=1.5) # z-axis
 
-ax.text(2.08, 0, -0.05, r'$\vb*{X}$',fontsize=14)
-ax.text(0, 0, 1.55, r"$\vb*{Z} (\vb*{n}_{\textbf{orb}})$",fontsize=14)
-ax.text(0.05, 1.6, -0.05, r'$\vb*{Y}$',fontsize=14)
+ax.text(2., 0, -0.05, r'$\vb*{x}$',fontsize=14)
+ax.text(0, 0, 1.55, r"$\vb*{z} (\vb*{\hat{n}}_{\textbf{orb}})$",fontsize=14)
+ax.text(0.05, 1.6, -0.05, r'$\vb*{y}$',fontsize=14)
 
 # make the panes transparent
 ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
@@ -81,7 +81,6 @@ ax.quiver(0,0,0,u,v,w,color='k', arrow_length_ratio=0.1, lw=1.5, normalize=True)
 ax.quiver(0,0,0,u,v,0, color='k', arrow_length_ratio=0., lw=1.2, ls='--')
 ax.quiver(u,v,0,0,0,w, color='k', arrow_length_ratio=0., lw=1.2, ls='--')
 
-# plot horizontal circles
 psi = 90*np.pi/180
 phi = np.linspace(0,60*np.pi/180,100)
 x = np.cos(phi)*np.sin(psi)*1/4
@@ -89,15 +88,15 @@ y = np.sin(phi)*np.sin(psi)*1/4
 z = np.cos(psi)*1/4
 ax.plot(x,y,z,c='k',lw=1.2)
 
-psi = np.linspace(0,55*np.pi/180,100)
-phi = 45*np.pi/180
-r = np.linspace(1/6,1/3,100)
+psi = np.linspace(0,40*np.pi/180,100)
+phi = 60*np.pi/180
+r = np.linspace(1/6,1/4,100)
 x = np.cos(phi)*np.sin(psi)*r
-y = np.sin(phi)*np.sin(psi)*r
+y = np.sin(phi)*np.sin(psi)*r+0.01
 z = np.cos(psi)*r
 ax.plot(x,y,z,c='k',lw=1.2)
 
-ax.text(0.9,1., 0.83, r"$\vb*{n_{\star}}$",fontsize=14)
+ax.text(0.9,1., 0.83, r"$\vb*{\hat{n}_{\star}}$",fontsize=14)
 ax.text(-1.25,-0.8,-0.78, r"$\vb*{\theta}$",fontsize=14)
 ax.text(1.2,0.72,0.71, r"$\vb*{\psi}$",fontsize=14)
 
@@ -152,9 +151,9 @@ ax.quiver(0, 0, 0, 1.4, 0, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # x-ax
 ax.quiver(0, 0, 0, 0, 1.7, 0, color='k', arrow_length_ratio=0.05, lw=1.5) # y-axis
 ax.quiver(0, 0, 0, 0, 0, 1.5, color='k', arrow_length_ratio=0.05, lw=1.5) # z-axis
 
-ax.text(2.02, 0, -0.05, r'$\vb*{X^\prime} (\textbf{Obs})$',fontsize=14)
-ax.text(0, 0, 1.55, r"$\vb*{Z^\prime}$",fontsize=14)
-ax.text(0, 1.8, -0.05, r"$\vb*{Y^\prime}$",fontsize=14)
+ax.text(2.02, 0, -0.05, r'$\vb*{x^\prime} (\textbf{Obs})$',fontsize=14)
+ax.text(0, 0, 1.55, r"$\vb*{z^\prime}$",fontsize=14)
+ax.text(0, 1.8, -0.05, r"$\vb*{y^\prime}$",fontsize=14)
 
 # make the panes transparent
 ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
@@ -168,9 +167,9 @@ ax.zaxis._axinfo["grid"]['color'] =  (1,1,1,0)
 io = 10*np.pi/180
 ax.quiver(0, 0, 0, 1.3*np.sin(io), 0, 1.5*np.cos(io), color='gray', arrow_length_ratio=0.05, lw=1.5) # z-axis
 ax.quiver(0, 0, 0, 1.3*np.cos(io), 0, -1.5*np.sin(io), color='gray', arrow_length_ratio=0.05, lw=1.5) # x-axis
-ax.text(1.5, 0.01, -0.28, r'$\vb*{X}$', c='gray', fontsize=14)
-ax.text(0.65, 0., 1.58, r"$\vb*{Z} (\vb*{n}_{\textbf{orb}})$", c='gray', fontsize=14)
-ax.text(0, 2., -0.03, r"$, \vb*{Y}$", c='gray', fontsize=14)
+ax.text(1.45, 0.01, -0.3, r'$\vb*{x}$', c='gray', fontsize=14)
+ax.text(0.65, 0., 1.58, r"$\vb*{z} (\vb*{\hat{n}}_{\textbf{orb}})$", c='gray', fontsize=14)
+ax.text(0, 1.98, -0.03, r"$, \vb*{y}$", c='gray', fontsize=14)
 
 i = 40*np.pi/180
 lam = 40*np.pi/180
@@ -199,15 +198,6 @@ ax.quiver(0,v,w,u,0,0, color='k', arrow_length_ratio=0., lw=1.2, ls='--')
 # z = np.cos(psi)*1/4
 
 
-i = np.linspace(0,40*np.pi/180,100)
-lam = 40*np.pi/180
-r = np.linspace(1/6,1/4,100)
-x = np.cos(i)*r
-y = np.sin(i)*np.sin(lam)*r
-z = np.sin(i)*np.cos(lam)*r
-ax.plot(x,y,z,c='k',lw=1.2)
-
-
 i = np.pi/2
 lam = np.linspace(0,40*np.pi/180,100)
 r = np.linspace(1/5,2/7,100)
@@ -216,14 +206,11 @@ y = np.sin(i)*np.sin(lam)*r
 z = np.sin(i)*np.cos(lam)*r
 ax.plot(x,y,z,c='k',lw=1.2)
 
+ax.text(0,0.03,0.25, r"$\vb*{\lambda}$",fontsize=14)
+
 
 # ax.text(1.15,1.1, 0.7, r"$\vb*{n_{\star}}$",fontsize=14)
-ax.text(0.8,0.4, 0.6, r"$\vb*{n_{\star}}$",fontsize=14)
-
-
-ax.text(0,0.01,0.25, r"$\vb*{\lambda}$",fontsize=14)
-ax.text(0.34,0,0.06, r"$\vb*{i_\star}$",fontsize=14)
-
+ax.text(0.8,0.4, 0.58, r"$\vb*{\hat{n}_{\star}^\prime}$",fontsize=14)
 
 i = 90*np.pi/180
 lam = np.linspace(0,np.pi,1000)
@@ -239,6 +226,17 @@ x = np.cos(i)*np.ones(len(lam))
 y = np.sin(i)*np.sin(lam)
 z = np.sin(i)*np.cos(lam)
 ax.plot(x,y,z,c='k',linestyle='--')
+
+
+i = np.linspace(0,40*np.pi/180,100)
+lam = 40*np.pi/180
+r = np.linspace(1/6,0.28,100)
+x = np.cos(i)*r
+y = np.sin(i)*np.sin(lam)*r
+z = np.sin(i)*np.cos(lam)*r
+ax.plot(x,y,z,c='k',lw=1.2)
+
+ax.text(0.35,0,0.06, r"$\vb*{i_\star}$",fontsize=14)
 
 
 # Set an equal aspect ratio

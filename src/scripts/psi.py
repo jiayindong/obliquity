@@ -4,6 +4,7 @@ os.environ["PATH"] += os.pathsep + str(Path.home() / "bin")
 
 import sys
 import subprocess
+from datetime import datetime
 
 import paths
 import matplotlib.pyplot as plt
@@ -103,39 +104,46 @@ if __name__ == '__main__':
 
     nplanet = len(Lam)
     with pm.Model() as randinc:
-        
-        ### hyper priors
-        w = pm.Dirichlet('w', np.ones(2))
 
-        a0 = pm.Uniform('a0', lower=0, upper=50)
-        b0 = pm.Uniform('b0', lower=0, upper=1)
-        
-        a1 = pm.Uniform('a1', lower=0, upper=10)
-        b1 = pm.Uniform('b1', lower=0, upper=10)
-        
-        components = [pm.Beta.dist(a0,b0), pm.Beta.dist(a1,b1)]
-                            
-        # flat prior on cosi
-        cosi = pm.Uniform('cosi', lower=0., upper=1., shape=nplanet)
-        sini = pm.Deterministic('sini', at.sqrt(1-cosi**2))
-        i = pm.Deterministic('i', at.arccos(cosi))
-        
-        # flat priors on λ
-        λ = pm.Uniform('λ', lower=0, upper=np.pi, shape=nplanet)
-        cosλ = pm.Deterministic('cosλ', at.cos(λ))
+        ncomps = 2
 
-        cosψ = pm.Deterministic('cosψ', cosλ*sini)
-        ψ = pm.Deterministic('ψ', at.arccos(cosψ))
+        # hyperprior
+        w = pm.Dirichlet('w', np.ones(ncomps))
+
+        if ncomps > 1:
+            μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps, 
+                           transform=pm.distributions.transforms.Ordered(), 
+                           initval=np.array([0.5,0.9]))
+        else:
+            μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps)
+            
+        logκ = pm.Normal('logκ', 3., shape=ncomps)
+        κ = pm.Deterministic('κ', pm.math.exp(logκ))
+      
+        a = pm.Deterministic('a', μ*κ)
+        b = pm.Deterministic('b', (1.-μ)*κ)
         
-        cosθ = pm.Deterministic('cosθ', cosi/at.sin(ψ))
-        θ = pm.Deterministic('θ', at.arccos(cosθ))
+        # mixture cosψ distribution
+        u = pm.Mixture('u', w=w, comp_dists=pm.Beta.dist(a,b, shape=(ncomps,)), shape=nsample)
         
+        cosψ = pm.Deterministic('cosψ', 2.*u-1.)
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
+        
+        # uniform θ prior
+        θ = pm.Uniform('θ', lower=0., upper=np.pi, shape=nsample)
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
+        cosθ = pm.Deterministic('cosθ', at.cos(θ))
+        
+        # iorb
+        iorb = np.pi/2
+        
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
+
         # logl for λ
         logl_λ = pm.Normal('logl_λ', mu=λ, sigma=err_Lam, observed=Lam)
-
-        ### logl for hyper priors
-        mix = pm.Potential("mix", pm.logp(pm.Mixture.dist(w=w, comp_dists=components), (cosψ+1)/2))
         
-        all_randinc = pm.sample(target_accept=0.9,chains=4)
-
-    az.to_netcdf(all_randinc.posterior, paths.data / "all_randinc.nc")
+        all_noistar = pm.sample(nuts={'target_accept':0.99, 'max_treedepth':13}, # 'step_scale':0.01
+                                chains=4, random_seed=int(datetime.now().strftime("%Y%m%d")))
+            
+    az.to_netcdf(all_noistar.posterior, paths.data / "all_noistar.nc")

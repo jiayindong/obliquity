@@ -5,6 +5,7 @@ os.environ["PATH"] += os.pathsep + str(Path.home() / "bin")
 
 import subprocess
 import sys
+from datetime import datetime
 
 import pymc as pm
 import arviz as az
@@ -26,8 +27,8 @@ x = np.linspace(1e-5,1-1e-5,1000)
 def posteriors(this_model):
     
     nsample = 200
-    err_istar = 10*np.pi/180
-    err_lam = 8*np.pi/180
+    err_istar = 10.*np.pi/180
+    err_lam = 8.*np.pi/180
 
     with this_model:    
         idata = pm.sample(chains=4, draws=50, tune=0)
@@ -38,176 +39,286 @@ def posteriors(this_model):
     true_lam = idata.posterior.λ.values.ravel()
     obs_lam = true_lam + err_lam*np.random.normal(size=nsample)
 
-    # Limit obs_istar to [0, pi/2]
-    obs_istar[obs_istar>np.pi/2] = np.pi-obs_istar[obs_istar>np.pi/2]
+    # Not neccessary; limit obs_istar to [0, pi/2]
+    # obs_istar[obs_istar>np.pi/2] = np.pi-obs_istar[obs_istar>np.pi/2]
 
     # Limit obs_lam to [0, pi]
     obs_lam[obs_lam<0] = -obs_lam[obs_lam<0]
 
-    with pm.Model() as model_istar:
+    with pm.Model() as model:
 
+        ncomps = 1
+        
         # hyperprior
-        a = pm.Uniform('a', lower=0, upper=10)
-        b = pm.Uniform('b', lower=0, upper=10)
-
-        # flat prior on cosi
-        cosi = pm.Uniform('cosi', lower=0., upper=1., shape=nsample)
-        sini = pm.Deterministic('sini', at.sqrt(1-cosi**2))
-
-        i = pm.Deterministic('i', at.arccos(cosi))
-
-        # flat priors on ψ
-        λ = pm.Uniform('λ', lower=0, upper=np.pi, shape=nsample)
-        cosλ = pm.Deterministic('cosλ', np.cos(λ))
-
-        cosψ = pm.Deterministic('cosψ', cosλ*sini)
-        ψ = pm.Deterministic('ψ', np.arccos(cosψ))
+        w = pm.Dirichlet('w', np.ones(ncomps))
+        
+        if ncomps > 1:
+            μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps, 
+                           transform=pm.distributions.transforms.Ordered(), 
+                           initval=np.sort(np.random.rand(ncomps)))
+        else:
+            μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps)
+            
+        logκ = pm.Normal('logκ', 3., shape=ncomps)
+        κ = pm.Deterministic('κ', pm.math.exp(logκ))
+      
+        a = pm.Deterministic('a', μ*κ)
+        b = pm.Deterministic('b', (1.-μ)*κ)
+        
+        # mixture cosψ distribution
+        u = pm.Mixture('u', w=w, comp_dists=pm.Beta.dist(a, b, shape=(ncomps,)), shape=nsample)
+        
+        cosψ = pm.Deterministic('cosψ', 2.*u-1.)
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
+        
+        # uniform θ prior
+        θ = pm.Uniform('θ', lower=0., upper=np.pi, shape=nsample)
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
+        cosθ = pm.Deterministic('cosθ', at.cos(θ))
+        
+        # iorb
+        iorb = np.pi/2
+        
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
 
         # logl for λ
         logl_λ = pm.Normal('logl_λ', mu=λ, sigma=err_lam, observed=obs_lam)
 
-        logl_i = pm.Normal('logl_i', mu=i, sigma=err_istar, observed=obs_istar)
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        istar = pm.Deterministic('i', at.arccos(cosi))
 
-        hyper = pm.Potential("hyper", pm.logp(pm.Beta.dist(a,b), (cosψ+1)/2))
+        # logl for i
+        logl_i = pm.Normal('logl_i', mu=istar, sigma=err_istar, observed=obs_istar)
 
-        istar_idata = pm.sample(target_accept=0.9,chains=4)
+        idata = pm.sample(nuts={'target_accept':0.99, 'max_treedepth':13}, 
+                          chains=4, random_seed=int(datetime.now().strftime("%Y%m%d")))
 
     with pm.Model() as model_noistar:
 
+        ncomps = 1
+        
         # hyperprior
-        a = pm.Uniform('a', lower=0, upper=10)
-        b = pm.Uniform('b', lower=0, upper=10)
+        w = pm.Dirichlet('w', np.ones(ncomps))
+        
+        if ncomps > 1:
+            μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps, 
+                           transform=pm.distributions.transforms.Ordered(), 
+                           initval=np.sort(np.random.rand(ncomps)))
+        else:
+            μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps)
+            
+        logκ = pm.Normal('logκ', 3., shape=ncomps)
+        κ = pm.Deterministic('κ', pm.math.exp(logκ))
+      
+        a = pm.Deterministic('a', μ*κ)
+        b = pm.Deterministic('b', (1.-μ)*κ)
+        
+        # mixture cosψ distribution
+        u = pm.Mixture('u', w=w, comp_dists=pm.Beta.dist(a, b, shape=(ncomps,)), shape=nsample)
+        
+        cosψ = pm.Deterministic('cosψ', 2.*u-1.)
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
+        
+        # uniform θ prior
+        θ = pm.Uniform('θ', lower=0, upper=np.pi, shape=nsample)
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
+        cosθ = pm.Deterministic('cosθ', at.cos(θ))
+        
+        # iorb
+        iorb = np.pi/2
 
-        # flat prior on cosi
-        cosi = pm.Uniform('cosi', lower=0., upper=1., shape=nsample)
-        sini = pm.Deterministic('sini', at.sqrt(1-cosi**2))
-
-        i = pm.Deterministic('i', at.arccos(cosi))
-
-        # flat priors on ψ
-        λ = pm.Uniform('λ', lower=0, upper=np.pi, shape=nsample)
-        cosλ = pm.Deterministic('cosλ', np.cos(λ))
-
-        cosψ = pm.Deterministic('cosψ', cosλ*sini)
-        ψ = pm.Deterministic('ψ', np.arccos(cosψ))
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
 
         # logl for λ
         logl_λ = pm.Normal('logl_λ', mu=λ, sigma=err_lam, observed=obs_lam)
+        
+        noistar_idata = pm.sample(nuts={'target_accept':0.99, 'max_treedepth':13}, 
+                                  chains=4, random_seed=int(datetime.now().strftime("%Y%m%d")))
 
-        hyper = pm.Potential("hyper", pm.logp(pm.Beta.dist(a,b), (cosψ+1)/2))
 
-        noistar_idata = pm.sample(target_accept=0.9,chains=4)
+    with pm.Model() as model_nolam:
 
-    return istar_idata, noistar_idata
+        ncomps = 1
+        
+        # hyperprior
+        w = pm.Dirichlet('w', np.ones(ncomps))
+        
+        if ncomps > 1:
+            μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps, 
+                           transform=pm.distributions.transforms.Ordered(), 
+                           initval=np.sort(np.random.rand(ncomps)))
+        else:
+            μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps)
+            
+        logκ = pm.Normal('logκ', 3., shape=ncomps)
+        κ = pm.Deterministic('κ', pm.math.exp(logκ))
+      
+        a = pm.Deterministic('a', μ*κ)
+        b = pm.Deterministic('b', (1.-μ)*κ)
+        
+        # mixture cosψ distribution
+        u = pm.Mixture('u', w=w, comp_dists=pm.Beta.dist(a, b, shape=(ncomps,)), shape=nsample)
+        
+        cosψ = pm.Deterministic('cosψ', 2.*u-1.)
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
+        
+        # uniform θ prior
+        θ = pm.Uniform('θ', lower=0, upper=np.pi, shape=nsample)
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
+        cosθ = pm.Deterministic('cosθ', at.cos(θ))
+        
+        # iorb
+        iorb = np.pi/2
+
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        istar = pm.Deterministic('i', at.arccos(cosi))
+
+        # logl for i
+        logl_i = pm.Normal('logl_i', mu=istar, sigma=err_istar, observed=obs_istar)
+        
+        nolam_idata = pm.sample(nuts={'target_accept':0.99, 'max_treedepth':13}, 
+                                chains=4, random_seed=int(datetime.now().strftime("%Y%m%d")))
+
+
+    return idata, noistar_idata, nolam_idata
 
 
 ### PyMC models ###
 
 if __name__ == '__main__':
 
+    # cosψ ~ U(-1,1)
     with pm.Model() as model_uni:
 
-        cosψ = pm.Uniform('cosψ',lower=-1,upper=1)
+        cosψ = pm.Uniform('cosψ',lower=-1.,upper=1.)
         
         ψ = pm.Deterministic('ψ', at.arccos(cosψ))
-        sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
         
-        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        θ = pm.Uniform('θ', lower=0., upper=np.pi)
         cosθ = pm.Deterministic('cosθ', at.cos(θ))
-        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
 
-        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
-        λ = pm.Deterministic('λ', at.arccos(cosλ))
-        
-        sini = pm.Deterministic('sini', cosψ/cosλ)
-        i = pm.Deterministic('i', at.arcsin(sini))
-        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
-        
-        iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
-        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
-        
+        # iorb
+        iorb = np.pi/2
 
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
+        cosλ = pm.Deterministic('cosλ', at.cos(λ))
+
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        i = pm.Deterministic('i', at.arccos(cosi))
+        
+        iso_cosi = pm.Uniform('iso_cosi', lower=0., upper=1.)
+        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1.-iso_cosi**2)*cosλ)   
+
+    # cosψ ~ N(0,0.2)
     with pm.Model() as model_norm1:
 
-        cosψ = pm.Normal('cosψ', mu=0., sigma=0.2)
+        cosψ = pm.TruncatedNormal('cosψ', mu=0., sigma=0.2, lower=-1., upper=1.)
         
         ψ = pm.Deterministic('ψ', at.arccos(cosψ))
-        sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
         
-        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        θ = pm.Uniform('θ', lower=0, upper=np.pi)
         cosθ = pm.Deterministic('cosθ', at.cos(θ))
-        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
 
-        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
-        λ = pm.Deterministic('λ', at.arccos(cosλ))
-        
-        sini = pm.Deterministic('sini', cosψ/cosλ)
-        i = pm.Deterministic('i', at.arcsin(sini))
-        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
-        
-        iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
-        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
-        
+        # iorb
+        iorb = np.pi/2
 
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
+        cosλ = pm.Deterministic('cosλ', at.cos(λ))
+
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        i = pm.Deterministic('i', at.arccos(cosi))
+        
+        iso_cosi = pm.Uniform('iso_cosi', lower=0., upper=1.)
+        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1.-iso_cosi**2)*cosλ)
+        
+    # cosψ ~ N(-0.4,0.2)
     with pm.Model() as model_norm2:
 
-        cosψ = pm.Normal('cosψ', mu=-0.4, sigma=0.2)
+        cosψ = pm.TruncatedNormal('cosψ', mu=-0.4, sigma=0.2, lower=-1., upper=1.)
         
         ψ = pm.Deterministic('ψ', at.arccos(cosψ))
-        sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
         
-        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        θ = pm.Uniform('θ', lower=0., upper=np.pi)
         cosθ = pm.Deterministic('cosθ', at.cos(θ))
-        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
 
-        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
-        λ = pm.Deterministic('λ', at.arccos(cosλ))
-        
-        sini = pm.Deterministic('sini', cosψ/cosλ)
-        i = pm.Deterministic('i', at.arcsin(sini))
-        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
-        
-        iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
-        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)    
-        
+        # iorb
+        iorb = np.pi/2
 
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
+        cosλ = pm.Deterministic('cosλ', at.cos(λ))
+      
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        i = pm.Deterministic('i', at.arccos(cosi))
+        
+        iso_cosi = pm.Uniform('iso_cosi', lower=0., upper=1.)
+        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1.-iso_cosi**2)*cosλ)   
+        
+    # cosψ ~ N(0.4,0.2)
     with pm.Model() as model_norm3:
 
-        cosψ = pm.Normal('cosψ', mu=0.4, sigma=0.2)
+        cosψ = pm.TruncatedNormal('cosψ', mu=0.4, sigma=0.2, lower=-1., upper=1.)
         
         ψ = pm.Deterministic('ψ', at.arccos(cosψ))
-        sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
         
-        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        θ = pm.Uniform('θ', lower=0., upper=np.pi)
         cosθ = pm.Deterministic('cosθ', at.cos(θ))
-        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
 
-        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
-        λ = pm.Deterministic('λ', at.arccos(cosλ))
+        # iorb
+        iorb = np.pi/2
+
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
+        cosλ = pm.Deterministic('cosλ', at.cos(λ))
+
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        i = pm.Deterministic('i', at.arccos(cosi))
         
-        sini = pm.Deterministic('sini', cosψ/cosλ)
-        i = pm.Deterministic('i', at.arcsin(sini))
-        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
-        
-        iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
-        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
+        iso_cosi = pm.Uniform('iso_cosi', lower=0., upper=1.)
+        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1.-iso_cosi**2)*cosλ)
         
         
     sim_dir = paths.data / "simulation"
     sim_dir.mkdir(exist_ok=True, parents=True)
 
-    uni_istar, uni_noistar = posteriors(model_uni)
-    az.to_netcdf(uni_istar.posterior, sim_dir / "uni_istar.nc")
+    # cosψ ~ U(-1,1)
+    uni, uni_noistar, uni_nolam = posteriors(model_uni)
+    az.to_netcdf(uni.posterior, sim_dir / "uni.nc")
     az.to_netcdf(uni_noistar.posterior, sim_dir / "uni_noistar.nc")
+    az.to_netcdf(uni_nolam.posterior, sim_dir / "uni_nolam.nc")
 
-    norm1_istar, norm1_noistar = posteriors(model_norm1)
-    az.to_netcdf(norm1_istar.posterior, sim_dir / "norm1_istar.nc")
+    # cosψ ~ N(0,0.2)
+    norm1, norm1_noistar, norm1_nolam = posteriors(model_norm1)
+    az.to_netcdf(norm1.posterior, sim_dir / "norm1.nc")
     az.to_netcdf(norm1_noistar.posterior, sim_dir / "norm1_noistar.nc")
+    az.to_netcdf(norm1_nolam.posterior, sim_dir / "norm1_nolam.nc")
 
-    norm2_istar, norm2_noistar = posteriors(model_norm2)
-    az.to_netcdf(norm2_istar.posterior, sim_dir / "norm2_istar.nc")
+    # cosψ ~ N(-0.4,0.2)
+    norm2, norm2_noistar, norm2_nolam = posteriors(model_norm2)
+    az.to_netcdf(norm2.posterior, sim_dir / "norm2.nc")
     az.to_netcdf(norm2_noistar.posterior, sim_dir / "norm2_noistar.nc")
+    az.to_netcdf(norm2_nolam.posterior, sim_dir / "norm2_nolam.nc")
 
-    norm3_istar, norm3_noistar = posteriors(model_norm3)
-    az.to_netcdf(norm3_istar.posterior, sim_dir / "norm3_istar.nc")
+    # cosψ ~ N(0.4,0.2)
+    norm3, norm3_noistar, norm3_nolam = posteriors(model_norm3)
+    az.to_netcdf(norm3.posterior, sim_dir / "norm3.nc")
     az.to_netcdf(norm3_noistar.posterior, sim_dir / "norm3_noistar.nc")
+    az.to_netcdf(norm3_nolam.posterior, sim_dir / "norm3_nolam.nc")

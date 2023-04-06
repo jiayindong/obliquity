@@ -50,7 +50,8 @@ Stellar obliquity $\psi$, the angle between a planet's orbital axis and its host
 In this paper, we demonstrate that while a constraint on the stellar inclination is crucial for measuring the obliquity of an individual system, it is not required for robust determination of the population-level stellar obliquity distribution. 
 In practice, the constraints on the stellar obliquity distribution are mainly driven by the sky-projected stellar obliquities.
 We introduce a flexible, hierarchical Bayesian framework that can be used to infer the stellar obliquity distribution solely from sky-projected stellar obliquities, including stellar inclination measurements when available.
-When applying the framework to all exoplanetary systems with measured sky-projected stellar obliquity, we find that the inferred population-level obliquity distribution is unimodal and peaked at zero degrees. Misaligned systems have nearly isotropic stellar obliquities \edits{with no strong clustering near 90$\degr$. Particularly, the misaligned Hot Jupiter population presents a broad stellar obliquity distribution, which may suggest planet-planet scattering after a convergent disk migration or planetary Kozai might be the dominant mechanisms sculpting the population.}
+When applying the framework to all exoplanetary systems with measured sky-projected stellar obliquity, we find that the inferred population-level obliquity distribution is unimodal and peaked at zero degrees. Misaligned systems have nearly isotropic stellar obliquities \edits{with no strong clustering near 90$\degr$. 
+Furthermore, the stellar obliquity distribution of misaligned Hot Jupiters presents a broad distribution from $0\degr$ to $180\degr$, preferring candidate Hot Jupiter formation mechanisms, such as planet-planet scattering after a convergent disk migration or planetary Kozai, that could produce a broad distribution.}
 
 \end{abstract}
 
@@ -86,42 +87,40 @@ In Section~\ref{sec:jacobian}, we further investigate the relationship between t
 
 {\color{purple}
 
-\section{Relations between $\{\lambda, \lowercase{i}_\star\}$ and $\{\psi, \theta\}$}\label{sec:coords}
+\section{Coordinate Setup and Transformation}\label{sec:coords}
 
-In this section, we find the expression of $\lambda$ or $i_\star$ in terms of stellar obliquity $\psi$, the azimuthal angle of the stellar spin axis relative to the orbital axis $\theta$, and the orbital inclination $i_{\rm orb}$. In Figure~\ref{fig:coord}, we introduce two coordinate systems that describe the stellar spin axis $\vb{n_\star}$ and its planet's orbital axis $\vb{n_{\rm orb}}$.
+In this section, we find the expression of $\lambda$ or $i_\star$ in terms of stellar obliquity $\psi$, the azimuthal angle of the stellar spin axis relative to the orbital axis $\theta$, and the orbital inclination $i_{\rm orb}$. In Figure~\ref{fig:coord}, we introduce two coordinate systems that describe the stellar spin axis $\vb{n_\star}$ and its planet's orbital axis $\vb{n_{\rm orb}}$. The setup is similar to the coordinate systems used in \cite{Fabrycky09} but has different coordinate orientations and definitions of the azimuthal angle of the stellar spin.
 
-In the $\{\psi, \theta\}$ coordinate system, we assume the planetary orbital axis is aligned with the $\vb{z}$-axis. The stellar spin axis can be written as 
+The angle of primary interest is the angle between the planet's orbital axis and its host star's spin axis $\psi$. To describe the angle in 3$D$, we introduce another angle, the azimuthal angle of the stellar spin around the orbital axis $\theta$. As shown in the left panel in Figure~\ref{fig:coord}, in the $\{\psi, \theta\}$ coordinate system, we put the planetary orbital axis on the $\vb{z}$-axis. The stellar spin axis, described by $\psi$ and $\theta$, can be written as 
 \begin{equation}
     \vb{\hat{n}_\star} = \sin{\psi}\cos{\theta}\vu*{x} + \sin{\psi}\sin{\theta}\vu*{y} + \cos{\psi}\vu*{z}
 \end{equation}
 
-In the $\{\lambda, i_\star\}$ coordinate system, where the $\vb{x'}$-axis is defined by the observer's line of sight, the stellar spin axis could be written as 
-\begin{equation}
+Next, we introduce an observer-oriented coordinate system. Since we neither know the projected orbital axis in the sky plane nor the projected stellar spin axis, we conveniently set the projected orbital axis to the $\vb*{z}$-axis. In the $\{\lambda, i_\star\}$ coordinate system, shown in the right panel of Figure~\ref{fig:coord}, we point the $\vb{x'}$-axis to the observer. The stellar spin axis could be written as 
+\begin{equation}\label{eqn:nstar1}
     \vb{\hat{n}_\star}' = \cos{i_\star}\vu*{x}' + \sin{i_\star}\sin{\lambda}\vu*{y}' + \sin{i_\star}\cos{\lambda}\vu*{z}'
 \end{equation}
 
-To convert the stellar spin vector $\vb{n_\star}$ from $\vb{x,y,z}$ to $\vb{x',y',z'}$, we apply the rotation matrix to the vector by rotating the vector by $\pi/2 - i_{\rm orb}$ around the $\vb{y'}$-axis. 
+To transform the stellar spin vector $\vb{\hat{n}_\star}$ from the $\vb*{xyz}$ coordinate to the $\vb*{x'y'z'}$ coordinate, we rotate the $\vb*{xyz}$ coordinate by an angle $\pi/2 - i_{\rm orb}$ about the $\vb{y'}$-axis (the same as $\vb{y}$-axis). 
+Applying the rotation matrix such that
 \begin{equation}
-      \vb{n_\star}' = \mqty[\sin{i_{\rm orb}} & 0 & \cos{i_{\rm orb}} \\ 0 & 1 & 0 \\ -\cos{i_{\rm orb}} & 0 & \sin{i_{\rm orb}}] \vb{n_\star}  
+      \vb{\hat{n}_\star}' = \mqty[\sin{i_{\rm orb}} & 0 & \cos{i_{\rm orb}} \\ 0 & 1 & 0 \\ -\cos{i_{\rm orb}} & 0 & \sin{i_{\rm orb}}] \vb{\hat{n}_\star},
 \end{equation}
-
-Now we get $\vb{n_\star}'$ in the $\vb{x',y',z'}$ coordinate expressed by $\psi$, $\theta$, and $i_{\rm orb}$.
-\begin{equation}
+we can now find the expression of $\vb{\hat{n}_\star}'$ in the $\vb*{x'y'z'}$ coordinate in terms of $\psi$, $\theta$, and $i_{\rm orb}$:
+\begin{equation}\label{eqn:nstar2}
     \begin{split}
-    \vb{n_\star}' = (\sin{\psi}\cos{\theta}\sin{i_{\rm orb}}+\cos{\psi}\cos{i_{\rm orb}})\vu*{x}' &\\
+    \vb{\hat{n}_\star}' = (\sin{\psi}\cos{\theta}\sin{i_{\rm orb}}+\cos{\psi}\cos{i_{\rm orb}})\vu*{x}' &\\
     + \sin{\psi}\sin{\theta}\vu*{y}'& \\
-    + (-\sin{\psi}\cos{\theta}\cos{i_{\rm orb}}+\cos{\psi}\sin{i_{\rm orb}})\vu*{z}'&
+    + (-\sin{\psi}\cos{\theta}\cos{i_{\rm orb}}+\cos{\psi}\sin{i_{\rm orb}})\vu*{z}'&.
     \end{split}
 \end{equation}
 
-Use the equation, we find the relation between $\lambda$ or $i_\star$ and $\psi$, $\theta$, and $i_{\rm orb}$.
-
-First, comparing the $\vb{x'}$ terms, we find
+Comparing Equation~(\ref{eqn:nstar2}) with Equation~(\ref{eqn:nstar1}), we find the expression of $\lambda$ or $i_\star$ in terms of $\psi$, $\theta$, and $i_{\rm orb}$.
+First, from the $\vb{\hat{x}'}$ terms, we derive
 \begin{equation}
     i_\star = \cos[-1](\sin{\psi}\cos{\theta}\sin{i_{\rm orb}}+\cos{\psi}\cos{i_{\rm orb}}).
 \end{equation}
-
-Dividing the $\vb{y'}$ term by the $\vb{z'}$ term, we get
+Next, dividing the $\vb{\hat{y}'}$ terms by the $\vb{\hat{z}'}$ terms, we find
 \begin{equation}
     \lambda = \tan[-1](\frac{\sin{\psi}\sin{\theta}}{-\sin{\psi}\cos{\theta}\cos{i_{\rm orb}}+\cos{\psi}\sin{i_{\rm orb}}}).
 \end{equation}
@@ -186,24 +185,23 @@ For the ${\rm Beta}(a_0,b_0)$ component, we have it to describe the population o
 % add more description on why chose a0, b0 priors
 We design the order of the two components to prevent label switching in the mixture model \dfm{how?}.
 
+\edits{In this framework, we limit $i_{\rm orb}$ from $0\degr$ to $90\degr$. To preserve the symmetry, we allow $i_{\rm orb}$ to vary from $0\degr$ to $180\degr$.}
 With the design, the hyperparameter and parameter priors are the following:
 \begin{align}
     w_{0,1} &\sim {\rm Dirichlet}(1, 1) \nonumber\\
-    a_0 &\sim \mathcal{U}(0, 50) \nonumber\\
-    b_0 &\sim \mathcal{U}(0, 1) \nonumber\\
-    a_1 &\sim \mathcal{U}(0, 10) \nonumber\\
-    b_1 &\sim \mathcal{U}(0, 10) \nonumber\\
-    \cos{i}_{\star,n} &\sim \mathcal{U}(0, 1) \nonumber\\
-    \cos{i}_{{\rm orb},n} &\sim \mathcal{U}(0, 1) \nonumber\\
-    \lambda_{\star,n} &\sim \mathcal{U}(-\pi, \pi).
+    p_{0,1} &\sim \mathcal{U}(0, 1) \nonumber\\
+    q_{0,1} &\sim \mathcal{U}(0, 1) \nonumber\\
+    \theta_n &\sim \mathcal{U}(0, \pi)  \nonumber\\
+    \cos{i}_{{\rm orb},n} &\sim \mathcal{U}(0, 1).
 \end{align}
+If $\gamma_{\star, n}$ is available, we construct Normal distributions with means and standard deviations from measurements.
+
 The likelihood functions follow:
 \begin{align}
     \mathcal{L}(\lambda) &\sim \prod_{i=1}^N\mathcal{N}(\hat{\lambda}_n, \sigma_{\hat{\lambda}_n}) \nonumber\\
     \mathcal{L}(i_{\rm orb}) &\sim \prod_{i=1}^N\mathcal{N}(\hat{i}_{{\rm orb},n}, \sigma_{\hat{i}_{{\rm orb},n}}) \nonumber\\
     \mathcal{L}(i_\star) &\sim \prod_{i=1}^N\mathcal{N}({\rm Obs}_{\star,n}, \sigma_{{\rm Obs}_{\star,n}}).
 \end{align}
-If $\gamma_{\star, n}$ is available, we construct Normal distributions with means and standard deviations from measurements.
 Here we use uniform hyperpriors for the Beta distribution. However, it is important to note that when applying the framework to a small sample size with $N \lesssim 50$, the choice of hyperpriors could impact the inferred distribution \citep{Nagpal22}. To ensure the robustness of the inferred distributions in such cases, it is crucial to test their sensitivity to different hyperpriors.
 
 The probabilistic model is constructed using the $\mathtt{PyMC}$ package version $\mathtt{v4.1.7}$ \citep{pymc}, and the posteriors are sampled with the No-U-Turn Sampler \citep[NUTS;][]{Hoffman11}, which is a gradient-based Markov chain Monte Carlo (MCMC) sampling algorithm. This paper's figures and simulations are completely reproducible and were created using the \showyourwork package. The open-source code is available on \href{https://github.com/jiayindong/obliquity}{GitHub\,\faGithub\,(https://github.com/jiayindong/obliquity)}.
@@ -240,6 +238,8 @@ We demonstrate through simulations that the inferred stellar obliquity distribut
     \caption{Inferred stellar obliquity distributions from sky-projected stellar obliquities with and without information on the stellar inclination, depicted in blue and orange curves, respectively. Each row presents a set of simulated data with the true distribution of $\cos{\psi}$ indicated by grey dashed curves. The shallow contours represent the 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred distributions.}
     \label{fig:simulation}
 \end{figure}
+
+\edits{EDIT TO HERE TODAY}
 
 \subsection{The Stellar Obliquity Distribution of Observed Exoplanets}
 

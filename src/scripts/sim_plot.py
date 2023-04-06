@@ -39,14 +39,15 @@ x = np.linspace(1e-5,1-1e-5,1000)
 # load the posteriors from the MCMC and calculate psi dists
 def psi_dist_draws(model_name):
 
-    istar_idata = az.from_netcdf(paths.data / "simulation" / (model_name + "_istar.nc"))
+    idata = az.from_netcdf(paths.data / "simulation" / (model_name + ".nc"))
     noistar_idata = az.from_netcdf(paths.data / "simulation" / (model_name + "_noistar.nc"))
+    nolam_idata = az.from_netcdf(paths.data / "simulation" / (model_name + "_nolam.nc"))
 
-    post = istar_idata.posterior
-    istar_draws = np.zeros(shape=(len(x),4000))
+    post = idata.posterior
+    draws = np.zeros(shape=(len(x),4000))
     for a in range(4):
         for b in range(1000):
-            istar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
+            draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
 
     post = noistar_idata.posterior
     noistar_draws = np.zeros(shape=(len(x),4000))
@@ -54,16 +55,22 @@ def psi_dist_draws(model_name):
         for b in range(1000):
             noistar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
 
-    return istar_draws, noistar_draws
+    post = nolam_idata.posterior
+    nolam_draws = np.zeros(shape=(len(x),4000))
+    for a in range(4):
+        for b in range(1000):
+            nolam_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
 
-uni_istar_draws, uni_noistar_draws = psi_dist_draws("uni")
-norm1_istar_draws, norm1_noistar_draws = psi_dist_draws("norm1")
-norm2_istar_draws, norm2_noistar_draws = psi_dist_draws("norm2")
-norm3_istar_draws, norm3_noistar_draws = psi_dist_draws("norm3")
+    return draws, noistar_draws, nolam_draws
+
+uni_draws, uni_noistar_draws, uni_nolam_draws = psi_dist_draws("uni")
+norm1_draws, norm1_noistar_draws, norm1_nolam_draws = psi_dist_draws("norm1")
+norm2_draws, norm2_noistar_draws, norm2_nolam_draws = psi_dist_draws("norm2")
+norm3_draws, norm3_noistar_draws, norm3_nolam_draws = psi_dist_draws("norm3")
 
 
 ### Make the plot ###
-fig, big_axes = plt.subplots(figsize=(3.5,6.5),dpi=110,nrows=4,ncols=1,sharey=True) 
+fig, big_axes = plt.subplots(figsize=(6.5,7),dpi=110,nrows=4,ncols=1,sharey=True) 
 
 for row, big_ax in enumerate(big_axes, start=1):
     
@@ -81,10 +88,9 @@ for row, big_ax in enumerate(big_axes, start=1):
     big_ax.tick_params(labelcolor=(1.,1.,1., 0.0), top='off', bottom='off', left='off', right='off')
     # removes the white frame
     big_ax._frameon = False
-    
 
-### Uniform cosψ ###
-ax = fig.add_subplot(4,2,1)
+# cosψ ~ U(-1,1)
+ax = fig.add_subplot(4,3,1)
         
 q025, q16, q50, q84, q975 = np.percentile(uni_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
@@ -95,13 +101,14 @@ plt.ylim([0,1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = np.ones_like(cosψ)*0.5
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1)
 
-ax = fig.add_subplot(4,2,2)
+# cosψ ~ U(-1,1), noistar
+ax = fig.add_subplot(4,3,2)
 
 q025, q16, q50, q84, q975 = np.percentile(uni_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
@@ -112,119 +119,204 @@ plt.ylim([0,1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r'measured $\vb*{\lambda}$ only', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = np.ones_like(cosψ)*0.5
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1)
 
+# cosψ ~ U(-1,1), nolam
+ax = fig.add_subplot(4,3,3)
 
-### cosψ ~ Normal(0., 0.2) ###
-ax = fig.add_subplot(4,2,3)
+q025, q16, q50, q84, q975 = np.percentile(uni_nolam_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#69a9a3')
+plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
+plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
+
+plt.ylim([0,1])
+plt.xlim([-1,1])
+
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.title(r'measured $\vb*{i_\star}$ only', fontsize=10)
+
+cosψ = np.linspace(-1,1,200)
+pcosψ = np.ones_like(cosψ)*0.5
+plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=10)
+
+
+# cosψ ~ N(0,0.2)
+ax = fig.add_subplot(4,3,4)
         
 q025, q16, q50, q84, q975 = np.percentile(norm1_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
-plt.ylim([0,2.1])
+plt.ylim([0,2.5])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
-ax = fig.add_subplot(4,2,4)
+# cosψ ~ N(0,0.2), noistar
+ax = fig.add_subplot(4,3,5)
 
 q025, q16, q50, q84, q975 = np.percentile(norm1_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
-plt.ylim([0,2.1])
+plt.ylim([0,2.5])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r'measured $\vb*{\lambda}$ only', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
+# cosψ ~ N(0,0.2), nolam
+ax = fig.add_subplot(4,3,6)
 
-### cosψ ~ Normal(-0.4, 0.2) ###
-ax = fig.add_subplot(4,2,5)
+q025, q16, q50, q84, q975 = np.percentile(norm1_nolam_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#69a9a3')
+plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
+plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
+
+plt.ylim([0,2.5])
+plt.xlim([-1,1])
+
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.title(r'measured $\vb*{i_\star}$ only', fontsize=10)
+
+cosψ = np.linspace(-1,1,200)
+pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
+plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=10)
+
+
+# cosψ ~ N(-0.4,0.2)
+ax = fig.add_subplot(4,3,7)
         
 q025, q16, q50, q84, q975 = np.percentile(norm2_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
-plt.ylim([0,2.1])
+plt.ylim([0,2.5])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
-ax = fig.add_subplot(4,2,6)
+# cosψ ~ N(-0.4,0.2), noistar
+ax = fig.add_subplot(4,3,8)
 
 q025, q16, q50, q84, q975 = np.percentile(norm2_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
-plt.ylim([0,2.1])
+plt.ylim([0,2.5])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r'measured $\vb*{\lambda}$ only', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
+# cosψ ~ N(-0.4,0.2), nolam
+ax = fig.add_subplot(4,3,9)
 
-### cosψ ~ Normal(0.4, 0.2) ###
-ax = fig.add_subplot(4,2,7)
+q025, q16, q50, q84, q975 = np.percentile(norm2_nolam_draws[:,:1000], [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#69a9a3')
+plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
+plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
+
+q025, q16, q50, q84, q975 = np.percentile(norm2_nolam_draws[:,1000:2000], [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#69a9a3')
+plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
+plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
+
+plt.ylim([0,2.5])
+plt.xlim([-1,1])
+
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.title(r'measured $\vb*{i_\star}$ only', fontsize=10)
+
+cosψ = np.linspace(-1,1,200)
+pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
+plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=10)
+
+
+# cosψ ~ N(0.4,0.2)
+ax = fig.add_subplot(4,3,10)
         
 q025, q16, q50, q84, q975 = np.percentile(norm3_istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
-plt.ylim([0,2.1])
+plt.ylim([0,2.5])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{with} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
-ax = fig.add_subplot(4,2,8)
+# cosψ ~ N(0.4,0.2), noistar
+ax = fig.add_subplot(4,3,11)
 
 q025, q16, q50, q84, q975 = np.percentile(norm3_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
-plt.ylim([0,2.1])
+plt.ylim([0,2.5])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'\textbf{no} $i_{\star}$ likelihood', fontsize=10)
+plt.title(r'measured $\vb*{\lambda}$ only', fontsize=10)
 
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
+
+# cosψ ~ N(0.4,0.2), nolam
+ax = fig.add_subplot(4,3,12)
+
+q025, q16, q50, q84, q975 = np.percentile(norm3_nolam_draws[:,:1000], [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#69a9a3')
+plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
+plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
+
+q025, q16, q50, q84, q975 = np.percentile(norm3_nolam_draws[:,2000:3000], [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#69a9a3')
+plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
+plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
+
+plt.ylim([0,2.5])
+plt.xlim([-1,1])
+
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.title(r'measured $\vb*{i_\star}$ only', fontsize=10)
+
+cosψ = np.linspace(-1,1,200)
+pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
+plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=10)
 
 fig.set_facecolor('w')
 
