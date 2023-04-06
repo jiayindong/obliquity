@@ -102,10 +102,10 @@ err_Lam = np.array([0.11170107, 0.08726646, 0.13439035, 0.17453293, 0.04537856,
 
 if __name__ == '__main__':
 
-    nplanet = len(Lam)
-    with pm.Model() as randinc:
+    nsample = len(Lam)
+    with pm.Model() as model_noistar:
 
-        nsample = 2
+        ncomps = 2
 
         # hyperprior
         w = pm.Dirichlet('w', np.ones(ncomps))
