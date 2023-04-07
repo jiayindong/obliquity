@@ -153,14 +153,14 @@ if __name__ == '__main__':
     plt.title(r'$\lambda$')
     plt.ylim([0,0.5])
     plt.xlim([0,np.pi])
-    plt.xticks([0,np.pi/2,np.pi], ['0', r'$\pi/2$', r'$\pi$'])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
 
     plt.subplot(4,4,3)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
     plt.title(r'$i_\star$')
-    plt.xlim([0,np.pi/2])
-    plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
-    plt.ylim([0,1.1])
+    plt.xlim([0,np.pi])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
+    plt.ylim([0,0.55])
 
     plt.subplot(4,4,4)
     plt.hist(iso_cosψ, color='#e5e1e0', density=True, bins=40)
@@ -179,12 +179,16 @@ if __name__ == '__main__':
         pcosλ[i] = integrate.quad(lambda x: (1-this_cosλ**2*x**2)**-1.5*1/2,
                              0, 1)[0]*2/np.pi
 
-    istar = np.linspace(0,np.pi/2,800)
+    istar = np.linspace(0,np.pi,800)
     cosi = np.cos(istar)
     pcosi = np.zeros_like(cosi)
     for i,this_cosi in enumerate(cosi):
-        pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)*1/2,
-                             this_cosi, 1)[0]*4/np.pi
+        if this_cosi > 0:
+            pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)*1/2,
+                               this_cosi, 1)[0]*2/np.pi
+        else:
+            pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)*1/2,
+                               this_cosi, -1)[0]*2/np.pi
         
     plt.subplot(4,4,1)
     plt.plot(cosψ,pcosψ,lw=1.2)
@@ -220,14 +224,14 @@ if __name__ == '__main__':
     plt.title(r'$\lambda$')
     plt.ylim([0,1.5])
     plt.xlim([0,np.pi])
-    plt.xticks([0,np.pi/2,np.pi], ['0', r'$\pi/2$', r'$\pi$'])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
 
     plt.subplot(4,4,7)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
     plt.title(r'$i_\star$')
-    plt.xlim([0,np.pi/2])
-    plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
-    plt.ylim([0,1.1])
+    plt.xlim([0,np.pi])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
+    plt.ylim([0,0.55])
 
     plt.subplot(4,4,8)
     plt.hist(iso_cosψ, color='#e5e1e0', density=True, bins=40)
@@ -246,13 +250,18 @@ if __name__ == '__main__':
                                   *1/np.sqrt(2*np.pi*σ**2)*np.exp(-(this_cosλ**2*x**2-this_cosλ**2)/(this_cosλ**2*x**2-1)/2/σ**2),
                              0, 1)[0]*2/np.pi
 
-    istar = np.linspace(0,np.pi/2,800)
+    istar = np.linspace(0,np.pi,800)
     cosi = np.cos(istar)
     pcosi = np.zeros_like(cosi)
     for i,this_cosi in enumerate(cosi):
-        pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)
+        if this_cosi > 0:
+            pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)
                                   *1/np.sqrt(2*np.pi*σ**2)*np.exp(-(1-this_cosi**2/x**2)/2/σ**2),
-                             this_cosi, 1)[0]*4/np.pi
+                                  this_cosi, 1)[0]*2/np.pi
+        else:
+            pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)
+                                *1/np.sqrt(2*np.pi*σ**2)*np.exp(-(1-this_cosi**2/x**2)/2/σ**2),
+                                this_cosi, -1)[0]*2/np.pi
 
     plt.subplot(4,4,5)
     plt.plot(cosψ,pcosψ,lw=1.2)
@@ -288,14 +297,14 @@ if __name__ == '__main__':
     plt.title(r'$\lambda$')
     plt.ylim([0,1.5])
     plt.xlim([0,np.pi])
-    plt.xticks([0,np.pi/2,np.pi], ['0', r'$\pi/2$', r'$\pi$'])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
 
     plt.subplot(4,4,11)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
     plt.title(r'$i_\star$')
-    plt.xlim([0,np.pi/2])
-    plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
-    plt.ylim([0,1.1])
+    plt.xlim([0,np.pi])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
+    plt.ylim([0,0.55])
 
     plt.subplot(4,4,12)
     plt.hist(iso_cosψ, color='#e5e1e0', density=True, bins=40)
@@ -327,19 +336,24 @@ if __name__ == '__main__':
 
     plt.plot(λ,pcosλ*np.sqrt(1-cosλ**2), c='C0',lw=1.2)
         
-    istar = np.linspace(0,np.pi/2,800)
+    istar = np.linspace(0,np.pi,800)
     cosi = np.cos(istar)
     pcosi = np.zeros_like(cosi)
     for i,this_cosi in enumerate(cosi):
-        pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)
-                                  *1/np.sqrt(2*np.pi*σ**2)*np.exp(-(np.sqrt(1-this_cosi**2/x**2)-0.4)**2/2/σ**2),
-                             this_cosi, 1)[0]*4/np.pi
+        if this_cosi > 0:
+            pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)
+                                    *1/np.sqrt(2*np.pi*σ**2)*np.exp(-(np.sqrt(1-this_cosi**2/x**2)-0.4)**2/2/σ**2),
+                               this_cosi, 1)[0]/np.pi
+        else:
+            pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)
+                                    *1/np.sqrt(2*np.pi*σ**2)*np.exp(-(np.sqrt(1-this_cosi**2/x**2)-0.4)**2/2/σ**2),
+                               this_cosi, -1)[0]/np.pi
 
     plt.subplot(4,4,9)
     plt.plot(cosψ,pcosψ,lw=1.2)
 
     plt.subplot(4,4,11)
-    plt.plot(istar, pcosi*np.sqrt(1-cosi**2)/2,lw=1.2)
+    plt.plot(istar, pcosi*np.sqrt(1-cosi**2),lw=1.2)
 
     plt.subplot(4,4,12)
     plt.plot(cosψ,pcosψ,lw=1.2,linestyle='--',label='True')
@@ -365,14 +379,14 @@ if __name__ == '__main__':
     plt.title(r'$\lambda$')
     plt.ylim([0,1.5])
     plt.xlim([0,np.pi])
-    plt.xticks([0,np.pi/2,np.pi], ['0', r'$\pi/2$', r'$\pi$'])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
 
     plt.subplot(4,4,15)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
     plt.title(r'$i_\star$')
-    plt.xlim([0,np.pi/2])
-    plt.xticks([0,np.pi/4,np.pi/2], ['0', r'$\pi/4$', r'$\pi/2$'])
-    plt.ylim([0,1.1])
+    plt.xlim([0,np.pi])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
+    plt.ylim([0,0.55])
 
     plt.subplot(4,4,16)
     plt.hist(iso_cosψ, color='#e5e1e0', density=True, bins=40)
@@ -404,19 +418,24 @@ if __name__ == '__main__':
 
     plt.plot(λ,pcosλ*np.sqrt(1-cosλ**2),c='C0',lw=1.2)
         
-    istar = np.linspace(0,np.pi/2,800)
+    istar = np.linspace(0,np.pi,800)
     cosi = np.cos(istar)
     pcosi = np.zeros_like(cosi)
     for i,this_cosi in enumerate(cosi):
-        pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)
-                                  *1/np.sqrt(2*np.pi*σ**2)*np.exp(-(np.sqrt(1-this_cosi**2/x**2)-0.4)**2/2/σ**2),
-                             this_cosi, 1)[0]*4/np.pi
+        if this_cosi > 0:
+            pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)
+                                    *1/np.sqrt(2*np.pi*σ**2)*np.exp(-(np.sqrt(1-this_cosi**2/x**2)-0.4)**2/2/σ**2),
+                               this_cosi, 1)[0]/np.pi
+        else:
+            pcosi[i] = integrate.quad(lambda x: this_cosi/x**2/np.sqrt(1-this_cosi**2/x**2)/np.sqrt(1-x**2)
+                                    *1/np.sqrt(2*np.pi*σ**2)*np.exp(-(np.sqrt(1-this_cosi**2/x**2)-0.4)**2/2/σ**2),
+                               this_cosi, -1)[0]/np.pi
 
     plt.subplot(4,4,13)
     plt.plot(cosψ,pcosψ,lw=1.2)
 
     plt.subplot(4,4,15)
-    plt.plot(istar, pcosi*np.sqrt(1-cosi**2)/2,lw=1.2)
+    plt.plot(istar, pcosi*np.sqrt(1-cosi**2),lw=1.2)
 
     plt.subplot(4,4,16)
     plt.plot(cosψ,pcosψ,lw=1.2,linestyle='--',label='True')
