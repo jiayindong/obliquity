@@ -36,23 +36,27 @@ plt.rcParams['lines.markeredgewidth'] =  1.0
 
 if __name__ == '__main__':
 
-    with pm.Model() as uni:
+    with pm.Model() as model_uni:
 
         cosψ = pm.Uniform('cosψ',lower=-1,upper=1)
         
         ψ = pm.Deterministic('ψ', at.arccos(cosψ))
         sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
         
-        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        θ = pm.Uniform('θ', lower=0, upper=np.pi)
         cosθ = pm.Deterministic('cosθ', at.cos(θ))
-        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
 
-        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
-        λ = pm.Deterministic('λ', at.arccos(cosλ))
-        
-        sini = pm.Deterministic('sini', cosψ/cosλ)
-        i = pm.Deterministic('i', at.arcsin(sini))
-        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
+        # iorb
+        iorb = np.pi/2
+
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
+        cosλ = pm.Deterministic('cosλ', at.cos(λ))
+
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        i = pm.Deterministic('i', at.arccos(cosi))
         
         iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
         iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
@@ -60,75 +64,86 @@ if __name__ == '__main__':
         uni = pm.sample()
 
 
-    with pm.Model() as norm1:
+    with pm.Model() as model_norm1:
 
-        cosψ = pm.Normal('cosψ', mu=0., sigma=0.2)
+        cosψ = pm.TruncatedNormal('cosψ', mu=0., sigma=0.2, lower=-1, upper=1)
         
         ψ = pm.Deterministic('ψ', at.arccos(cosψ))
         sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
         
-        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        θ = pm.Uniform('θ', lower=0, upper=np.pi)
         cosθ = pm.Deterministic('cosθ', at.cos(θ))
-        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
 
-        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
-        λ = pm.Deterministic('λ', at.arccos(cosλ))
-        
-        sini = pm.Deterministic('sini', cosψ/cosλ)
-        i = pm.Deterministic('i', at.arcsin(sini))
-        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
+        # iorb
+        iorb = np.pi/2
+
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
+        cosλ = pm.Deterministic('cosλ', at.cos(λ))
+
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        i = pm.Deterministic('i', at.arccos(cosi))
         
         iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
         iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
         
         norm1 = pm.sample()
 
-    with pm.Model() as norm2:
+    with pm.Model() as model_norm2:
 
-        cosψ = pm.Normal('cosψ', mu=-0.4, sigma=0.2)
+        cosψ = pm.TruncatedNormal('cosψ', mu=-0.4, sigma=0.2, lower=-1, upper=1)
         
         ψ = pm.Deterministic('ψ', at.arccos(cosψ))
         sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
         
-        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        θ = pm.Uniform('θ', lower=0, upper=np.pi)
         cosθ = pm.Deterministic('cosθ', at.cos(θ))
-        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
 
-        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
-        λ = pm.Deterministic('λ', at.arccos(cosλ))
-        
-        sini = pm.Deterministic('sini', cosψ/cosλ)
-        i = pm.Deterministic('i', at.arcsin(sini))
-        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
+        # iorb
+        iorb = np.pi/2
+
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
+        cosλ = pm.Deterministic('cosλ', at.cos(λ))
+      
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        i = pm.Deterministic('i', at.arccos(cosi))
         
         iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
-        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)    
+        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)  
         
         norm2 = pm.sample()
+        
+    with pm.Model() as model_norm3:
 
-    with pm.Model() as norm3:
-
-        cosψ = pm.Normal('cosψ', mu=0.4, sigma=0.2)
+        cosψ = pm.TruncatedNormal('cosψ', mu=0.4, sigma=0.2, lower=-1, upper=1)
         
         ψ = pm.Deterministic('ψ', at.arccos(cosψ))
         sinψ = pm.Deterministic('sinψ', at.sqrt(1-cosψ**2))
         
-        θ = pm.Uniform('θ', lower=-np.pi/2, upper=np.pi/2)
+        θ = pm.Uniform('θ', lower=0, upper=np.pi)
         cosθ = pm.Deterministic('cosθ', at.cos(θ))
-        tanθ = pm.Deterministic('tanθ', at.tan(θ))
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
 
-        cosλ = pm.Deterministic('cosλ', cosψ/at.sqrt(1-sinψ**2*cosθ**2))
-        λ = pm.Deterministic('λ', at.arccos(cosλ))
-        
-        sini = pm.Deterministic('sini', cosψ/cosλ)
-        i = pm.Deterministic('i', at.arcsin(sini))
-        cosi = pm.Deterministic('cosi', at.sqrt(1-sini**2))
+        # iorb
+        iorb = np.pi/2
+
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
+        cosλ = pm.Deterministic('cosλ', at.cos(λ))
+
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        i = pm.Deterministic('i', at.arccos(cosi))
         
         iso_cosi = pm.Uniform('iso_cosi', lower=0, upper=1)
         iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1-iso_cosi**2)*cosλ)
         
         norm3 = pm.sample()
-
 
 
     ### Make the plot ###
