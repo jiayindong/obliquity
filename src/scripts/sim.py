@@ -39,7 +39,7 @@ def posteriors(this_model):
     true_lam = idata.posterior.λ.values.ravel()
     obs_lam = true_lam + err_lam*np.random.normal(size=nsample)
 
-    # Not neccessary; limit obs_istar to [0, pi/2]
+    # Not neccessary to limit obs_istar to [0, pi/2]
     # obs_istar[obs_istar>np.pi/2] = np.pi-obs_istar[obs_istar>np.pi/2]
 
     # Limit obs_lam to [0, pi]
