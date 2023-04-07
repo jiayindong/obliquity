@@ -70,7 +70,7 @@ norm3_draws, norm3_noistar_draws, norm3_nolam_draws = psi_dist_draws("norm3")
 
 
 ### Make the plot ###
-fig, big_axes = plt.subplots(figsize=(6.5,7),dpi=110,nrows=4,ncols=1,sharey=True) 
+fig, big_axes = plt.subplots(figsize=(6.5,7),dpi=150,nrows=4,ncols=1,sharey=True) 
 
 for row, big_ax in enumerate(big_axes, start=1):
     
