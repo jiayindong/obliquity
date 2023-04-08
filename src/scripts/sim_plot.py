@@ -56,8 +56,8 @@ def psi_dist_draws(model_name):
             noistar_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
 
     post = nolam_idata.posterior
-    nolam_draws = np.zeros(shape=(len(x),4000))
-    for a in range(4):
+    nolam_draws = np.zeros(shape=(len(x),16000))
+    for a in range(16):
         for b in range(1000):
             nolam_draws[:, a*1000+b] = beta.pdf(x, post.a[a,b], post.b[a,b])
 

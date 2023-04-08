@@ -180,8 +180,8 @@ def posteriors(this_model):
         # logl for i
         logl_i = pm.Normal('logl_i', mu=istar, sigma=err_istar, observed=obs_istar)
         
-        nolam_idata = pm.sample(nuts={'target_accept':0.99, 'max_treedepth':13}, 
-                                chains=4, random_seed=int(datetime.now().strftime("%Y%m%d")))
+        nolam_idata = pm.sample(nuts={'target_accept':0.9}, 
+                                chains=16, random_seed=int(datetime.now().strftime("%Y%m%d")))
 
 
     return idata, noistar_idata, nolam_idata
