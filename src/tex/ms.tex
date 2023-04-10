@@ -174,7 +174,7 @@ This could include a direct measurement of $\hat{i}_{\star,n}$ \citep[via gravit
 For the stellar obliquity distribution, we model the $\cos{\psi}$ distribution instead of $\psi$ distribution to understand if the stellar obliquity is isotropically distributed. If stellar obliquity distribution is isotropic, $\cos{\psi}$ is uniformly distributed between -1 and 1.
 To flexibly model the stellar obliquity distribution, \edits{we select a multi-component mixture of Beta distributions with hyperparameters $\bm{\beta} = \{\bm{w},\bm{\mu},\bm{\kappa}\}$, where each hyperparameter has a dimension of the number of components. For example, for a two-component mixture model, each hyperparameter has a dimension of 2.
 We have $\bm{w} = \{w_0, w_1\}$, $\bm{\mu} = \{\mu_0, \mu_1\}$, and $\bm{\kappa} = \{\kappa_0, \kappa_1\}$.
-The hyperparameter $\bm{w}$ describes the weight of each component, and $\bm{\mu}$ and 1/$\bm{\kappa}$ correspond to the mean and variance of each Beta distribution component, respectively. The greater value of the $\kappa$, the smaller the variance (i.e., the distribution is more concentrated). The relations between the $\mu$ and $\kappa$ and the standard $\alpha$ and $\beta$ parameters in the Beta distribution are $\alpha = \mu \kappa$ and $\beta = (1-\mu) \kappa$.
+The hyperparameter $\bm{w}$ describes the weight of each component. The $\bm{\mu}$ and 1/$\bm{\kappa}$ correspond to the mean and variance of each Beta distribution component, respectively, a reparametrization of parameters suggested by \cite{Gelman14}. The greater value of the $\kappa$, the smaller the variance (i.e., the distribution is more concentrated). The relations between the $\mu$ and $\kappa$ and the standard $\alpha$ and $\beta$ parameters in the Beta distribution are $\alpha = \mu \kappa$ and $\beta = (1-\mu) \kappa$.
 This mixture distribution has the capacity to capture anything from an isotropic distribution to a strongly bimodal population.
 Then, under this two-component model, the probability density function for $\cos{\psi}$ is
 \begin{align}
@@ -184,12 +184,12 @@ Then, under this two-component model, the probability density function for $\cos
     \cos{\psi} &\sim 2\,( w_0 u_0 + w_1 u_1)-1.
 \end{align}
 Since the Beta distribution is defined on the interval $[0, 1]$ whereas the support of $\cos{\psi}$ is from -1 to 1, we extend the mixture distribution's support $[0,1]$ to $[-1,1]$ using a linear transformation (i.e., $2\,( w_0 u_0 + w_1 u_1)-1$).
-Lastly, to avoid label switching in the mixture model, we apply a transformation to the distribution means $\vb*{\mu}$ to force the vector to be ordered. For $\mu$ and $\kappa$, we adopt the following priors:
+For $\mu$ and $\kappa$, we adopt the following priors:
 \begin{align}
     \mu_{0,1} &\sim \mathcal{U}(0, 1) \nonumber\\
     \log{\kappa}_{0,1} &\sim \mathcal{N}(0, 3),
 \end{align}
-where $\mu_{0,1}$ are uniformly distributed between 0 and 1 and $\log{\kappa}_{0,1}$ are normally distributed with a mean of 0 and standard deviation of 3.
+where $\mu_{0,1}$ are uniformly distributed between 0 and 1 and $\log{\kappa}_{0,1}$ are normally distributed with a mean of 0 and standard deviation of 3. To deal with label switching in the mixture model, we remove the symmetry by forcing the vector $\vb*{\mu}$ to be ordered. 
 Notably, when applying the framework to a small sample size with $N \lesssim 50$, the choice of hyperpriors for the Beta distribution could impact the inferred distribution \citep{Nagpal22}. To ensure the robustness of the inferred distributions in such cases, it is crucial to test their sensitivity to different hyperpriors.
 Here we present a two-component mixture model for demonstration. In practice, the distribution can be modified to a single component or higher components.
 }
@@ -202,7 +202,7 @@ Next, the parameter priors are the following:
 If $\gamma_{\star, n}$ is available, we construct Normal distributions with means and standard deviations from measurements.
 \edits{For the orbital inclination $i_{\rm orb}$, following the convention, we limit it to $\left[0\degr, 90\degr\right]$. To not underestimate the $\psi$, we then set $i_\star$ to be varied from $0\degr$ to $180\degr$.
 Besides, since $\lambda$ and $-\lambda$ correspond to the same $\psi$ solution, we limit $\lambda$ to $\left[0\degr, 180\degr\right]$ and thus $\theta$ to $\left[0\degr, 180\degr\right]$.
-We find doing so, while not compromising the inference of the $\psi$ distribution, greatly improves the sampling performance as it avoids chains stuck at $\theta = 0$ or $2\pi$ due to discontinuity.}
+We find doing so greatly improves the sampling performance while not compromising the inference of the $\psi$ distribution. The possible explanation for the improvement is that the $\left[0\degr, 180\degr\right]$ support prevents chains from getting stuck at $\theta = 0\degr$ and $\theta = 360\degr$ discontinuity.}
 
 The likelihood functions follow:
 \begin{align}
