@@ -51,7 +51,7 @@ In this paper, we demonstrate that while a constraint on the stellar inclination
 In practice, the constraints on the stellar obliquity distribution are mainly driven by the sky-projected stellar obliquities.
 We introduce a flexible, hierarchical Bayesian framework that can be used to infer the stellar obliquity distribution solely from sky-projected stellar obliquities, including stellar inclination measurements when available.
 When applying the framework to all exoplanetary systems with measured sky-projected stellar obliquity, we find that the inferred population-level obliquity distribution is unimodal and peaked at zero degrees. Misaligned systems have nearly isotropic stellar obliquities \edits{with no strong clustering near 90$\degr$. 
-Furthermore, misaligned Hot Jupiters have a diverse range of stellar obliquities, suggesting that dynamic mechanisms, such as planet-planet scattering after a convergent disk migration or planetary Kozai, are likely responsible for producing the population.}
+Furthermore, misaligned Hot Jupiters have a diverse range of stellar obliquities from $0\degr$ to $180\degr$, preferring dynamic mechanisms, such as planet-planet scattering after a convergent disk migration or planetary Kozai, which could produce broad distributions.}
 
 \end{abstract}
 
@@ -311,8 +311,9 @@ Note that the lower limit of the integral is $\cos{i_\star}$ instead of 0 since 
 If $\cos{\psi}$ is uniformly distribution, i.e., $p(\cos{\psi}) = 1/2$, the integral gives $1$, which suggests the $\cos{i_\star}$ is uniformly distributed, as expected.
 
 \begin{figure*}[ht!]
+    \centering
     \script{transform.py}
-    \includegraphics[width=\linewidth]{figures/transform.pdf}
+    \includegraphics[width=0.8\linewidth]{figures/transform.pdf}
     \caption{Simulated $\cos{\psi}$ distributions (\nth{1} column) and the corresponding distributions of sky-projected stellar obliquity $\lambda$ (\nth{2} column) and stellar inclination $i_\star$ (\nth{3} column). The inferred $\cos{\psi}$ distributions assuming isotropic stellar inclinations are shown in the \nth{4} column. The grey histograms present the random samplings of $\lambda$ and $i_\star$ from the $\cos{\psi}$ distributions, and the blue curves present the numerical solutions.}
     \label{fig:transform}
 \end{figure*}
