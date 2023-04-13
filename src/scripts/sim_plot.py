@@ -145,7 +145,7 @@ pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ N(0,0.2), noistar
-ax = fig.add_subplot(4,3,4)
+ax = fig.add_subplot(4,2,4)
 
 q025, q16, q50, q84, q975 = np.percentile(norm1_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
