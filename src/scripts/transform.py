@@ -168,13 +168,13 @@ if __name__ == '__main__':
     plt.title(r'$\lambda$')
     plt.ylim([0,0.5])
     plt.xlim([0,np.pi])
-    plt.xticks([0,np.pi/2,np.pi], ['0', r'$\pi/2$', r'$\pi$'])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
 
     plt.subplot(4,3,3)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
     plt.title(r'$i_\star$')
     plt.xlim([0,np.pi])
-    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', r'$\pi/4$', r'$\pi/2$', r'$3\pi/4$', r'$\pi$'])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
     plt.ylim([0,0.55])
 
 
@@ -228,13 +228,13 @@ if __name__ == '__main__':
     plt.title(r'$\lambda$')
     plt.ylim([0,1.5])
     plt.xlim([0,np.pi])
-    plt.xticks([0,np.pi/2,np.pi], ['0', r'$\pi/2$', r'$\pi$'])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
 
     plt.subplot(4,3,6)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
     plt.title(r'$i_\star$')
     plt.xlim([0,np.pi])
-    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', r'$\pi/4$', r'$\pi/2$', r'$3\pi/4$', r'$\pi$'])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
     plt.ylim([0,0.55])
 
 
@@ -289,7 +289,7 @@ if __name__ == '__main__':
     plt.title(r'$\lambda$')
     plt.ylim([0,1.5])
     plt.xlim([0,np.pi])
-    plt.xticks([0,np.pi/2,np.pi], ['0', r'$\pi/2$', r'$\pi$'])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
 
     plt.subplot(4,3,9)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
@@ -359,7 +359,7 @@ if __name__ == '__main__':
     plt.title(r'$\lambda$')
     plt.ylim([0,1.5])
     plt.xlim([0,np.pi])
-    plt.xticks([0,np.pi/2,np.pi], ['0', r'$\pi/2$', r'$\pi$'])
+    plt.xticks([0,np.pi/4,np.pi/2,3*np.pi/4,np.pi], ['0', '', r'$\pi/2$', '', r'$\pi$'])
 
     plt.subplot(4,3,12)
     plt.hist(i, color='#e5e1e0', density=True, bins=40)
