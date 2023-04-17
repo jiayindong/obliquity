@@ -20,6 +20,7 @@ jobs:
         run: |
           wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
           sudo ~/bin/tlmgr install type1cm cm-super underscore physics
+          sudo apt-get update
           sudo apt-get install dvipng
 
       - name: Build the article PDF
