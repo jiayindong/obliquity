@@ -139,52 +139,52 @@ def posteriors(this_model):
                                   chains=4, random_seed=int(datetime.now().strftime("%Y%m%d")))
 
 
-    with pm.Model() as model_nolam:
+    # with pm.Model() as model_nolam:
 
-        ncomps = 1
+    #     ncomps = 1
         
-        # hyperprior
-        w = pm.Dirichlet('w', np.ones(ncomps))
+    #     # hyperprior
+    #     w = pm.Dirichlet('w', np.ones(ncomps))
         
-        if ncomps > 1:
-            μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps, 
-                           transform=pm.distributions.transforms.Ordered(), 
-                           initval=np.sort(np.random.rand(ncomps)))
-        else:
-            μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps)
+    #     if ncomps > 1:
+    #         μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps, 
+    #                        transform=pm.distributions.transforms.Ordered(), 
+    #                        initval=np.sort(np.random.rand(ncomps)))
+    #     else:
+    #         μ = pm.Uniform('μ', lower=0., upper=1., shape=ncomps)
             
-        logκ = pm.Normal('logκ', 3., shape=ncomps)
-        κ = pm.Deterministic('κ', pm.math.exp(logκ))
+    #     logκ = pm.Normal('logκ', 3., shape=ncomps)
+    #     κ = pm.Deterministic('κ', pm.math.exp(logκ))
       
-        a = pm.Deterministic('a', μ*κ)
-        b = pm.Deterministic('b', (1.-μ)*κ)
+    #     a = pm.Deterministic('a', μ*κ)
+    #     b = pm.Deterministic('b', (1.-μ)*κ)
         
-        # mixture cosψ distribution
-        u = pm.Mixture('u', w=w, comp_dists=pm.Beta.dist(a, b, shape=(ncomps,)), shape=nsample)
+    #     # mixture cosψ distribution
+    #     u = pm.Mixture('u', w=w, comp_dists=pm.Beta.dist(a, b, shape=(ncomps,)), shape=nsample)
         
-        cosψ = pm.Deterministic('cosψ', 2.*u-1.)
-        sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
+    #     cosψ = pm.Deterministic('cosψ', 2.*u-1.)
+    #     sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
         
-        # uniform θ prior
-        θ = pm.Uniform('θ', lower=0, upper=np.pi, shape=nsample)
-        sinθ = pm.Deterministic('sinθ', at.sin(θ))
-        cosθ = pm.Deterministic('cosθ', at.cos(θ))
+    #     # uniform θ prior
+    #     θ = pm.Uniform('θ', lower=0, upper=np.pi, shape=nsample)
+    #     sinθ = pm.Deterministic('sinθ', at.sin(θ))
+    #     cosθ = pm.Deterministic('cosθ', at.cos(θ))
         
-        # iorb
-        iorb = np.pi/2
+    #     # iorb
+    #     iorb = np.pi/2
 
-        # find i in terms of ψ, θ, and iorb
-        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
-        istar = pm.Deterministic('i', at.arccos(cosi))
+    #     # find i in terms of ψ, θ, and iorb
+    #     cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+    #     istar = pm.Deterministic('i', at.arccos(cosi))
 
-        # logl for i
-        logl_i = pm.Normal('logl_i', mu=istar, sigma=err_istar, observed=obs_istar)
+    #     # logl for i
+    #     logl_i = pm.Normal('logl_i', mu=istar, sigma=err_istar, observed=obs_istar)
         
-        nolam_idata = pm.sample(nuts={'target_accept':0.9}, 
-                                chains=16, random_seed=int(datetime.now().strftime("%Y%m%d")))
+    #     nolam_idata = pm.sample(nuts={'target_accept':0.9}, 
+    #                             chains=16, random_seed=int(datetime.now().strftime("%Y%m%d")))
 
 
-    return idata, noistar_idata, nolam_idata
+    return idata, noistar_idata #, nolam_idata
 
 
 ### PyMC models ###
@@ -300,25 +300,25 @@ if __name__ == '__main__':
     sim_dir.mkdir(exist_ok=True, parents=True)
 
     # cosψ ~ U(-1,1)
-    uni, uni_noistar, uni_nolam = posteriors(model_uni)
+    uni, uni_noistar = posteriors(model_uni)
     az.to_netcdf(uni.posterior, sim_dir / "uni.nc")
     az.to_netcdf(uni_noistar.posterior, sim_dir / "uni_noistar.nc")
-    az.to_netcdf(uni_nolam.posterior, sim_dir / "uni_nolam.nc")
+    #az.to_netcdf(uni_nolam.posterior, sim_dir / "uni_nolam.nc")
 
     # cosψ ~ N(0,0.2)
-    norm1, norm1_noistar, norm1_nolam = posteriors(model_norm1)
+    norm1, norm1_noistar = posteriors(model_norm1)
     az.to_netcdf(norm1.posterior, sim_dir / "norm1.nc")
     az.to_netcdf(norm1_noistar.posterior, sim_dir / "norm1_noistar.nc")
-    az.to_netcdf(norm1_nolam.posterior, sim_dir / "norm1_nolam.nc")
+    #az.to_netcdf(norm1_nolam.posterior, sim_dir / "norm1_nolam.nc")
 
     # cosψ ~ N(-0.4,0.2)
-    norm2, norm2_noistar, norm2_nolam = posteriors(model_norm2)
+    norm2, norm2_noistar = posteriors(model_norm2)
     az.to_netcdf(norm2.posterior, sim_dir / "norm2.nc")
     az.to_netcdf(norm2_noistar.posterior, sim_dir / "norm2_noistar.nc")
-    az.to_netcdf(norm2_nolam.posterior, sim_dir / "norm2_nolam.nc")
+    #az.to_netcdf(norm2_nolam.posterior, sim_dir / "norm2_nolam.nc")
 
     # cosψ ~ N(0.4,0.2)
-    norm3, norm3_noistar, norm3_nolam = posteriors(model_norm3)
+    norm3, norm3_noistar = posteriors(model_norm3)
     az.to_netcdf(norm3.posterior, sim_dir / "norm3.nc")
     az.to_netcdf(norm3_noistar.posterior, sim_dir / "norm3_noistar.nc")
-    az.to_netcdf(norm3_nolam.posterior, sim_dir / "norm3_nolam.nc")
+    #az.to_netcdf(norm3_nolam.posterior, sim_dir / "norm3_nolam.nc")
