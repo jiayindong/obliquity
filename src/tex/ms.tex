@@ -50,7 +50,7 @@ Stellar obliquity $\psi$, the angle between a planet's orbital axis and its host
 In this paper, we demonstrate that while a constraint on the stellar inclination is crucial for measuring the obliquity of an individual system, it is not required for robust determination of the population-level stellar obliquity distribution. 
 In practice, the constraints on the stellar obliquity distribution are mainly driven by the sky-projected stellar obliquities.
 We introduce a flexible, hierarchical Bayesian framework that can be used to infer the stellar obliquity distribution solely from sky-projected stellar obliquities, including stellar inclination measurements when available.
-When applying the framework to all exoplanetary systems with measured sky-projected stellar obliquity, we find that the inferred population-level obliquity distribution is unimodal and peaked at zero degrees \edits{with a fraction of $72\pm9$\,\%. The small fraction of misaligned systems ($28\pm9$\,\%) has nearly isotropic stellar obliquities with no strong clustering near 90$\degr$.
+When applying the framework to all exoplanetary systems with measured sky-projected stellar obliquity, we find that the inferred population-level obliquity distribution is unimodal and peaked at zero degrees \edits{with a fraction of $72\pm9$\,\%. The $28\pm9$\,\% fraction of misaligned systems has nearly isotropic stellar obliquities with no strong clustering near 90$\degr$.
 The diverse range of stellar obliquities prefers dynamic mechanisms, such as planet-planet scattering after a convergent disk migration, which could produce both prograde and retrograde orbits with no strong inclination concentrations.}
 
 \end{abstract}
@@ -321,7 +321,6 @@ The $\psi$ distribution can be inferred from the $\lambda$ distribution without 
 
 \section{Application to Exoplanetary Systems}\label{sec:observation}
 
-\subsection{Stellar Obliquity Distribution of All Exoplanetary Systems}
 We next apply our hierarchical Bayesian framework to a sample of 161 exoplanetary systems with sky-projected stellar obliquity measurements, primarily consisting of Hot Jupiter systems, as summarized in \cite{Albrecht22} Table A1.
 The inferred $\cos{\psi}$ distribution is shown in Figure~\ref{fig:psi_dist}. The $\cos{\psi}$ distribution is peaked at 1, with nearly flat behavior between $-0.75$ and $0.75$ and no significant clustering. The distribution suggests that there is a pile-up of planetary systems with stellar obliquities less than $40^\circ$ and an isotropic distribution for obliquities between $40^\circ$ and $140^\circ$.
 The fraction of aligned systems $w_1$ dominates the distribution, with $w_1 = 0.719 \pm 0.085$. The corresponding posteriors for the parameters of the population Beta distribution are $\mu_1 = 0.976 \pm 0.022$ and $\kappa_1 = 14.1 \pm 26.6$. On the other hand, the fraction of misaligned systems is estimated to be $w_0 = 0.281 \pm 0.085$, with posteriors of $\mu_1 = 0.434 \pm 0.088$ and $\kappa_1 = 4.2 \pm 5.6$. \edits{Note that the $\mu_{0,1}$ need to be transformed by $2\mu-1$ to represent to true means of the $\cos{\psi}$ distributions.}
@@ -352,7 +351,7 @@ Our open-source hierarchical Bayesian model, available on GitHub \href{https://g
 
 It is crucial to consider the representativeness of the $i_\star$ sample when jointly modeling the stellar obliquity distribution from two data sets, one with and one without $i_\star$ measurements. An unrepresentative $i_\star$ sample could tighten the constraints on the stellar obliquities and bias the interpretation of the overall distribution.
 
-Finally, we applied the framework to all exoplanetary systems to all exoplanetary systems with available sky-projected stellar obliquities and found that approximately $67\pm9$\% of the systems have a stellar obliquity less than $40\degr$, and approximately $33\pm9$\% of the systems follow a nearly isotropic stellar obliquity distribution between $\sim$$40\degr$ and $\sim$$140\degr$.
+Finally, we applied the framework to all exoplanetary systems to all exoplanetary systems with available sky-projected stellar obliquities and found that approximately $72\pm9$\% of the systems have a stellar obliquity less than $40\degr$, and approximately $28\pm9$\% of the systems follow a nearly isotropic stellar obliquity distribution between $\sim$$40\degr$ and $\sim$$140\degr$.
 The distribution could have important implications for the formation and evolution of close-in planetary systems and is worth further investigation.
 
 \section*{Acknowledgments}
