@@ -41,7 +41,7 @@ def psi_dist_draws(model_name):
 
     idata = az.from_netcdf(paths.data / "simulation" / (model_name + ".nc"))
     noistar_idata = az.from_netcdf(paths.data / "simulation" / (model_name + "_noistar.nc"))
-    nolam_idata = az.from_netcdf(paths.data / "simulation" / (model_name + "_nolam.nc"))
+    #nolam_idata = az.from_netcdf(paths.data / "simulation" / (model_name + "_nolam.nc"))
 
     post = idata.posterior
     draws = np.zeros(shape=(len(x),4000))
