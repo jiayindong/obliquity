@@ -13,7 +13,7 @@
 \newcommand{\dfm}[1]{\textcolor{blue}{\textbf{From DFM:} #1}}
 \newcommand{\edits}[1]{\textcolor{purple}{#1}}
 
-\received{\today}
+\received{May 1, 2023}
 \revised{}
 \accepted{}
 
@@ -175,9 +175,9 @@ The hyperparameter $\bm{w}$ describes the weight of each component. The $\bm{\mu
 This mixture distribution has the capacity to capture anything from an isotropic distribution to a strongly bimodal population.
 Then, under this two-component model, the probability density function for $\cos{\psi}$ is
 \begin{align}
-    w_{0,1} &\sim {\rm Dirichlet}(1, 1) \nonumber\\
+    \edits{w_{0,1}} &\edits{\sim {\rm Bernoulli}(1/2)} \nonumber\\
     u_{0,1} &\sim {\rm Beta}(\mu_{0,1}\kappa_{0,1}, (1-\mu_{0,1})\kappa_{0,1}) \nonumber\\
-    \cos{\psi} &\sim 2\,(w_0 u_0 + w_1 u_1) - 1.
+    \cos{\psi} &= 2\,(w_0 u_0 + w_1 u_1) - 1.
 \end{align}
 Since the Beta distribution is defined on the interval $[0, 1]$ whereas the support of $\cos{\psi}$ is from $-1$ to $1$, we extend the mixture distribution's support $[0,1]$ to $[-1,1]$ using a linear transformation (i.e., $2\,( w_0 u_0 + w_1 u_1)-1$).
 For hyperparmeters $\mu$ and $\kappa$, we adopt the following priors:
@@ -205,7 +205,7 @@ The likelihood functions follow:
     \mathcal{L}(i_{\rm orb}) &\sim \prod_{n=1}^N\mathcal{N}(\hat{i}_{{\rm orb},n}, \sigma_{\hat{i}_{{\rm orb},n}}).
 \end{align}
 
-The probabilistic model is constructed using the $\mathtt{PyMC}$ package version $\mathtt{v5.1.2}$ \citep{pymc}, and the posteriors are sampled with the No-U-Turn Sampler \citep[NUTS;][]{Hoffman11}, which is a gradient-based Markov chain Monte Carlo (MCMC) sampling algorithm. This paper's figures and simulations are completely reproducible and were created using the \showyourwork package. The open-source code is available on GitHub \href{https://github.com/jiayindong/obliquity}{(https://github.com/jiayindong/obliquity\,\faGithub)}.
+The probabilistic model is constructed using the $\mathtt{PyMC}$ package version $\mathtt{v5.1.2}$ \citep{pymc}, and the posteriors are sampled with the No-U-Turn Sampler \citep[NUTS;][]{Hoffman11}, which is a gradient-based Markov chain Monte Carlo (MCMC) sampling algorithm. This paper's figures and simulations are completely reproducible and were created using the $\mathtt{showyourwork}$ package. The open-source code is available on GitHub \href{https://github.com/jiayindong/obliquity}{(https://github.com/jiayindong/obliquity\,\faGithub)}.
 
 \section{Model Performance}\label{sec:simulation}
 
@@ -352,13 +352,13 @@ The distribution could have important implications for the formation and evoluti
 \section*{Acknowledgments}
 We are grateful to Josh Winn and Jared Siegel for their valuable insights and feedback on this project.
 
-This study was conducted using the \href{https://github.com/showyourwork/showyourwork}{\showyourwork} reproducible workflow \citep{Luger2021}, which leverages continuous integration to automate the data retrieval from \href{https://zenodo.org/}{zenodo.org}, figure generation, and manuscript compilation.
+This study was conducted using the \href{https://github.com/showyourwork/showyourwork}{$\mathtt{showyourwork}$} reproducible workflow \citep{Luger2021}, which leverages continuous integration to automate the data retrieval from \href{https://zenodo.org/}{zenodo.org}, figure generation, and manuscript compilation.
 The script used to produce each figure can be accessed via a link in the corresponding figure caption, as it corresponds to the latest build of the manuscript.
 The git repository for this study, which includes the Jupyter notebook demonstration and case studies of the stellar obliquity distribution inference, is publicly accessible at \url{https://github.com/jiayindong/obliquity}.
 
 \vspace*{5mm}
 
-\software{$\mathtt{ArviZ}$ \citep{arviz_2019}, $\mathtt{Jupyter}$ \citep{Jupyter}, $\mathtt{Matplotlib}$ \citep{Matplotlib07, Matplotlib16}, $\mathtt{NumPy}$ \citep{NumPy11, NumPy20}, $\mathtt{pandas}$ \citep{mckinney-proc-scipy-2010, reback2020pandas}, $\mathtt{PyMC}$ \citep{pymc}, $\mathtt{SciPy}$ \citep{2020SciPy-NMeth}, \showyourwork \citep{Luger2021}}
+\software{$\mathtt{ArviZ}$ \citep{arviz_2019}, $\mathtt{Jupyter}$ \citep{Jupyter}, $\mathtt{Matplotlib}$ \citep{Matplotlib07, Matplotlib16}, $\mathtt{NumPy}$ \citep{NumPy11, NumPy20}, $\mathtt{pandas}$ \citep{mckinney-proc-scipy-2010, reback2020pandas}, $\mathtt{PyMC}$ \citep{pymc}, $\mathtt{SciPy}$ \citep{2020SciPy-NMeth}, $\mathtt{showyourwork}$ \citep{Luger2021}}
 
 \bibliography{bib}
 
