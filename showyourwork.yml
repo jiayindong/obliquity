@@ -37,6 +37,8 @@ dependencies:
     - src/data/all_noistar.nc
   src/scripts/sim_plot.py:
     - src/data/simulation/
+  src/scripts/polar_plot.py:
+    - src/data/polar/
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
