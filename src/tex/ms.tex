@@ -219,11 +219,11 @@ Using these simulated $\lambda$ measurements and their uncertainties, we infer t
 
 In Figure~\ref{fig:simulation}, we present the results of this experiment, plotting the inferred stellar obliquity distributions, compared to the ground-truth distributions.
 Since the simulated stellar obliquity distributions only have a single component, we model the data with a single Beta distribution.
-Each row of Figure~\ref{fig:simulation} corresponds to a different simulation distribution. The orange curve and contours in the left column are the median, 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred $\cos{\psi}$ distribution with stellar inclination information.
-The right column shows the same inferences (in blue) when constraints on stellar inclination are not included.
+Each row of Figure~\ref{fig:simulation} corresponds to a different simulation distribution. The \edits{blue} curve and contours in the left column are the median, 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred $\cos{\psi}$ distribution with stellar inclination information.
+The right column shows the same inferences (in \edits{orange}) when constraints on stellar inclination are not included.
 Surprisingly, Figure~\ref{fig:simulation} demonstrates that our inference procedure recovers the true distribution for $\cos{\psi}$ equally well, regardless of the inclusion of $i_\star$ measurements.
 Despite the fact that the inferred distributions without $i_\star$ measurements have marginally wider uncertainties, as indicated by shallow color contours, the modes and widths of the inferred stellar obliquity distributions are consistent with or without $i_\star$ likelihood.
-Since the injected distributions in rows 2-4 are Normal distributions, it should not be surprising that the inferred distributions, which are Beta distributions, may not exactly match the injected distributions. Given that the true distributions are not included within the support of the distributions we are using to fit, it is impressive to see how well the underlying distributions could be recovered.
+Since the injected distributions in rows 2--4 are Normal distributions, it should not be surprising that the inferred distributions, which are Beta distributions, may not exactly match the injected distributions. Given that the true distributions are not included within the support of the distributions we are using to fit, it is impressive to see how well the underlying distributions could be recovered.
 
 We also examine the role of orbital inclination $i_{\rm orb}$ in the stellar obliquity distribution inference. Since our study focuses on transiting-exoplanet systems, we consider an isotropic orbital inclination distribution between $80\degr$ and $90\degr$. This broad range of inclinations corresponds to an impact parameter range from 0 to 1 with a planet-star separation $a/R_\star$ of 6.
 We compare the stellar obliquity distributions obtained by approximating $i_{\rm orb}$ to $90\degr$ with the distributions obtained using the actual $i_{\rm orb}$. We find the difference between the two distributions is negligible. This suggests that for transiting-exoplanet systems, approximating orbital inclinations as $90\degr$ will not compromise the stellar obliquity distribution inference.
@@ -328,6 +328,15 @@ The fraction of aligned systems $w_1$ dominates the distribution, with $w_1 = 0.
         \label{fig:psi_dist}
     \end{centering}
 \end{figure}
+
+\begin{figure*}[ht!]
+    \script{polar_plot.py}
+    \begin{centering}
+        \includegraphics{figures/polar.pdf}
+        \caption{Inferred stellar obliquity distribution for the subsample of exoplanetary systems with both sky-projected stellar obliquity measurements and stellar inclination measurements.}
+        \label{fig:polar}
+    \end{centering}
+\end{figure*}
 
 The discrepancy between this inference for the full sample of exoplanet systems and the previous analysis of the subsample with $i_\star$ measurements \citep{Albrecht21} warrants further investigation.
 This earlier study identified a concentration of perpendicular planets and disfavored an isotropic stellar obliquity distribution \citep{Albrecht21}.
