@@ -1,3 +1,21 @@
+rule polar:
+    input:
+        "src/data/Albrecht21_Table2"
+    output:
+        directory("src/data/polar")
+    cache:
+        True
+    script:
+        "src/scripts/polar.py"
+
+rule polar_plot:
+    input:
+        rules.polar.output
+    output:
+        "src/figures/polar.pdf"
+    script:
+        "src/scripts/polar_plot.py"
+
 rule psi:
     output:
         "src/data/all_noistar.nc"
