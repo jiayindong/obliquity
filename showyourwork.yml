@@ -38,7 +38,7 @@ dependencies:
   src/scripts/sim_plot.py:
     - src/data/simulation/
   src/scripts/polar.py:
-    - src/data/Albrecht21_Table2
+    - src/data/Albrecht21_Table2.csv
   src/scripts/polar_plot.py:
     - src/data/polar/
 

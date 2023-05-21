@@ -1,6 +1,6 @@
 rule polar:
     input:
-        "src/data/Albrecht21_Table2"
+        "src/data/Albrecht21_Table2.csv"
     output:
         directory("src/data/polar")
     cache:
