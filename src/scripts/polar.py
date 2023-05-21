@@ -98,8 +98,6 @@ if __name__ == '__main__':
 	# Subsample with Prot measurements
 	nsample2 = int(np.sum(mask2))
 
-	print('Sample size': nsample)
-
 	sim_dir = paths.data / "polar"
 	sim_dir.mkdir(exist_ok=True, parents=True)
 
