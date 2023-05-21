@@ -1,4 +1,3 @@
-# dummy
 import os
 from pathlib import Path
 os.environ["PATH"] += os.pathsep + str(Path.home() / "bin")
