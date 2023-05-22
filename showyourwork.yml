@@ -28,7 +28,7 @@ datasets:
   # 10.5281/zenodo.6468327:
   #   contents:
   #     TOI640b.json: src/data/TOI640b.json
-  10.5281/zenodo.7958404:
+  10.5072/zenodo.1204716:
     contents:
       Albrecht21_Table2.csv: src/data/Albrecht21_Table2.csv
 
