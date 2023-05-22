@@ -39,9 +39,6 @@ def posteriors(this_model):
     true_lam = idata.posterior.λ.values.ravel()
     obs_lam = true_lam + err_lam*np.random.normal(size=nsample)
 
-    # Not neccessary to limit obs_istar to [0, pi/2]
-    # obs_istar[obs_istar>np.pi/2] = np.pi-obs_istar[obs_istar>np.pi/2]
-
     # Limit obs_lam to [0, pi]
     obs_lam[obs_lam<0] = -obs_lam[obs_lam<0]
 
@@ -294,6 +291,33 @@ if __name__ == '__main__':
         
         iso_cosi = pm.Uniform('iso_cosi', lower=0., upper=1.)
         iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1.-iso_cosi**2)*cosλ)
+
+    # cosψ ~ 2*Beta(3,6)-1
+    with pm.Model() as model_beta:
+
+        cosψ_ = pm.Beta('cosψ_', alpha=3, beta=6)
+        cosψ = pm.Deterministic('cosψ', 2*cosψ_-1)
+        
+        ψ = pm.Deterministic('ψ', at.arccos(cosψ))
+        sinψ = pm.Deterministic('sinψ', at.sqrt(1.-cosψ**2))
+        
+        θ = pm.Uniform('θ', lower=0., upper=np.pi)
+        cosθ = pm.Deterministic('cosθ', at.cos(θ))
+        sinθ = pm.Deterministic('sinθ', at.sin(θ))
+
+        # iorb
+        iorb = np.pi/2
+
+        # find λ in terms of ψ, θ, and iorb
+        λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
+        cosλ = pm.Deterministic('cosλ', at.cos(λ))
+
+        # find i in terms of ψ, θ, and iorb
+        cosi = pm.Deterministic('cosi', sinψ*cosθ*at.sin(iorb)+cosψ*at.cos(iorb))
+        i = pm.Deterministic('i', at.arccos(cosi))
+        
+        iso_cosi = pm.Uniform('iso_cosi', lower=0., upper=1.)
+        iso_cosψ = pm.Deterministic('iso_cosψ', at.sqrt(1.-iso_cosi**2)*cosλ)
         
         
     sim_dir = paths.data / "simulation"
@@ -322,3 +346,8 @@ if __name__ == '__main__':
     az.to_netcdf(norm3.posterior, sim_dir / "norm3.nc")
     az.to_netcdf(norm3_noistar.posterior, sim_dir / "norm3_noistar.nc")
     #az.to_netcdf(norm3_nolam.posterior, sim_dir / "norm3_nolam.nc")
+
+    # cosψ ~ Beta(3,6)
+    beta, beta_noistar = posteriors(model_beta)
+    az.to_netcdf(beta.posterior, sim_dir / "beta.nc")
+    az.to_netcdf(beta_noistar.posterior, sim_dir / "beta_noistar.nc")
