@@ -67,7 +67,7 @@ plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
-plt.ylim([0,2])
+plt.ylim([0,1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
@@ -81,7 +81,7 @@ plt.plot(2*x-1, q50, color='#f56e4a')
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
-plt.ylim([0,2])
+plt.ylim([0,1])
 plt.xlim([-1,1])
 
 plt.title(r'measured $\vb*{\lambda}$ only', fontsize=11)
