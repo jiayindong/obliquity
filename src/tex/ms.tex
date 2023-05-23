@@ -211,7 +211,7 @@ The probabilistic model is constructed using the $\mathtt{PyMC}$ package version
 
 \subsection{Simulated Data}\label{subsec:sim}
 To investigate the performance of our hierarchical Bayesian framework, we apply it to simulated data, generated with a known ground-truth stellar obliquity distribution.
-We test the following four $\cos{\psi}$ distributions: a uniform distribution bounded between $-1$ and $1$ such that $\cos{\psi} \sim \mathcal{U}(-1,1)$, and three truncated Normal distributions bounded between $-1$ and $1$, such that $\cos{\psi} \sim \mathcal{N}(0, 0.2)$, $\cos{\psi} \sim \mathcal{N}(-0.4, 0.2)$, and $\cos{\psi} \sim \mathcal{N}(0.4, 0.2)$, where the first number is the mean of the distribution and the second number is the standard deviation.
+We test the following \edits{five} $\cos{\psi}$ distributions: a uniform distribution bounded between $-1$ and $1$ such that $\cos{\psi} \sim \mathcal{U}(-1,1)$, three truncated Normal distributions bounded between $-1$ and $1$, such that $\cos{\psi} \sim \mathcal{N}(0, 0.2)$, $\cos{\psi} \sim \mathcal{N}(-0.4, 0.2)$, and $\cos{\psi} \sim \mathcal{N}(0.4, 0.2)$, where the first number is the mean of the distribution and the second number is the standard deviation, \edits{and lastly, a Beta distribution such that $\cos{\psi} \sim \mathrm{Beta}(3, 6)$ with the support being extended linearly from $[0, 1]$ to $[-1, 1]$}.
 For each $\cos{\psi}$ distribution, we randomly generate 200 samples of sky-projected stellar obliquity $\lambda$ and stellar inclination $i_\star$. We assume the stellar spin axis is uniformly distributed around the planetary orbital axis in the azimuthal direction and the orbital inclination is $90\degr$.
 The sampled $i_\star$ and $\lambda$ here are \emph{true} values. 
 To simulate the observation process, we add Gaussian noise to the \emph{true} $\lambda$ and $i_\star$, using uncertainties of $\sigma_{\lambda} = 8\degr$ and $\sigma_{i_\star} = 10\degr$, which are typical of the literature sample \cite{Albrecht22}.
@@ -219,8 +219,8 @@ Using these simulated $\lambda$ measurements and their uncertainties, we infer t
 
 In Figure~\ref{fig:simulation}, we present the results of this experiment, plotting the inferred stellar obliquity distributions, compared to the ground-truth distributions.
 Since the simulated stellar obliquity distributions only have a single component, we model the data with a single Beta distribution.
-Each row of Figure~\ref{fig:simulation} corresponds to a different simulation distribution. The \edits{blue} curve and contours in the left column are the median, 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred $\cos{\psi}$ distribution with stellar inclination information.
-The right column shows the same inferences (in \edits{orange}) when constraints on stellar inclination are not included.
+Each row of Figure~\ref{fig:simulation} corresponds to a different simulation distribution. The \edits{blue} curve and contours in the left column are the median, 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred $\cos{\psi}$ distribution \edits{when constraints on stellar inclination are not included}.
+The right column shows the same inferences (in \edits{orange}) \edits{with stellar inclination information}.
 Surprisingly, Figure~\ref{fig:simulation} demonstrates that our inference procedure recovers the true distribution for $\cos{\psi}$ equally well, regardless of the inclusion of $i_\star$ measurements.
 Despite the fact that the inferred distributions without $i_\star$ measurements have marginally wider uncertainties, as indicated by shallow color contours, the modes and widths of the inferred stellar obliquity distributions are consistent with or without $i_\star$ likelihood.
 Since the injected distributions in rows 2--4 are Normal distributions, it should not be surprising that the inferred distributions, which are Beta distributions, may not exactly match the injected distributions. Given that the true distributions are not included within the support of the distributions we are using to fit, it is impressive to see how well the underlying distributions could be recovered.
@@ -234,7 +234,7 @@ We demonstrate through simulations that the inferred stellar obliquity distribut
     \centering
     \script{sim_plot.py}
     \includegraphics{figures/simulation.pdf}
-    \caption{Inferred stellar obliquity distributions from sky-projected stellar obliquities with and without information on the stellar inclination, depicted in blue and orange curves, respectively. Each row presents a set of simulated data with the true distribution of $\cos{\psi}$ indicated by grey dashed curves. The shallow contours represent the 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred distributions.}
+    \caption{Inferred stellar obliquity distributions from sky-projected stellar obliquities \edits{without and with} information on the stellar inclination, depicted in blue and orange curves, respectively. Each row presents a set of simulated data with the true distribution of $\cos{\psi}$ indicated by grey dashed curves. The shallow contours represent the 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred distributions.}
     \label{fig:simulation}
 \end{figure}
 
