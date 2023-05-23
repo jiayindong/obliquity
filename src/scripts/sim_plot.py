@@ -246,15 +246,15 @@ plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
-plt.ylim([0,2.5])
+plt.ylim([0,1.5])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
 plt.title(r'measured $\vb*{\lambda}$ only', fontsize=10)
 
-cosψ = np.linspace(-1,1,200)
-pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
-plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
+x = np.linspace(0,1,200)
+pcosψ = stats.beta.pdf(x, 3, 6)/2
+plt.plot(2*x-1, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ Beta(3,6), with istar
 ax = fig.add_subplot(5,2,10)
@@ -264,15 +264,15 @@ plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
-plt.ylim([0,2.5])
+plt.ylim([0,1.5])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
 plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=10)
 
-cosψ = np.linspace(-1,1,200)
-pcosψ = stats.beta.pdf(2*cosψ-1, 3, 6)
-plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
+x = np.linspace(0,1,200)
+pcosψ = stats.beta.pdf(x, 3, 6)/2
+plt.plot(2*x-1, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 fig.set_facecolor('w')
 
