@@ -152,14 +152,6 @@ In the absence of an $i_\star$, $P_{\rm rot}$, or $v\sin{i}_\star$ measurement, 
     \label{fig:graph}
 \end{figure}
 
-\begin{figure}[ht!]
-    \centering
-    \script{sim_plot.py}
-    \includegraphics{figures/simulation.pdf}
-    \caption{Inferred stellar obliquity distributions from sky-projected stellar obliquities \edits{without and with} information on the stellar inclination, depicted in blue and orange curves, respectively. Each row presents a set of simulated data with the true distribution of $\cos{\psi}$ indicated by grey dashed curves. The shallow contours represent the 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred distributions.}
-    \label{fig:simulation}
-\end{figure}
-
 Figure~\ref{fig:graph} illustrates the probabilistic graphical model for our hierarchical Bayesian framework. We aim to constrain a set of hyperparameters $\bm{\beta}$ that describe the stellar obliquity distribution. The parameter set $\bm{\beta}$ is constrained by $N$ individual systems, where each $\psi_n$ is simultaneously fit based on the entire sample of sky-projected stellar obliquities $\lambda_n$, and if available, the stellar inclination $i_{\star, n}$. 
 The parameter $\gamma_{\star, n}$ contains all stellar properties other than $i_{\star,n}$, such as the stellar rotation period $P_{{\rm rot},n}$, radius $R_{\star,n}$, and projected rotational velocity $v\sin{i_{\star,n}}$, if they are known.
 
@@ -209,30 +201,20 @@ The likelihood functions follow:
 
 The probabilistic model is constructed using the $\mathtt{PyMC}$ package version $\mathtt{v5.1.2}$ \citep{pymc}, and the posteriors are sampled with the No-U-Turn Sampler \citep[NUTS;][]{Hoffman11}, which is a gradient-based Markov chain Monte Carlo (MCMC) sampling algorithm. This paper's figures and simulations are completely reproducible and were created using the $\mathtt{showyourwork}$ package. The open-source code is available on GitHub \href{https://github.com/jiayindong/obliquity}{(https://github.com/jiayindong/obliquity\,\faGithub)}.
 
-\begin{figure*}[ht!]
+\begin{figure}
+    \centering
+    \script{sim_plot.py}
+    \includegraphics{figures/simulation.pdf}
+    \caption{Inferred stellar obliquity distributions from sky-projected stellar obliquities \edits{without and with} information on the stellar inclination, depicted in blue and orange curves, respectively. Each row presents a set of simulated data with the true distribution of $\cos{\psi}$ indicated by grey dashed curves. The shallow contours represent the 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred distributions.}
+    \label{fig:simulation}
+\end{figure}
+
+\begin{figure*}
     \centering
     \script{transform.py}
     \includegraphics[width=0.7\linewidth]{figures/transform.pdf}
     \caption{Simulated $\cos{\psi}$ distributions (\nth{1} column) and the corresponding distributions of sky-projected stellar obliquity $\lambda$ (\nth{2} column) and stellar inclination $i_\star$ (\nth{3} column). The grey histograms present the random samplings of $\lambda$ and $i_\star$ from the $\cos{\psi}$ distributions, and the blue curves present the numerical solutions.}
     \label{fig:transform}
-\end{figure*}
-
-\begin{figure}[ht!]
-    \script{psi_plot.py}
-    \begin{centering}
-        \includegraphics{figures/psi_dist.pdf}
-        \caption{Inferred stellar obliquity distribution for all exoplanetary systems with sky-projected stellar obliquity measurements. This inference is based purely on the observed sky-projected obliquities using a two-component model. The blue line and shallow contours represent the median, 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred distributions. The medians of the two components are labeled in dashed and dotted-dashed lines, respectively.}
-        \label{fig:psi_dist}
-    \end{centering}
-\end{figure}
-
-\begin{figure*}[ht!]
-    \script{polar_plot.py}
-    \begin{centering}
-        \includegraphics{figures/polar.pdf}
-        \caption{Inferred stellar obliquity distribution for the subsample of exoplanetary systems with both sky-projected stellar obliquity measurements and stellar inclination measurements.}
-        \label{fig:polar}
-    \end{centering}
 \end{figure*}
 
 \section{Model Performance}\label{sec:simulation}
@@ -328,6 +310,24 @@ Additionally, the degeneracy of the solution could be a significant issue when a
 The $\psi$ distribution can be inferred from the $\lambda$ distribution without loss of information due to the strong dependency of the $\lambda$ distribution on the $\psi$ distribution. It is also worthwhile to note that although we could find a mathematical expression of $\psi$ with $\lambda$ and $\theta$, the $\psi$ distribution cannot be inferred from the two variables since they are not independent variables.
 
 \section{Application to Exoplanetary Systems}\label{sec:observation}
+
+\begin{figure}
+    \script{psi_plot.py}
+    \begin{centering}
+        \includegraphics{figures/psi_dist.pdf}
+        \caption{Inferred stellar obliquity distribution for all exoplanetary systems with sky-projected stellar obliquity measurements. This inference is based purely on the observed sky-projected obliquities using a two-component model. The blue line and shallow contours represent the median, 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred distributions. The medians of the two components are labeled in dashed and dotted-dashed lines, respectively.}
+        \label{fig:psi_dist}
+    \end{centering}
+\end{figure}
+
+\begin{figure*}
+    \script{polar_plot.py}
+    \begin{centering}
+        \includegraphics{figures/polar.pdf}
+        \caption{Inferred stellar obliquity distribution for the subsample of exoplanetary systems with both sky-projected stellar obliquity measurements and stellar inclination measurements.}
+        \label{fig:polar}
+    \end{centering}
+\end{figure*}
 
 We next apply our hierarchical Bayesian framework to a sample of 161 exoplanetary systems with sky-projected stellar obliquity measurements, primarily consisting of Hot Jupiter systems, as summarized in \cite{Albrecht22} Table A1.
 The inferred $\cos{\psi}$ distribution is shown in Figure~\ref{fig:psi_dist}. The $\cos{\psi}$ distribution is peaked at 1, with nearly flat behavior between $-0.75$ and $0.75$ and no significant clustering. The distribution suggests that there is a pile-up of planetary systems with stellar obliquities less than $40^\circ$ and an isotropic distribution for obliquities between $40^\circ$ and $140^\circ$.
