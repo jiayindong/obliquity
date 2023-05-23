@@ -65,11 +65,11 @@ fig = plt.figure(figsize=(5,2.4),dpi=110)
 
 plt.subplot(1,2,1)
 
-q025, q16, q50, q84, q975 = np.percentile(noistar_draws0, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, '-.', c='k', lw=1., zorder=10)
+# q025, q16, q50, q84, q975 = np.percentile(noistar_draws0, [2.5, 16, 50, 84, 97.5], axis=1)/2
+# plt.plot(2*x-1, q50, '-.', c='k', lw=1., zorder=10)
 
-q025, q16, q50, q84, q975 = np.percentile(noistar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, '--', c='k', lw=1., zorder=10)
+# q025, q16, q50, q84, q975 = np.percentile(noistar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
+# plt.plot(2*x-1, q50, '--', c='k', lw=1., zorder=10)
 
 q025, q16, q50, q84, q975 = np.percentile(noistar_draws0+noistar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.5)
@@ -86,11 +86,11 @@ plt.title(r'measured $\vb*{\lambda}$ only', fontsize=11)
 
 plt.subplot(1,2,2)
 
-q025, q16, q50, q84, q975 = np.percentile(istar_draws0, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, '-.', c='k', lw=1., zorder=10)
+# q025, q16, q50, q84, q975 = np.percentile(istar_draws0, [2.5, 16, 50, 84, 97.5], axis=1)/2
+# plt.plot(2*x-1, q50, '-.', c='k', lw=1., zorder=10)
 
-q025, q16, q50, q84, q975 = np.percentile(istar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, '--', c='k', lw=1., zorder=10)
+# q025, q16, q50, q84, q975 = np.percentile(istar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
+# plt.plot(2*x-1, q50, '--', c='k', lw=1., zorder=10)
 
 q025, q16, q50, q84, q975 = np.percentile(istar_draws0+istar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.5)
