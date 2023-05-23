@@ -41,7 +41,7 @@ for a in range(4):
         comp1[:, a*1000+b] = post.w[a,b,1].values*beta.pdf(x, post.μ[a,b,1].values*post.κ[a,b,1].values, (1-post.μ[a,b,1]).values*post.κ[a,b,1].values)
 
 # make the figure
-plt.figure(figsize=(3.5,2.7),dpi=150)
+fig = plt.figure(figsize=(3.5,2.7),dpi=150)
 
 q025, q16, q50, q84, q975 = np.percentile(comp0, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, '-.', c='k', lw=1., zorder=10)
@@ -59,6 +59,8 @@ plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
 plt.ylabel('Probablity density function')
+
+fig.set_facecolor('w')
 
 plt.tight_layout()
 plt.savefig(paths.figures / "psi_dist.pdf", bbox_inches="tight", dpi=600)

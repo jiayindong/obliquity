@@ -42,28 +42,37 @@ def polar_dist_draws(model_name):
 	noistar_idata = az.from_netcdf(paths.data / "polar" / (model_name + "_noistar.nc"))
 
 	post = istar_idata.posterior
-	istar_draws = np.zeros(shape=(len(x),4000))
+	istar_draws0 = np.zeros(shape=(len(x),4000))
+	istar_draws1 = np.zeros(shape=(len(x),4000))
 	for a in range(4):
 		for b in range(1000):
-			istar_draws[:, a*1000+b] = (post.w[a,b,0].values*beta.pdf(x, post.a[a,b,0], post.b[a,b,0])
-										+post.w[a,b,1].values*beta.pdf(x, post.a[a,b,1], post.b[a,b,1]))
+			istar_draws0[:, a*1000+b] = post.w[a,b,0].values*beta.pdf(x, post.a[a,b,0], post.b[a,b,0])
+			istar_draws1[:, a*1000+b] = post.w[a,b,1].values*beta.pdf(x, post.a[a,b,1], post.b[a,b,1])
 	
 	post = noistar_idata.posterior
-	noistar_draws = np.zeros(shape=(len(x),4000))
+	noistar_draws0 = np.zeros(shape=(len(x),4000))
+	noistar_draws1 = np.zeros(shape=(len(x),4000))
 	for a in range(4):
 		for b in range(1000):
-			noistar_draws[:, a*1000+b] = (post.w[a,b,0].values*beta.pdf(x, post.a[a,b,0], post.b[a,b,0])
-										  +post.w[a,b,1].values*beta.pdf(x, post.a[a,b,1], post.b[a,b,1]))
+			noistar_draws0[:, a*1000+b] = post.w[a,b,0].values*beta.pdf(x, post.a[a,b,0], post.b[a,b,0])
+			noistar_draws1[:, a*1000+b] = post.w[a,b,1].values*beta.pdf(x, post.a[a,b,1], post.b[a,b,1])
 
-	return istar_draws, noistar_draws
+	return istar_draws0, istar_draws1, noistar_draws0, noistar_draws1
 
-istar_draws, noistar_draws= polar_dist_draws("polar")
+istar_draws0, istar_draws1, noistar_draws0, noistar_draws1= polar_dist_draws("polar")
 
 fig = plt.figure(figsize=(5,2.4),dpi=110)
 
 plt.subplot(1,2,1)
-q025, q16, q50, q84, q975 = np.percentile(noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, color='C0', lw=1.2)
+
+q025, q16, q50, q84, q975 = np.percentile(noistar_draws0, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, '-.', c='k', lw=1., zorder=10)
+
+q025, q16, q50, q84, q975 = np.percentile(noistar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, '--', c='k', lw=1., zorder=10)
+
+q025, q16, q50, q84, q975 = np.percentile(noistar_draws0+noistar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='C0', lw=1.5)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
@@ -76,8 +85,15 @@ plt.ylabel('Probablity density function')
 plt.title(r'measured $\vb*{\lambda}$ only', fontsize=11)
 
 plt.subplot(1,2,2)
-q025, q16, q50, q84, q975 = np.percentile(istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, color='#f56e4a')
+
+q025, q16, q50, q84, q975 = np.percentile(istar_draws0, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, '-.', c='k', lw=1., zorder=10)
+
+q025, q16, q50, q84, q975 = np.percentile(istar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, '--', c='k', lw=1., zorder=10)
+
+q025, q16, q50, q84, q975 = np.percentile(istar_draws0+istar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#f56e4a', lw=1.5)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
