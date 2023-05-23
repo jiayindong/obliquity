@@ -30,49 +30,89 @@ plt.rcParams['ytick.major.width'] = 1.0
 plt.rcParams['ytick.minor.width'] =  1.0
 plt.rcParams['lines.markeredgewidth'] =  1.0
 
-def read_table2(df, var_name):
-    size = len(df)
-    
-    var = []
-    err_var = []
-    
-    for i in range(size):
-    
-        this_var = df['%s'%var_name][i]
-        
-        if this_var == "cdots":
-            var.append(np.nan)
-            err_var.append(np.nan)
-        elif '+or-' in this_var:
-            for j in range(len(this_var)):
-                if this_var[j] == '+':
-                    var.append(float(this_var[:j-1]))
-                if this_var[j] == '-':
-                    err_var.append(float(this_var[j+2:]))
-        else:
-            for j in range(len(this_var)-1):
-                if this_var[j:j+2] == '${':
-                    for k in range(6):
-                        if this_var[j+2+k] == '}':
-                            var.append(float(this_var[j+2:j+2+k]))
-                elif this_var[j] == '_':
-                    for k in range(10):
-                        if this_var[j+k] == '^':
-                            low = float(this_var[j+3:j+k-1])
-                            high = float(this_var[j+k+3:len(this_var)-2])
-                    err_var.append((low+high)/2)
-                    
-    return np.array(var), np.array(err_var)
+# Data from Table 2 in Albrecht+21
 
-# Load Table 2 of Albrecht+21
-df = pd.read_csv(paths.data / "Albrecht21_Table2.csv")
+# Radii, err_Radii in Solar unit
+Radii = np.array([0.75, 0.9 , 0.88, 0.87, 1.62,  nan, 0.46, 2.02, 0.68, 0.68, 1.06,
+        1.04, 0.9 , 0.91, 0.75, 1.16,  nan, 0.29, 0.86, 1.51, 2.42, 1.65,
+        1.5 , 0.96, 1.71, 0.98, 1.32, 0.9 , 1.63,  nan, 1.92, 0.8 , 0.7 ,
+        0.86,  nan, 0.12, 0.91, 1.09, 0.86, 1.48, 0.98, 1.66, 1.02, 1.11,
+        1.51, 0.89, 0.67, 0.79, 1.28, 0.81, 1.76, 0.77, 0.94, 1.62, 0.67,
+        1.44, 1.22, 1.79, 2.36, 1.  , 1.93, 1.17])
+err_Radii = np.array([0.03 , 0.02 , 0.03 , 0.03 , 0.04 ,   nan, 0.02 , 0.01 , 0.01 ,
+        0.01 , 0.05 , 0.02 , 0.02 , 0.03 , 0.03 , 0.01 ,   nan, 0.01 ,
+        0.01 , 0.08 , 0.06 , 0.06 , 0.04 , 0.02 , 0.04 , 0.035, 0.015,
+        0.025, 0.15 ,   nan, 0.11 , 0.02 , 0.01 , 0.02 ,   nan, 0.   ,
+        0.02 , 0.04 , 0.03 , 0.09 , 0.02 , 0.045, 0.01 , 0.05 , 0.025,
+        0.01 , 0.01 , 0.02 , 0.05 , 0.03 , 0.07 , 0.02 , 0.02 , 0.045,
+        0.02 , 0.03 , 0.06 , 0.05 , 0.03 , 0.03 , 0.18 , 0.02 ])
 
-Radii, err_Radii = read_table2(df, 'R')
-Prot, err_Prot = read_table2(df, 'Prot')
-Vsini, err_Vsini = read_table2(df, 'vsini')
-Lam, err_Lam = read_table2(df, 'lambda')
-Psi, err_Psi = read_table2(df, 'psi')
-Istar, err_Istar = read_table2(df, 'i')
+# Prot, err_Prot in days
+Prot = np.array([ 4.85,  4.52,  5.53,  2.85,  1.14,   nan, 44.09,   nan, 29.32,
+        14.48, 28.7 , 15.3 , 24.98,  6.61, 11.95, 10.65,   nan,  1.88,
+        10.76,  6.63,   nan,   nan,  7.13, 16.49,   nan, 12.09, 23.15,
+         5.4 ,  1.29,   nan,   nan, 23.7 , 18.5 , 10.84,   nan,  3.28,
+        22.2 , 16.2 , 23.8 ,  3.68, 15.31,  6.77, 12.13, 11.6 ,  0.52,
+        18.41, 15.6 , 17.26,  6.65, 23.07,  9.29, 14.36, 13.08, 10.48,
+        17.1 ,  3.38, 12.3 ,  1.02,   nan, 41.6 ,  1.79, 18.3 ])
+
+err_Prot = np.array([0.75, 0.02, 0.33, 0.06, 0.06,  nan, 0.08,  nan, 1.  , 0.02, 0.4 ,
+        0.4 , 0.04, 0.71, 0.02, 0.75,  nan, 0.04, 0.22, 0.66,  nan,  nan,
+        0.14, 0.33,  nan, 0.24, 0.04, 0.01, 0.03,  nan,  nan, 0.12, 1.9 ,
+        0.07,  nan, 0.22, 3.3 , 0.4 , 0.15, 1.23, 0.8 , 1.58, 2.1 , 1.  ,
+        0.05, 0.05, 0.4 , 0.45, 0.13, 0.16, 1.27, 0.35, 0.26, 1.6 , 1.  ,
+        0.4 , 1.9 , 0.1 ,  nan, 1.1 , 0.06, 1.  ])
+
+# Vsini, err_Vsini in km/s
+Vsini = np.array([  9.23,  11.25,   8.  ,  20.58,  74.92,    nan,   0.33,   2.7 ,
+          1.  ,   1.85,   1.65,   3.12,   1.5 ,   7.3 ,   3.25,   4.8 ,
+           nan,   8.9 ,   3.7 ,   6.9 , 116.9 ,  44.2 ,   8.9 ,   2.74,
+         62.7 ,   4.7 ,   8.2 ,   5.6 ,  66.43,    nan,  46.5 ,   1.7 ,
+          2.8 ,   4.2 ,    nan,   2.04,   2.14,   3.2 ,   1.6 ,  14.  ,
+          1.9 ,   1.6 ,   4.4 ,   3.9 ,  86.63,   1.6 ,   2.26,   2.62,
+          9.3 ,   2.2 ,   1.48,   2.56,   3.41,   4.2 ,   2.5 ,  13.56,
+          5.1 ,  49.94, 100.  ,   1.07,  48.  ,   3.16])
+
+err_Vsini = np.array([0.55 , 0.45 , 1.   , 0.275, 0.61 ,   nan, 0.08 , 0.5  , 0.755,
+        0.27 , 0.26 , 0.75 , 0.5  , 0.3  , 0.02 , 0.2  ,   nan, 0.6  ,
+        0.5  , 0.55 , 1.8  , 1.4  , 1.   , 0.4  , 0.2  , 1.   , 0.2  ,
+        0.8  , 0.975,   nan, 1.   , 0.3  , 0.5  , 0.5  ,   nan, 0.18 ,
+        0.365, 0.3  , 0.22 , 2.   , 0.05 , 0.6  , 0.9  , 0.45 , 0.345,
+        1.1  , 0.54 , 0.07 , 0.2  , 0.4  , 0.28 , 0.08 , 0.89 , 0.5  ,
+        0.8  , 0.685, 0.3  , 0.04 , 5.   , 0.09 , 3.   , 0.27 ])
+
+# Lam, err_Lam in degrees
+Lam = np.array([  4.7,   1. ,  10. ,   2.9,   1.5, 101. ,  72. , 142. , 103. ,
+          8. ,   2.1,  14. ,   8. ,   8. ,   0.4,   0.6,   5.8,   3. ,
+          1.5, 153. ,  85. , 115.9,   5. ,  13. ,  59.2,   0. ,   0.5,
+        110. ,   7.1,  69.5, 112.5,   8.4,   0. ,  25. ,   1. ,  15. ,
+          1. ,  12.1,   7.2,  86. , 143. ,  59. ,   1. ,  10.5, 112.9,
+          6. ,   3.5,   1.1,  19.4,   0.4,  61.3,   0.3,   0. , 151. ,
+        112.6,  87.2,   3. , 165. ,  89.3,   7. ,  20.7,  24. ])
+
+err_Lam = np.array([ 6.6 ,  6.85, 20.  ,  0.9 ,  0.9 , 21.5 , 28.5 , 14.  , 18.  ,
+         6.9 ,  3.  , 18.  ,  8.  , 39.  ,  0.2 ,  0.4 ,  4.25, 16.  ,
+         8.7 ,  8.  ,  0.2 ,  4.1 ,  7.  , 16.  ,  0.1 , 15.  ,  5.7 ,
+        18.  ,  3.5 ,  3.  ,  1.6 ,  7.1 ,  8.  , 13.  , 37.  , 28.  ,
+        13.  ,  9.  ,  3.7 ,  6.  ,  1.55, 17.5 ,  1.2 ,  6.45,  0.2 ,
+        11.  ,  6.8 ,  1.1 ,  5.  ,  1.95,  6.35,  1.7 , 14.  , 19.5 ,
+        22.75,  0.4 ,  5.  ,  5.  ,  1.4 , 11.  ,  2.3 ,  4.1 ])
+
+# Istar, err_Istar in degrees
+Istar = np.array([ nan,  nan,  nan,  nan,  nan, 51. ,  nan, 33. ,  nan,  nan,  nan,
+         nan,  nan,  nan,  nan,  nan, 90. ,  nan,  nan,  nan, 55.9, 94. ,
+         nan,  nan, 81. ,  nan,  nan,  nan,  nan, 55.5, 63. ,  nan,  nan,
+         nan, 76. ,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,
+         nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,
+         nan,  nan,  nan, 75.5,  nan,  nan,  nan])
+
+err_Istar = np.array([  nan,   nan,   nan,   nan,   nan, 23.  ,   nan, 27.  ,   nan,
+          nan,   nan,   nan,   nan,   nan,   nan,   nan,  2.5 ,   nan,
+          nan,   nan,  9.4 ,  9.5 ,   nan,   nan, 16.  ,   nan,   nan,
+          nan,   nan,  2.6 ,  8.5 ,   nan,   nan,   nan, 10.  ,   nan,
+          nan,   nan,   nan,   nan,   nan,   nan,   nan,   nan,   nan,
+          nan,   nan,   nan,   nan,   nan,   nan,   nan,   nan,   nan,
+          nan,   nan,   nan,   nan,  2.65,   nan,   nan,   nan])
 
 Lam = Lam*np.pi/180
 err_Lam = err_Lam*np.pi/180
