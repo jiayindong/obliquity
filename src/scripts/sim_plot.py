@@ -252,9 +252,9 @@ plt.xlim([-1,1])
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
 plt.title(r'measured $\vb*{\lambda}$ only', fontsize=10)
 
-x = np.linspace(0,1,200)
-pcosψ = stats.beta.pdf(x, 3, 6)/2
-plt.plot(2*x-1, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
+cosψ = np.linspace(0,1,200)
+pcosψ = stats.beta.pdf(cosψ, 3, 6)/2
+plt.plot(2*cosψ-1, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ Beta(3,6), with istar
 ax = fig.add_subplot(5,2,10)
@@ -270,9 +270,9 @@ plt.xlim([-1,1])
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
 plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=10)
 
-x = np.linspace(0,1,200)
-pcosψ = stats.beta.pdf(x, 3, 6)/2
-plt.plot(2*x-1, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
+cosψ = np.linspace(0,1,200)
+pcosψ = stats.beta.pdf(cosψ, 3, 6)/2
+plt.plot(2*cosψ-1, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 fig.set_facecolor('w')
 
