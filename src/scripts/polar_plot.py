@@ -59,10 +59,10 @@ def polar_dist_draws(model_name):
 
 istar_draws, noistar_draws= polar_dist_draws("polar")
 
-fig = plt.figure(figsize=(5,2.5),dpi=110)
+fig = plt.figure(figsize=(5,2.4),dpi=110)
 
 plt.subplot(1,2,1)
-q025, q16, q50, q84, q975 = np.percentile(istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+q025, q16, q50, q84, q975 = np.percentile(noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
@@ -73,10 +73,10 @@ plt.xlim([-1,1])
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
 plt.ylabel('Probablity density function')
 
-plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=11)
+plt.title(r'measured $\vb*{\lambda}$ only', fontsize=11)
 
 plt.subplot(1,2,2)
-q025, q16, q50, q84, q975 = np.percentile(noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+q025, q16, q50, q84, q975 = np.percentile(istar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a')
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
@@ -84,7 +84,7 @@ plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 plt.ylim([0,1])
 plt.xlim([-1,1])
 
-plt.title(r'measured $\vb*{\lambda}$ only', fontsize=11)
+plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=11)
 
 plt.tight_layout()
 
