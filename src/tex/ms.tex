@@ -162,7 +162,7 @@ The constraints on stellar inclination are somewhat more complicated.
 In Figure~\ref{fig:graph}, the Obs$_{\star,n}$ node includes any observed data that directly constrains $i_{\star,n}$.
 This could include a direct measurement of $\hat{i}_{\star,n}$ \citep[via gravity-darkening or asteroseismology, for example][]{Barnes09, Chaplin13}, or a measurement of the sky-projected stellar rotational line broadening $\hat{v}\sin{i_{\star,n}}$, which is related to $i_\star$ as $v\sin{i_\star} = 2 \pi R_\star / P_{\rm rot}$ \citep{Masuda20}.
 
-For the stellar obliquity distribution, we model the $\cos{\psi}$ distribution instead of $\psi$ distribution to understand if the stellar obliquity is isotropically distributed. If stellar obliquity distribution is isotropic, $\cos{\psi}$ is uniformly distributed between -1 and 1.
+For the stellar obliquity distribution, we model the $\cos{\psi}$ distribution instead of $\psi$ distribution to understand if the stellar obliquity is isotropically distributed. If stellar obliquity distribution is isotropic, $\cos{\psi}$ is uniformly distributed between $-1$ and $1$.
 To flexibly model the stellar obliquity distribution, we select a multi-component mixture of Beta distributions with hyperparameters $\bm{\beta} = \{\bm{w},\bm{\mu},\bm{\kappa}\}$, where each hyperparameter has a dimension of the number of components. For example, for a two-component mixture model, each hyperparameter has a dimension of 2.
 We have $\bm{w} = \{w_0, w_1\}$, $\bm{\mu} = \{\mu_0, \mu_1\}$, and $\bm{\kappa} = \{\kappa_0, \kappa_1\}$.
 The hyperparameter $\bm{w}$ describes the weight of each component. The $\bm{\mu}$ and 1/$\bm{\kappa}$ correspond to the mean and variance of each Beta distribution component, respectively, a reparametrization of parameters suggested by \cite{Gelman14}. The greater value of the $\kappa$, the smaller the variance (i.e., the distribution is more concentrated). The relations between the $\mu$ and $\kappa$ and the standard $\alpha$ and $\beta$ parameters in the Beta distribution are $\alpha = \mu \kappa$ and $\beta = (1-\mu) \kappa$.
@@ -181,6 +181,7 @@ For hyperparmeters $\mu$ and $\kappa$, we adopt the following priors:
 \end{align}
 where $\mu_{0,1}$ is uniformly distributed between $0$ and $1$ and $\log{\kappa}_{0,1}$ is normally distributed with a mean of $0$ and standard deviation of $3$. To deal with label switching in the mixture model, we remove the symmetry by forcing the vector $\vb*{\mu}$ to be ordered. 
 Notably, when applying the framework to a small sample size with $N \lesssim 50$, the choice of hyperpriors for the Beta distribution could impact the inferred distribution \citep[e.g.,][]{Nagpal22, Gelman14}. To ensure the robustness of the inferred distributions in such cases, it is crucial to test their sensitivity to different hyperpriors.
+\edits{We also note that our framework is flexible to customize to distributions other than the Beta distribution for the population-level stellar obliquity distribution inference. For example, if instead studying the stellar obliquity distribution in the $\psi$-angle space, a von Mises distribution could be used to evaluate the mean value and the dispersion of the angle.}
 
 Next, the model parameter priors are the following:
 \begin{align}
@@ -188,8 +189,8 @@ Next, the model parameter priors are the following:
     \cos{i}_{{\rm orb},n} &\sim \mathcal{U}(0, 1).
 \end{align}
 If $\gamma_{\star, n}$ is available, we construct Normal distributions with means and standard deviations from measurements.
-For the orbital inclination $i_{\rm orb}$, following the convention, we limit it to $\left[0, \pi/2\right]$. To not underestimate the $\psi$, we then set $i_\star$ to be varied from $0\degr$ to $180\degr$.
-Besides, since $\lambda$ and $-\lambda$ correspond to the same $\psi$ solution, we limit $\lambda$ to $\left[0, \pi\right]$ and thus $\theta$ to $\left[0, \pi\right]$.
+For the orbital inclination $i_{\rm orb}$, following the convention, we limit it to $\left[0, \pi/2\right]$, \edits{i.e., the orbital axis always pointing to us}. To not underestimate the $\psi$, we then set $i_\star$ to be varied from $0\degr$ to $180\degr$ \edits{such that the stellar spin axis could either point to us or point away from us}.
+Besides, since $\lambda$ and $-\lambda$ correspond to the same $\psi$ solution, we limit $\lambda$ to $\left[0, \pi\right]$ and thus $\theta$ to $\left[0, \pi\right]$ \edits{to avoid bimodal distributions of $\lambda$ and $\theta$.}
 We find doing so greatly improves the sampling performance while not compromising the inference of the $\psi$ distribution due to the symmetry. The $\left[0, \pi\right]$ support avoids the otherwise discontinuity at $\theta = 0$ and $\theta = \pi$.
 
 The likelihood functions follow:
@@ -324,19 +325,20 @@ The $\psi$ distribution can be inferred from the $\lambda$ distribution without 
     \script{polar_plot.py}
     \begin{centering}
         \includegraphics{figures/polar.pdf}
-        \caption{Inferred stellar obliquity distribution for the subsample of exoplanetary systems with both sky-projected stellar obliquity measurements and stellar inclination measurements.}
+        \caption{Inferred stellar obliquity distribution for the subsample of exoplanetary systems with both sky-projected stellar obliquity measurements and stellar inclination measurements. Inference made purely from measured projected stellar obliquity and inference made from both measured projected stellar obliquity and stellar inclination are shown in blue and orange curves, respectively. The line and shallow contours represent the median, 1-$\sigma$ and 2-$\sigma$ uncertainties of the inferred distributions.}
         \label{fig:polar}
     \end{centering}
 \end{figure*}
 
 We next apply our hierarchical Bayesian framework to a sample of 161 exoplanetary systems with sky-projected stellar obliquity measurements, primarily consisting of Hot Jupiter systems, as summarized in \cite{Albrecht22} Table A1.
+\edits{We use a two-component model here for its flexibility in describing both an aligned-system population and a misaligned-system population that may or may not be concentrated at a certain angle.}
 The inferred $\cos{\psi}$ distribution is shown in Figure~\ref{fig:psi_dist}. The $\cos{\psi}$ distribution is peaked at 1, with nearly flat behavior between $-0.75$ and $0.75$ and no significant clustering. The distribution suggests that there is a pile-up of planetary systems with stellar obliquities less than $40^\circ$ and an isotropic distribution for obliquities between $40^\circ$ and $140^\circ$.
 The fraction of aligned systems $w_1$ dominates the distribution, with $w_1 = 0.719 \pm 0.085$. The corresponding posteriors for the parameters of the population Beta distribution are $\mu_1 = 0.976 \pm 0.022$ and $\kappa_1 = 14.1 \pm 26.6$. On the other hand, the fraction of misaligned systems is estimated to be $w_0 = 0.281 \pm 0.085$, with posteriors of $\mu_1 = 0.434 \pm 0.088$ and $\kappa_1 = 4.2 \pm 5.6$. Note that the $\mu_{0,1}$ needs to be transformed by $2\mu-1$ to represent to true means of the $\cos{\psi}$ distributions.
 
 The discrepancy between this inference for the full sample of exoplanet systems and the previous analysis of the subsample with $i_\star$ measurements \citep{Albrecht21} warrants further investigation.
-This earlier study identified a concentration of perpendicular planets and disfavored an isotropic stellar obliquity distribution \citep{Albrecht21}.
+This earlier study identified a concentration of perpendicular planets and disfavored an isotropic stellar obliquity distribution. \edits{Indeed, when we applied our framework to this subsample, a concentration near $\cos{\psi} = -0.2$ was found in models including or without including the stellar inclination information, as shown in Figure~\ref{fig:polar}.}
 There are at least two potential explanations for this difference: (1) the subsample with $i_\star$ measurements is small and only includes about 20 misaligned systems, and (2) the requirement for $i_\star$ measurements could introduce selection biases in the sample. 
-First, since the sample size of the misaligned sample with $i_\star$ measurements is relatively small ($N < 30$), the observed sample, even if it is unbiased, may not be able to represent the underlying distribution.
+First, since the sample size of the misaligned sample with $i_\star$ measurements is relatively small ($N < 30$), the observed sample, even if it is unbiased, may not be able to represent the underlying distribution. \edits{The small sample size leads to a large uncertainty on the inferred stellar obliquity distribution, shown by the 1-$\sigma$ and 2-$\sigma$ contours in Figure~\ref{fig:polar}.}
 Second, the requirement of $i_\star$ measurements could introduce selection biases. The rotation modulation technique is most applicable to cool stars with spots, whereas misaligned Hot Jupiters are mostly found around hot stars. To measure the stellar inclinations of the hot-star hosts of misaligned Hot Jupiters, the gravity darkening technique is commonly used, but the technique is biased at detecting polar-orbit planets.
 
 The inferred stellar obliquity distribution indicates that approximately $72\pm9$\% of the systems have a stellar obliquity of less than $40\degr$, and approximately $28\pm9$\% of the systems follow a nearly isotropic stellar obliquity distribution ranging from $\sim$$40\degr$ to $\sim$$140\degr$. These findings could have significant implications for the formation and evolution of close-in planetary systems, particularly on Hot Jupiters. The diverse distribution disfavors dynamical mechanisms, such as secular chaos which tends to produce stellar obliquities less than $90\degr$, or stellar Kozai which tends to produce stellar obliquities clustered at certain angles.
