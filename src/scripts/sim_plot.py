@@ -70,7 +70,7 @@ norm3_draws, norm3_noistar_draws = psi_dist_draws("norm3")
 beta_draws, beta_noistar_draws = psi_dist_draws("beta")
 
 ### Make the plot ###
-fig, big_axes = plt.subplots(figsize=(5,6.5),dpi=150,nrows=5,ncols=1,sharey=True) 
+fig, big_axes = plt.subplots(figsize=(3.5,8),dpi=150,nrows=5,ncols=1,sharey=True) 
 
 for row, big_ax in enumerate(big_axes, start=1):
     if row == 5:
@@ -91,7 +91,7 @@ for row, big_ax in enumerate(big_axes, start=1):
     big_ax._frameon = False
 
 # cosψ ~ U(-1,1), noistar
-ax = fig.add_subplot(4,2,1)
+ax = fig.add_subplot(5,2,1)
         
 q025, q16, q50, q84, q975 = np.percentile(uni_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
@@ -109,7 +109,7 @@ pcosψ = np.ones_like(cosψ)*0.5
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1)
 
 # cosψ ~ U(-1,1), with istar
-ax = fig.add_subplot(4,2,2)
+ax = fig.add_subplot(5,2,2)
 
 q025, q16, q50, q84, q975 = np.percentile(uni_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
@@ -128,7 +128,7 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1)
 
 
 # cosψ ~ N(0,0.2), noistar
-ax = fig.add_subplot(4,2,3)
+ax = fig.add_subplot(5,2,3)
         
 q025, q16, q50, q84, q975 = np.percentile(norm1_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
@@ -146,7 +146,7 @@ pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ N(0,0.2), with istar
-ax = fig.add_subplot(4,2,4)
+ax = fig.add_subplot(5,2,4)
 
 q025, q16, q50, q84, q975 = np.percentile(norm1_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
@@ -165,7 +165,7 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 
 # cosψ ~ N(-0.4,0.2), noistar
-ax = fig.add_subplot(4,2,5)
+ax = fig.add_subplot(5,2,5)
         
 q025, q16, q50, q84, q975 = np.percentile(norm2_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
@@ -183,7 +183,7 @@ pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ N(-0.4,0.2), with istar
-ax = fig.add_subplot(4,2,6)
+ax = fig.add_subplot(5,2,6)
 
 q025, q16, q50, q84, q975 = np.percentile(norm2_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
@@ -202,7 +202,7 @@ pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ N(0.4,0.2), no istar
-ax = fig.add_subplot(4,2,7)
+ax = fig.add_subplot(5,2,7)
         
 q025, q16, q50, q84, q975 = np.percentile(norm3_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
@@ -220,7 +220,7 @@ pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ N(0.4,0.2), with istar
-ax = fig.add_subplot(4,2,8)
+ax = fig.add_subplot(5,2,8)
 
 q025, q16, q50, q84, q975 = np.percentile(norm3_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
@@ -239,7 +239,7 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 
 # cosψ ~ Beta(3,6), no istar
-ax = fig.add_subplot(4,2,7)
+ax = fig.add_subplot(5,2,9)
         
 q025, q16, q50, q84, q975 = np.percentile(beta_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
@@ -257,7 +257,7 @@ pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ Beta(3,6), with istar
-ax = fig.add_subplot(4,2,8)
+ax = fig.add_subplot(5,2,10)
 
 q025, q16, q50, q84, q975 = np.percentile(beta_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
