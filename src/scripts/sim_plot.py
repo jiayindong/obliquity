@@ -67,7 +67,7 @@ uni_draws, uni_noistar_draws = psi_dist_draws("uni")
 norm1_draws, norm1_noistar_draws = psi_dist_draws("norm1")
 norm2_draws, norm2_noistar_draws = psi_dist_draws("norm2")
 norm3_draws, norm3_noistar_draws = psi_dist_draws("norm3")
-beta_draws, beta_noistar_draws = psi_dist_draws("beat")
+beta_draws, beta_noistar_draws = psi_dist_draws("beta")
 
 ### Make the plot ###
 fig, big_axes = plt.subplots(figsize=(5,6.5),dpi=150,nrows=5,ncols=1,sharey=True) 
