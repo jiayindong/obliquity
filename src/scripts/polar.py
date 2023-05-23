@@ -15,6 +15,7 @@ import arviz as az
 import pytensor.tensor as at
 import pytensor
 import scipy.stats as stats
+from numpy import nan
 
 from matplotlib import rc
 rc('font', **{'family':'sans-serif'})
