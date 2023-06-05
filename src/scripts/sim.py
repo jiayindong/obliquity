@@ -132,7 +132,7 @@ def posteriors(this_model):
         logl_λ = pm.Normal('logl_λ', mu=λ, sigma=err_lam, observed=obs_lam)
         
         noistar_idata = pm.sample(nuts={'target_accept':0.99, 'max_treedepth':13}, 
-                                  chains=4, random_seed=int(datetime.now().strftime("%Y%m%d")))
+                                  chains=4, random_seed=123)
 
 
     # with pm.Model() as model_nolam:
