@@ -75,7 +75,7 @@ def polar_dist_draws(model_name):
 comp0, comp1, istar_draws0, istar_draws1, noistar_draws0, noistar_draws1= polar_dist_draws("polar")
 
 
-plt.figure(figsize=(7,2.6),dpi=110)
+fig = plt.figure(figsize=(7,2.6),dpi=110)
 
 plt.subplot(1,3,1)
 q025, q16, q50, q84, q975 = np.percentile(comp0+comp1, [2.5, 16, 50, 84, 97.5], axis=1)
