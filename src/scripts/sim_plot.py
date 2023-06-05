@@ -74,13 +74,13 @@ fig, big_axes = plt.subplots(figsize=(3.5,8),dpi=150,nrows=5,ncols=1,sharey=True
 
 for row, big_ax in enumerate(big_axes, start=1):
     if row == 5:
-        big_ax.set_title(r"$\cos{\psi} \sim \mathrm{Beta}(3,6)$" "\n")
-    if row == 4:
         big_ax.set_title(r"$\cos{\psi} \sim \mathcal{N}(0.4,0.2)$" "\n")
-    if row == 3:
+    if row == 4:
         big_ax.set_title(r"$\cos{\psi} \sim \mathcal{N}(-0.4,0.2)$" "\n")
-    if row == 2:
+    if row == 3:
         big_ax.set_title(r"$\cos{\psi} \sim \mathcal{N}(0,0.2)$" "\n")
+    if row == 2:
+        big_ax.set_title(r"$\cos{\psi} \sim \mathrm{Beta}(3,6)$" "\n")
     elif row == 1:
         big_ax.set_title(r"$\cos{\psi} \sim \mathcal{U}(-1,1)$" "\n")
 
