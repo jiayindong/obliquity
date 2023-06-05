@@ -229,7 +229,7 @@ if __name__ == '__main__':
 	# Sampling
 	with model_istar:
 		idata_istar = pm.sample(nuts={'target_accept':0.99, 'max_treedepth':13}, # 'step_scale':0.01
-        						chains=4, random_seed=int(datetime.now().strftime("%Y%m%d")))
+        						chains=4, random_seed=123)
 
 	# Save the traces
 	az.to_netcdf(idata_istar.posterior, sim_dir / "polar_istar.nc")
@@ -281,6 +281,6 @@ if __name__ == '__main__':
 	# Sampling
 	with model_noistar:
 		idata_noistar = pm.sample(nuts={'target_accept':0.99, 'max_treedepth':13}, # 'step_scale':0.01
-									chains=4, random_seed=int(datetime.now().strftime("%Y%m%d")))
+									chains=4, random_seed=123)
 	# Save the traces
 	az.to_netcdf(idata_noistar.posterior, sim_dir / "polar_noistar.nc")

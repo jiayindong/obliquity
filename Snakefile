@@ -1,19 +1,3 @@
-rule polar:
-    output:
-        directory("src/data/polar")
-    cache:
-        True
-    script:
-        "src/scripts/polar.py"
-
-rule polar_plot:
-    input:
-        rules.polar.output
-    output:
-        "src/figures/polar.pdf"
-    script:
-        "src/scripts/polar_plot.py"
-
 rule psi:
     output:
         "src/data/all_noistar.nc"
@@ -29,6 +13,22 @@ rule psi_plot:
         "src/figures/psi_dist.pdf"
     script:
         "src/scripts/psi_plot.py"
+
+rule polar:
+    output:
+        directory("src/data/polar")
+    cache:
+        True
+    script:
+        "src/scripts/polar.py"
+
+rule polar_plot:
+    input:
+        rules.polar.output, rules.psi.output
+    output:
+        "src/figures/polar.pdf"
+    script:
+        "src/scripts/polar_plot.py"
 
 rule sim:
     output:

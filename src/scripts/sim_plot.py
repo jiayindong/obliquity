@@ -126,9 +126,46 @@ cosψ = np.linspace(-1,1,200)
 pcosψ = np.ones_like(cosψ)*0.5
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1)
 
+# cosψ ~ Beta(3,6), no istar
+ax = fig.add_subplot(5,2,3)
+        
+q025, q16, q50, q84, q975 = np.percentile(beta_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='C0', lw=1.2)
+plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
+plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
+
+plt.ylim([0,1.5])
+plt.xlim([-1,1])
+
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.title(r'measured $\vb*{\lambda}$ only', fontsize=10)
+
+cosψ = np.linspace(0,1,200)
+pcosψ = stats.beta.pdf(cosψ, 3, 6)/2
+plt.plot(2*cosψ-1, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
+
+
+# cosψ ~ Beta(3,6), with istar
+ax = fig.add_subplot(5,2,4)
+
+q025, q16, q50, q84, q975 = np.percentile(beta_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
+plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
+plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
+plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
+
+plt.ylim([0,1.5])
+plt.xlim([-1,1])
+
+plt.xlabel(r'$\cos{\psi}$',fontsize=11)
+plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=10)
+
+cosψ = np.linspace(0,1,200)
+pcosψ = stats.beta.pdf(cosψ, 3, 6)/2
+plt.plot(2*cosψ-1, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
+
 
 # cosψ ~ N(0,0.2), noistar
-ax = fig.add_subplot(5,2,3)
+ax = fig.add_subplot(5,2,5)
         
 q025, q16, q50, q84, q975 = np.percentile(norm1_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
@@ -145,8 +182,9 @@ cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
+
 # cosψ ~ N(0,0.2), with istar
-ax = fig.add_subplot(5,2,4)
+ax = fig.add_subplot(5,2,6)
 
 q025, q16, q50, q84, q975 = np.percentile(norm1_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
@@ -165,8 +203,8 @@ plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 
 # cosψ ~ N(-0.4,0.2), noistar
-ax = fig.add_subplot(5,2,5)
-        
+ax = fig.add_subplot(5,2,7)
+
 q025, q16, q50, q84, q975 = np.percentile(norm2_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
@@ -183,7 +221,7 @@ pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ N(-0.4,0.2), with istar
-ax = fig.add_subplot(5,2,6)
+ax = fig.add_subplot(5,2,8)
 
 q025, q16, q50, q84, q975 = np.percentile(norm2_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
@@ -202,7 +240,7 @@ pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ+0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ N(0.4,0.2), no istar
-ax = fig.add_subplot(5,2,7)
+ax = fig.add_subplot(5,2,9)
         
 q025, q16, q50, q84, q975 = np.percentile(norm3_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0', lw=1.2)
@@ -220,7 +258,7 @@ pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 # cosψ ~ N(0.4,0.2), with istar
-ax = fig.add_subplot(5,2,8)
+ax = fig.add_subplot(5,2,10)
 
 q025, q16, q50, q84, q975 = np.percentile(norm3_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
@@ -236,43 +274,6 @@ plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=10)
 cosψ = np.linspace(-1,1,200)
 pcosψ = 1/np.sqrt(2*np.pi*σ**2)*np.exp(-(cosψ-0.4)**2/2/σ**2)
 plt.plot(cosψ, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
-
-
-# cosψ ~ Beta(3,6), no istar
-ax = fig.add_subplot(5,2,9)
-        
-q025, q16, q50, q84, q975 = np.percentile(beta_noistar_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, color='C0', lw=1.2)
-plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
-plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
-
-plt.ylim([0,1.5])
-plt.xlim([-1,1])
-
-plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'measured $\vb*{\lambda}$ only', fontsize=10)
-
-cosψ = np.linspace(0,1,200)
-pcosψ = stats.beta.pdf(cosψ, 3, 6)/2
-plt.plot(2*cosψ-1, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
-
-# cosψ ~ Beta(3,6), with istar
-ax = fig.add_subplot(5,2,10)
-
-q025, q16, q50, q84, q975 = np.percentile(beta_draws, [2.5, 16, 50, 84, 97.5], axis=1)/2
-plt.plot(2*x-1, q50, color='#f56e4a', lw=1.2)
-plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
-plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
-
-plt.ylim([0,1.5])
-plt.xlim([-1,1])
-
-plt.xlabel(r'$\cos{\psi}$',fontsize=11)
-plt.title(r'measured $\vb*{\lambda}$ and $\vb*{i_\star}$', fontsize=10)
-
-cosψ = np.linspace(0,1,200)
-pcosψ = stats.beta.pdf(cosψ, 3, 6)/2
-plt.plot(2*cosψ-1, pcosψ, c='slategrey', ls='--', lw=1, zorder=0)
 
 fig.set_facecolor('w')
 

@@ -144,6 +144,6 @@ if __name__ == '__main__':
         logl_λ = pm.Normal('logl_λ', mu=λ, sigma=err_Lam, observed=Lam)
         
         all_noistar = pm.sample(nuts={'target_accept':0.99, 'max_treedepth':13}, # 'step_scale':0.01
-                                chains=4, random_seed=int(datetime.now().strftime("%Y%m")))
+                                chains=4, random_seed=123)
             
     az.to_netcdf(all_noistar.posterior, paths.data / "all_noistar.nc")

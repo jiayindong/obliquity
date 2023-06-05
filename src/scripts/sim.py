@@ -5,7 +5,6 @@ os.environ["PATH"] += os.pathsep + str(Path.home() / "bin")
 
 import subprocess
 import sys
-from datetime import datetime
 
 import pymc as pm
 import arviz as az
@@ -74,7 +73,7 @@ def posteriors(this_model):
         cosθ = pm.Deterministic('cosθ', at.cos(θ))
         
         # iorb
-        iorb = np.pi/2
+        iorb = np.pi/2*np.ones(nsample)
         
         # find λ in terms of ψ, θ, and iorb
         λ = pm.Deterministic('λ', at.arctan2(sinψ*sinθ, cosψ*at.sin(iorb)-sinψ*cosθ*at.cos(iorb)))
@@ -90,7 +89,7 @@ def posteriors(this_model):
         logl_i = pm.Normal('logl_i', mu=istar, sigma=err_istar, observed=obs_istar)
 
         idata = pm.sample(nuts={'target_accept':0.99, 'max_treedepth':13}, 
-                          chains=4, random_seed=int(datetime.now().strftime("%Y%m%d")))
+                          chains=4, random_seed=123)
 
     with pm.Model() as model_noistar:
 
