@@ -30,7 +30,7 @@ def posteriors(this_model):
     err_lam = 8.*np.pi/180
 
     with this_model:    
-        idata = pm.sample(chains=1, draws=nsample, tune=0, random_seed=45)
+        idata = pm.sample(chains=1, draws=nsample, tune=0, random_seed=47)
 
     true_istar = idata.posterior.i.values.ravel()
     obs_istar = true_istar + err_istar*np.random.normal(size=nsample)
