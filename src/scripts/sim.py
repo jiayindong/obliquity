@@ -25,12 +25,12 @@ x = np.linspace(1e-5,1-1e-5,1000)
 # return posteriors of HBM models with or without using measured istar
 def posteriors(this_model):
     
-    nsample = 200
+    nsample = 400
     err_istar = 10.*np.pi/180
     err_lam = 8.*np.pi/180
 
     with this_model:    
-        idata = pm.sample(chains=1, draws=nsample, tune=0, random_seed=456)
+        idata = pm.sample(chains=1, draws=nsample, tune=0, random_seed=123)
 
     true_istar = idata.posterior.i.values.ravel()
     obs_istar = true_istar + err_istar*np.random.normal(size=nsample)
