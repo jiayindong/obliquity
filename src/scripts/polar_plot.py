@@ -78,13 +78,13 @@ comp0, comp1, istar_draws0, istar_draws1, noistar_draws0, noistar_draws1= polar_
 fig = plt.figure(figsize=(7,2.6),dpi=110)
 
 plt.subplot(1,3,1)
-q025, q16, q50, q84, q975 = np.percentile(comp0+comp1, [2.5, 16, 50, 84, 97.5], axis=1)
+q025, q16, q50, q84, q975 = np.percentile(comp0+comp1, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='C0')
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#7dabd0')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#7dabd0')
 
 
-plt.ylim([0,2])
+plt.ylim([0,1])
 plt.xlim([-1,1])
 
 plt.xlabel(r'$\cos{\psi}$',fontsize=11)
@@ -94,12 +94,12 @@ plt.title(r'\begin{center} all %i systems \\ \textbf{no} $i_{\star}$ likelihood 
           fontsize=11, y=1.1)
 
 plt.subplot(1,3,2)
-q025, q16, q50, q84, q975 = np.percentile(noistar_draws0+noistar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)
+q025, q16, q50, q84, q975 = np.percentile(noistar_draws0+noistar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#69a9a3')
 plt.fill_between(2*x-1, q16, q84, alpha=0.5, label="posterior", color='#cfe7ea')
 plt.fill_between(2*x-1, q025, q975, alpha=0.5, color='#cfe7ea')
 
-plt.ylim([0,2])
+plt.ylim([0,1])
 plt.xlim([-1,1])
 
 plt.title(r'\begin{center} %i systems with observed $i_{\star}$ \\ \textbf{no} $i_{\star}$ likelihood \end{center}'%numistar, 
@@ -107,12 +107,12 @@ plt.title(r'\begin{center} %i systems with observed $i_{\star}$ \\ \textbf{no} $
 
 
 plt.subplot(1,3,3)
-q025, q16, q50, q84, q975 = np.percentile(istar_draws0+istar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)
+q025, q16, q50, q84, q975 = np.percentile(istar_draws0+istar_draws1, [2.5, 16, 50, 84, 97.5], axis=1)/2
 plt.plot(2*x-1, q50, color='#f56e4a')
 plt.fill_between(2*x-1, q16, q84, alpha=0.3, label="posterior", color='#fbc1ad')
 plt.fill_between(2*x-1, q025, q975, alpha=0.3, color='#fbc1ad')
 
-plt.ylim([0,2])
+plt.ylim([0,1])
 plt.xlim([-1,1])
 
 plt.title(r'\begin{center} %i systems with observed $i_{\star}$ \\ \textbf{with} $i_{\star}$ likelihood \end{center}'%numistar, 
